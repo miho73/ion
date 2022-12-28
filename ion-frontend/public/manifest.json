@@ -1,0 +1,8 @@
+{
+  "short_name": "ion",
+  "name": "ion",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#202124",
+  "background_color": "#202124"
+}
