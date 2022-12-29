@@ -1,0 +1,23 @@
+spring:
+    session:
+        redis:
+            namespace: epyi:session
+        timeout: 168h
+
+    thymeleaf:
+        prefix: classpath:/html/
+
+    web:
+        resources:
+            static-locations: classpath:/static
+
+    datasource:
+        url: jdbc:postgresql://localhost:5432/epyi
+        username: epyi_user
+        password: 2309ur02390g9wug
+        driver-class-name: org.postgresql.Driver
+
+    data:
+        redis:
+            host: localhost
+            port: 6379
