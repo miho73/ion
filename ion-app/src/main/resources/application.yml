@@ -1,7 +1,7 @@
 spring:
     session:
         redis:
-            namespace: epyi:session
+            namespace: ion:session
         timeout: 168h
 
     thymeleaf:
@@ -12,8 +12,8 @@ spring:
             static-locations: classpath:/static
 
     datasource:
-        url: jdbc:postgresql://localhost:5432/epyi
-        username: epyi_user
+        url: jdbc:postgresql://localhost:5432/ion
+        username: ion
         password: 2309ur02390g9wug
         driver-class-name: org.postgresql.Driver
 

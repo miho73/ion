@@ -8,6 +8,7 @@ import {
 import Root from "./elements/root";
 import ErrorPage from "./error-page";
 import AuthBox from "./pages/authentication";
+import SignupBox from "./pages/signup";
 
 const router = createBrowserRouter([
     {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
                 path: "auth",
                 element: <AuthBox/>
             },
+            {
+                path: "signup",
+                element: <SignupBox/>
+            }
         ],
     },
 ]);
