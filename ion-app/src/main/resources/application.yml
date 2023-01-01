@@ -1,3 +1,11 @@
+server:
+    error:
+        include-stacktrace: never
+        include-exception: false
+        whitelabel:
+            enabled: false
+
+
 spring:
     session:
         redis:
@@ -16,6 +24,9 @@ spring:
         username: ion
         password: 2309ur02390g9wug
         driver-class-name: org.postgresql.Driver
+
+    jpa:
+        show-sql: true
 
     data:
         redis:
