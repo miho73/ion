@@ -27,4 +27,8 @@ public class UserService {
         user.setStatus(User.USER_STATUS.UNCERTIFIED);
         return userRepository.save(user);
     }
+
+    public boolean findUserById(String userId) {
+        return userRepository.existsUserById(userId);
+    }
 }

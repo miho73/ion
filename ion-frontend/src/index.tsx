@@ -9,6 +9,7 @@ import Root from "./elements/root";
 import ErrorPage from "./error-page";
 import AuthBox from "./pages/authentication";
 import SignupBox from "./pages/signup";
+import {OverrideLayout} from "./elements/layout";
 
 const router = createBrowserRouter([
     {
@@ -18,11 +19,17 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "auth",
-                element: <AuthBox/>
+                element:
+                    <OverrideLayout center={true}>
+                        <AuthBox/>
+                    </OverrideLayout>
             },
             {
                 path: "signup",
-                element: <SignupBox/>
+                element:
+                    <OverrideLayout center={true}>
+                        <SignupBox/>
+                    </OverrideLayout>
             }
         ],
     },

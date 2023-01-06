@@ -11,4 +11,20 @@ function HList({children}: {children: React.ReactNode}) {
     );
 }
 
-export { VList, HList };
+function OverrideLayout({
+    children,
+    center = false
+}: {
+    children: React.ReactNode,
+    center?: boolean
+}) {
+    let classes = 'override-layout';
+    if(center) {
+        classes += ' center';
+    }
+    return (
+        <div className={classes}>{children}</div>
+    )
+}
+
+export { VList, HList, OverrideLayout };

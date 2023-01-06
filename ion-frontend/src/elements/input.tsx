@@ -42,4 +42,22 @@ function Input({
     );
 }
 
-export default Input;
+function FormError({
+    children,
+    errorFlag,
+    place
+}: {
+    children: React.ReactNode,
+    errorFlag: number,
+    place: number
+}) {
+    return (
+        <>
+            { (errorFlag & (1 << place)) !== 0 &&
+                <p className={'form-error'}>{children}</p>
+            }
+        </>
+    );
+}
+
+export {Input, FormError};

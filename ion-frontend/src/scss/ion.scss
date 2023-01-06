@@ -65,6 +65,9 @@ hr {
 .hlist {
     flex-direction: row;
 }
+.override-layout {
+    margin: -100px 0 -70px 0;
+}
 
 
 ul, ol {
@@ -151,6 +154,11 @@ fieldset {
     text-align: left;
     margin: -3px 0 5px 0;
     color: $input-border;
+    font-size: 0.9em;
+}
+.form-error {
+    margin-top: 0;
+    text-align: left;
     font-size: 0.9em;
 }
 button {

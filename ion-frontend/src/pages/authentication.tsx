@@ -1,5 +1,4 @@
-import TextInput from "../elements/input";
-import Input from "../elements/input";
+import {Input} from "../elements/input";
 import {Link} from "react-router-dom";
 import React, {useState} from "react";
 

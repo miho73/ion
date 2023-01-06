@@ -39,13 +39,13 @@ public class CreateUserTest {
                 "password", "qwerty"
         );
         mockMvc.perform(
-                        post("/auth/api/user/create")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(objectMapper.writeValueAsString(request))
-                )
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType("application/json"))
-                .andDo(print());
+                post("/auth/api/user/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        )
+        .andExpect(status().isCreated())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andDo(print());
     }
 
     @DisplayName("Create user with invalid form")
@@ -60,13 +60,40 @@ public class CreateUserTest {
                 "password", "qwerty"
         );
         mockMvc.perform(
-                       post("/auth/api/user/create")
-                               .contentType(MediaType.APPLICATION_JSON)
-                               .content(objectMapper.writeValueAsString(request))
-               )
-               .andExpect(status().isBadRequest())
-               .andExpect(content().contentType("application/json"))
-               .andExpect(jsonPath("$.reason", is("form validation failure: grade")))
-               .andDo(print());;
+                post("/auth/api/user/create")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request))
+        )
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.reason", is("form validation failure: grade")))
+        .andDo(print());;
+    }
+
+    @DisplayName("Id existence test with duplicated id")
+    @Test
+    void duplicatedIdTest() throws Exception {
+        mockMvc.perform(
+                post("/auth/api/user/id-preflight")
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content("TestAcc")
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.result", is(false)))
+        .andDo(print());
+    }
+    @DisplayName("Id existence test with unique id")
+    @Test
+    void notDuplicatedIdTest() throws Exception {
+        mockMvc.perform(
+                post("/auth/api/user/id-preflight")
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .content("unique-id")
+        )
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andExpect(jsonPath("$.result", is(true)))
+        .andDo(print());
     }
 }

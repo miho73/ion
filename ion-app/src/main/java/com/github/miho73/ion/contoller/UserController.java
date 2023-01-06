@@ -4,6 +4,7 @@ import com.github.miho73.ion.jpa.User;
 import com.github.miho73.ion.lib.Assertion;
 import com.github.miho73.ion.lib.RestResponse;
 import com.github.miho73.ion.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -62,9 +63,25 @@ public class UserController {
         }
 
         // Create user
+        if(userService.findUserById(user.getId())) {
+            return RestResponse.createRest(Map.of(
+                    "reason", "id already exists"
+            ), HttpStatus.BAD_REQUEST);
+        }
         userService.createUser(user);
         return RestResponse.createRest(Map.of(
                 "result", "Fsk"
         ), HttpStatus.CREATED);
+    }
+
+    @PostMapping(
+            value = "/api/user/id-preflight",
+            consumes = {MediaType.TEXT_PLAIN_VALUE}
+    )
+    public ResponseEntity<Map<String, Object>> idValidation(@RequestBody String userId) {
+        boolean ok = userService.findUserById(userId);
+        return RestResponse.createRest(Map.of(
+                "result", ok
+        ), HttpStatus.OK);
     }
 }

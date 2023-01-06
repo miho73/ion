@@ -19,7 +19,7 @@ import java.util.Map;
 @Controller("ErrorPageController")
 public class ErrorPageController implements ErrorController {
     @PostMapping("/error")
-    public ResponseEntity handlePostError(HttpServletRequest request,
+    public ResponseEntity<Map<String, Object>> handlePostError(HttpServletRequest request,
                                          HttpServletResponse response,
                                          Model model) {
 
