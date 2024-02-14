@@ -9,6 +9,10 @@ on:
 jobs:
   Build_and_distribute:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -17,16 +21,20 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
           cache: gradle
+
       - name: Grant execute permission for gradlew
-        run: chmod +x ./backend/gradlew
+        run: chmod +x gradlew
+
       - name: Build with Gradle
-        run: ./backend/gradlew build --stacktrace
+        run: ./gradlew build --stacktrace
+
       - name: Prepare to sync
         run: |
           mkdir to_be_sync
-          cp -r ./backend/build/libs/ion-1.0.0.jar ./to_be_sync
-          cp -r ./backend/src/main/resources/static/static ./to_be_sync/static
+          cp -r ./build/libs/ion-1.0.0.jar ./to_be_sync
+          cp -r ./src/main/resources/static/static ./to_be_sync/static
           mv to_be_sync/ion-1.0.0.jar to_be_sync/ion.jar
+
       - name: Upload to FTP
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
@@ -36,6 +44,7 @@ jobs:
           protocol: ftp
           local-dir: ./to_be_sync/
           server-dir: ./ion/
+
       - name: action-slack
         uses: 8398a7/action-slack@v3.12.0
         with:
