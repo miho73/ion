@@ -10,8 +10,6 @@ jobs:
   Build_and_distribute:
     runs-on: ubuntu-latest
     steps:
-      - name: Change working directory
-        run: cd ./backend
       - uses: actions/checkout@v3
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -20,14 +18,14 @@ jobs:
           distribution: 'corretto'
           cache: gradle
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+        run: chmod +x ./backend/gradlew
       - name: Build with Gradle
-        run: ./gradlew build --stacktrace
+        run: ./backend/gradlew build --stacktrace
       - name: Prepare to sync
         run: |
           mkdir to_be_sync
-          cp -r ./build/libs/ion-1.0.0.jar ./to_be_sync
-          cp -r ./src/main/resources/static/static ./to_be_sync/static
+          cp -r ./backend/build/libs/ion-1.0.0.jar ./to_be_sync
+          cp -r ./backend/src/main/resources/static/static ./to_be_sync/static
           mv to_be_sync/ion-1.0.0.jar to_be_sync/ion.jar
       - name: Upload to FTP
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
