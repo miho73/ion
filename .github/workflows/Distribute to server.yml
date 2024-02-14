@@ -34,6 +34,7 @@ jobs:
           cp -r ./build/libs/ion-1.0.0.jar ./to_be_sync
           cp -r ./src/main/resources/static/static ./to_be_sync/static
           mv to_be_sync/ion-1.0.0.jar to_be_sync/ion.jar
+          ls -al ./to_be_sync
 
       - name: Upload to FTP
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
@@ -42,7 +43,7 @@ jobs:
           username: ${{ secrets.FTP_USER_NAME }}
           password: ${{ secrets.FTP_USER_PASSWORD }}
           protocol: ftp
-          local-dir: ./to_be_sync/
+          local-dir: ./backend/to_be_sync/
           server-dir: ./ion/
 
       - name: action-slack
