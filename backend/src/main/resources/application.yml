@@ -1,0 +1,64 @@
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+    session:
+      cookie:
+        name: ion-session
+        path: /
+        same-site: Strict
+        http-only: true
+        secure: true
+        domain: ionya.cc
+  error:
+    include-stacktrace: never
+    include-exception: false
+    whitelabel:
+      enabled: false
+  port: 3001
+
+spring:
+  session:
+    redis:
+      namespace: ion:session
+    timeout: 168h
+
+  thymeleaf:
+    prefix: classpath:/static/
+
+  datasource:
+    url: jdbc:postgresql://localhost:8734/iondb
+    username: ENC(ONGRKhokanG9GLPXTx+s/xPqb8+HappsAh8ZtPg+7inY8ZmxRuGkpz5lXQljeBXa)
+    password: ENC(af64baMK8Pcp1vasX49XYo9U7ajX/MpPCyhqyz8CdlkTnqrW4zPUOCZ05aFBlB444ijhKL43J/thhcDvlFtcNiWbvXSWm9T+Y2sadO4t/6I=)
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    show-sql: false
+
+  data:
+    redis:
+      host: localhost
+      port: 8735
+      password: ENC(gcBLMxQ0msyjOMjudzaOHtfR0OBzYoXqzOGf2GJOkl0tzdyKDqZS/mZ1hxgZFvhchTIDrKJfoCc0iMO+bFqGnB+DzEUA5NrfQOlfMBZQJBQ=)
+
+  mvc:
+    static-path-pattern: /**
+
+ion:
+  apod:
+    api-key: ENC(3QZkAH0Ix/yZcu/PqcH7BfozuxWLuYN6Caa1uR+8xQMiC9TccN+AGxoF4ThpgKLTOFyon99g5ZuNXTokAJ8BIcciGNnsR6VFf97YDUNLiSc=)
+  temperature:
+    seoul-api-key: ENC(qqjBTl4Bk0scIg3TaT3TgZc+pulzthBxFqB1Tvo6ZNjwd2z12uMjCvmy93mTDU7L73cnDmE4VgKJQyFhsoC6Tg==)
+    incheon-api-key: ENC(1ukRQaT8hPj1GhDYJYvn15aXXwc7AcJPmIOX4xwNfWlHawzgaMOtV7kZBWp+QgSyxCEF2afldDb5zPj69ciiug==)
+  neis:
+    api-key: ENC(J1J9FrDCTjbzn3DKq5a3XxPTDwurIXTXTvNz1PQ863zGvPJnpBsQUTkcmtrG21nisD5M68vYDIZ2kilAtZOJyIf5AKyH/DJwRPiCyiAp85A=)
+  recaptcha:
+    project-id: elemention
+    site-key: 6LcXsjInAAAAAFcWxsoV7UKfcxojAeWYbEYvNKg3
+    checkbox-site-key: 6Le9aCEpAAAAANF90W_DYqXmcfEtzztiRjYYLkZ1
+    block-threshold: 0.5
+    bypass: false
+  config:
+    allow-cors-localhost: false
+
