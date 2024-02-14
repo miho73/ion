@@ -19,6 +19,8 @@ frontend/build
 backend/gradle
 backend/build
 
+**/*.DS_Store
+
 ### STS ###
 .apt_generated
 .classpath
