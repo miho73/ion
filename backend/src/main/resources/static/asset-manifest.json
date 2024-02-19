@@ -1,19 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.009a838d.css",
-    "main.js": "/static/js/main.c4d8eb73.js",
-    "static/js/498.8bef3ec0.chunk.js": "/static/js/498.8bef3ec0.chunk.js",
-    "static/js/703.dd222d96.chunk.js": "/static/js/703.dd222d96.chunk.js",
-    "static/js/379.6d124f0d.chunk.js": "/static/js/379.6d124f0d.chunk.js",
+    "main.css": "/static/css/main.2a6bdfe4.css",
+    "main.js": "/static/js/main.3c5e38aa.js",
+    "static/media/FIDO_Passkey_mark_A_white.svg": "/static/media/FIDO_Passkey_mark_A_white.b30a49376ae8d2d8495b153dc42f1869.svg",
     "index.html": "/index.html",
-    "main.009a838d.css.map": "/static/css/main.009a838d.css.map",
-    "main.c4d8eb73.js.map": "/static/js/main.c4d8eb73.js.map",
-    "498.8bef3ec0.chunk.js.map": "/static/js/498.8bef3ec0.chunk.js.map",
-    "703.dd222d96.chunk.js.map": "/static/js/703.dd222d96.chunk.js.map",
-    "379.6d124f0d.chunk.js.map": "/static/js/379.6d124f0d.chunk.js.map"
+    "main.2a6bdfe4.css.map": "/static/css/main.2a6bdfe4.css.map",
+    "main.3c5e38aa.js.map": "/static/js/main.3c5e38aa.js.map"
   },
   "entrypoints": [
-    "static/css/main.009a838d.css",
-    "static/js/main.c4d8eb73.js"
+    "static/css/main.2a6bdfe4.css",
+    "static/js/main.3c5e38aa.js"
   ]
 }
