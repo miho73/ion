@@ -65,3 +65,8 @@ ion:
     bypass: false
   config:
     allow-cors-localhost: true
+  passkey:
+    relying-party:
+      rpName: ion
+      rpId: localhost
+      origin: http://localhost:3000

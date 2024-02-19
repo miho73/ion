@@ -31,6 +31,7 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+    implementation("com.yubico:webauthn-server-core:2.5.0")
 
     implementation 'com.google.cloud:google-cloud-recaptchaenterprise:3.18.0'
 

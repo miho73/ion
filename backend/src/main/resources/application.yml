@@ -61,4 +61,8 @@ ion:
     bypass: false
   config:
     allow-cors-localhost: false
-
+  passkey:
+    relying-party:
+      rpName: ion
+      rpId: ionya.cc
+      origin: https://ionya.cc

@@ -18,6 +18,7 @@ import IForgot from "./pages/auth/iforgot/iforgot";
 import ResetPassword from "./pages/auth/iforgot/resetPassword";
 
 import axios from "axios";
+import ProfilePage from "./pages/users/profile";
 
 const PREFIX = process.env.REACT_APP_API_PREFIX;
 
@@ -47,6 +48,8 @@ function App() {
                     <Route path='/etc/temperature/incheon' element={<Incheon/>}/>
 
                     <Route path='/etc/meal' element={<MealNoti/>}/>
+
+                    <Route path={'/profile'} element={<ProfilePage/>}/>
 
                     <Route path='*'
                            element={<ErrorPage exp='입력하신 주소가 정확한지 다시 한 번 확인해주세요.'/>}/>

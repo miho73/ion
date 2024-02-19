@@ -1,8 +1,11 @@
 package com.github.miho73.ion.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.miho73.ion.dto.RecaptchaReply;
 import com.github.miho73.ion.dto.ResetPasswordReq;
 import com.github.miho73.ion.dto.User;
+import com.github.miho73.ion.exceptions.IonException;
+import com.github.miho73.ion.service.auth.PasskeyService;
 import com.github.miho73.ion.service.auth.AuthService;
 import com.github.miho73.ion.service.auth.RecaptchaService;
 import com.github.miho73.ion.service.auth.ResetPasswordService;
@@ -52,10 +55,12 @@ public class AuthController {
     final
     RecaptchaService reCaptchaAssessment;
 
+    final PasskeyService passkeyService;
+
     @Value("${ion.recaptcha.block-threshold}")
     float CAPTCHA_THRESHOLD;
 
-    public AuthController(PasswordEncoder passwordEncoder, UserService userService, AuthService authService, SessionService sessionService, ResetPasswordService resetPasswordService, RecaptchaService reCaptchaAssessment, RandomCode randomCode) {
+    public AuthController(PasswordEncoder passwordEncoder, UserService userService, AuthService authService, SessionService sessionService, ResetPasswordService resetPasswordService, RecaptchaService reCaptchaAssessment, RandomCode randomCode, PasskeyService passkeyService) {
         this.passwordEncoder = passwordEncoder;
         this.userService = userService;
         this.authService = authService;
@@ -63,6 +68,7 @@ public class AuthController {
         this.resetPasswordService = resetPasswordService;
         this.reCaptchaAssessment = reCaptchaAssessment;
         this.randomCode = randomCode;
+        this.passkeyService = passkeyService;
     }
 
     /**
@@ -212,8 +218,7 @@ public class AuthController {
     )
     public String queryResetPasswd(
             HttpSession session,
-            @RequestParam("id") String id,
-            HttpServletResponse response
+            @RequestParam("id") String id
     ) {
         if (sessionService.isLoggedIn(session)) {
             return RestResponse.restResponse(HttpStatus.OK, 1);
@@ -511,6 +516,144 @@ public class AuthController {
             log.error("reset password failed: internal server error.", e);
             response.setStatus(500);
             return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 7);
+        }
+    }
+
+    /**
+     * [data]: success
+     * 1: forbidden
+     * 2: user not found
+     * 3: internal server error
+     */
+    @GetMapping(
+        value = "/passkey/registration/options/get",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Transactional
+    public String getRegistrationOptions(HttpSession session, HttpServletResponse response) {
+        if (!sessionService.isLoggedIn(session)) {
+            response.setStatus(400);
+            return RestResponse.restResponse(HttpStatus.FORBIDDEN, 1);
+        }
+
+        try {
+            int uid = sessionService.getUid(session);
+            Optional<JSONObject> ret = passkeyService.credentialCreateJson(session, uid);
+
+            if (ret.isEmpty()) {
+                response.setStatus(400);
+                log.warn("passkey get registration options failed: user not found. uid=" + uid);
+                return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
+            }
+            return RestResponse.restResponse(HttpStatus.OK, ret.get());
+        } catch (JsonProcessingException | IonException e) {
+            log.error("passkey get registration options failed", e);
+            response.setStatus(500);
+            return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 3);
+        }
+    }
+
+    /**
+     * [data]: success
+     * 1: forbidden
+     * 2: bad request
+     */
+    @PostMapping(
+        value = "/passkey/registration/complete",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Transactional
+    public String completeRegistration(
+        HttpSession session, HttpServletResponse response,
+        @RequestBody String body
+    ) {
+        if (!sessionService.isLoggedIn(session)) {
+            response.setStatus(400);
+            return RestResponse.restResponse(HttpStatus.FORBIDDEN, 1);
+        }
+
+        JSONObject bodyJson = new JSONObject(body);
+
+        if(!bodyJson.has("attestation")) {
+            response.setStatus(400);
+            return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
+        }
+
+        try {
+            String attestation = bodyJson.getJSONObject("attestation").toString();
+
+            boolean ok = passkeyService.completeRegistration(session, attestation);
+            return RestResponse.restResponse(HttpStatus.OK, (ok ? 0 : 1));
+        } catch (IOException e) {
+            log.error("passkey complete registration failed", e);
+            response.setStatus(500);
+            return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 2);
+        }
+    }
+
+    /**
+     * [data]: success
+     * 0: authenticated
+     * 1: request was not found from session
+     * 2: signature counter is not valid
+     * 3: authentication failed
+     * 4: passkey not found
+     * 5: user not found
+     * 6: user inactive
+     * 7: user banned
+     * 8: user unknown status
+     * 9: scode change
+     * 10: internal server error
+     */
+    @GetMapping(
+        value = "/passkey/authentication/options/get",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Transactional
+    public String getAuthenticationOptions(HttpSession session, HttpServletResponse response) {
+        try {
+            JSONObject ret = passkeyService.startAssertion(session);
+            return RestResponse.restResponse(HttpStatus.OK, ret);
+        } catch (JsonProcessingException e) {
+            response.setStatus(500);
+            return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
+        }
+    }
+
+    @PostMapping(
+        value = "/passkey/authentication/complete",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Transactional
+    public String completeAuthentication(
+        HttpSession session, HttpServletResponse response,
+        @RequestBody String publicKeyCredentialJson
+    ) {
+        try {
+            int result = passkeyService.completeAuthentication(session, publicKeyCredentialJson);
+
+            if(result == 0 || result == 9) {
+                return RestResponse.restResponse(HttpStatus.OK, result);
+            } else {
+                return switch (result) {
+                    case 1 -> {
+                        response.setStatus(400);
+                        yield RestResponse.restResponse(HttpStatus.BAD_REQUEST, result);
+                    }
+                    case 2, 3, 4, 5, 6, 7, 8 -> {
+                        response.setStatus(401);
+                        yield RestResponse.restResponse(HttpStatus.UNAUTHORIZED, result);
+                    }
+                    default -> {
+                        response.setStatus(500);
+                        yield RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 10);
+                    }
+                };
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

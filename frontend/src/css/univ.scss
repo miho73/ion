@@ -276,6 +276,11 @@ table {
     }
 }
 
+.icon {
+    width: 25px;
+    height: 25px;
+}
+
 @include media-breakpoint-down(lg) {
     table {
         width: 100% !important;

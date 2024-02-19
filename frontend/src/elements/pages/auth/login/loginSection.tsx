@@ -8,6 +8,9 @@ import {ready} from '../../../service/recaptcha';
 import axios from 'axios';
 import {Stack} from "react-bootstrap";
 
+import {ReactComponent as FidoIcon} from '../../../../assets/icons/FIDO_Passkey_mark_A_white.svg';
+import {startAuthentication} from "@simplewebauthn/browser";
+
 
 const RECAPTCHA_CHECKBOX_KEY = process.env.REACT_APP_CAPTCHA_CHECKBOX_KEY;
 
@@ -103,6 +106,66 @@ function LoginSection(props: LoginSectionProps) {
         }
     }
 
+    function passkeyLogin() {
+        axios.get('/auth/api/passkey/authentication/options/get')
+            .then(res => {
+                let options = res.data.result['publicKey'];
+                if(options === null) {
+                    setLoginError(100);
+                    return;
+                }
+                startAuthentication(options).then(passkeySuccess)
+                    .catch(e => {
+                       console.error(e);
+                    });
+            })
+            .catch(() => {
+                setLoginError(100);
+            });
+    }
+    function passkeySuccess(res: object) {
+        axios.post('/auth/api/passkey/authentication/complete', res)
+            .then(res => {
+                if(res.data['result'] === 9) {
+                    props.setChangeFlag(true);
+                }
+                else if (res.data['result'] === 0) {
+                    if(searchParams.has('ret')) {
+                        // @ts-ignore
+                        navigate(searchParams.get('ret'));
+                    }
+                    else window.location.reload();
+                }
+            })
+            .catch(res => {
+                switch (res.response?.data['result']) {
+                    case 1:
+                        setLoginError(102);
+                        break;
+                    case 2:
+                        setLoginError(103);
+                        break;
+                    case 3:
+                        setLoginError(104);
+                        break;
+                    case 4:
+                        setLoginError(105);
+                        break;
+                    case 5:
+                        setLoginError(1);
+                        break;
+                    case 6:
+                        setLoginError(2);
+                        break;
+                    case 7:
+                        setLoginError(3);
+                        break;
+                    default:
+                        setLoginError(101);
+                }
+            });
+    }
+
     return (
         <form className='vstack gap-3 d-flex justify-content-center align-items-center text-center form-signin'>
             <h1 className='h3 my-3 fw-normal'>IonID</h1>
@@ -125,7 +188,10 @@ function LoginSection(props: LoginSectionProps) {
                     <div id={'recaptcha-field'} className="g-recaptcha"></div>
                 </div>
             }
-            <button className='btn btn-lg btn-primary fs-6' type='button' onClick={submit} disabled={block}>Sign in
+            <button className='btn btn-lg btn-primary fs-6' type='button' onClick={submit} disabled={block}>Sign in</button>
+            <button className='btn btn-lg btn-secondary fs-6' type='button' onClick={passkeyLogin} disabled={block}>
+                <FidoIcon className={'icon'}/>
+                <span>Passkey로 로그인</span>
             </button>
             {loginError !== 0 &&
                 <div className='alert alert-danger mt-2'>
@@ -153,6 +219,25 @@ function LoginSection(props: LoginSectionProps) {
                             <p className='mb-0'>잠시 뒤에 다시 시도해주세요.</p>
                         </>
                     }
+                    { loginError === 100 &&
+                        <p className='mb-0'>Passkey로 로그인할 수 없습니다.</p>
+                    }
+                    { loginError === 101 &&
+                        <p className='mb-0'>Passkey로 로그인하지 못했습니다.</p>
+                    }
+                    { loginError === 102 &&
+                        <p className='mb-0'>Passkey 인증정보가 없습니다.</p>
+                    }
+                    { loginError === 103 &&
+                        <p className='mb-0'>Passkey를 신뢰할 수 없습니다.</p>
+                    }
+                    { loginError === 104 &&
+                        <p className='mb-0'>Passkey로 인증하지 못했습니다.</p>
+                    }
+                    { loginError === 105 &&
+                        <p className='mb-0'>제시한 Passkey를 찾을 수 없습니다.</p>
+                    }
+
                 </div>
             }
             <Stack direction='horizontal' className='gap-3 justify-content-center mt-2 mb-4'>
