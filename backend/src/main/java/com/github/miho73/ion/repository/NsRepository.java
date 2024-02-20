@@ -22,20 +22,20 @@ public interface NsRepository extends JpaRepository<NsRecord, Integer> {
     List<NsRecord> findByNsDateAndNsSupervisorContainsOrderByNsStateAscUuidAscNsTimeAsc(LocalDate date, String nsSupervisor);
 
     @Query(
-            value = "SELECT COUNT(*) FROM users.users WHERE :query LIKE concat('%', users.name, '%')",
-            nativeQuery = true
+        value = "SELECT COUNT(*) FROM users.users WHERE :query LIKE concat('%', users.name, '%')",
+        nativeQuery = true
     )
     List<Object[]> findAllUserContainedInName(
-            @Param("query") String query
+        @Param("query") String query
     );
 
     @Modifying
     @Query(
-            value = "UPDATE ns.ns_request SET status=:status WHERE uid=:uid",
-            nativeQuery = true
+        value = "UPDATE ns.ns_request SET status=:status WHERE uid=:uid",
+        nativeQuery = true
     )
     void updateAccept(
-            @Param("uid") int uid,
-            @Param("status") int status
+        @Param("uid") int uid,
+        @Param("status") int status
     );
 }

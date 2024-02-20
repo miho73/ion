@@ -8,7 +8,8 @@ type ErrorPageProps = {
 function ErrorPage(props: ErrorPageProps) {
     return (
         <>
-            <main className="container p-4 d-flex justify-content-center align-items-center flex-column text-center h-100 w-100">
+            <main
+                className="container p-4 d-flex justify-content-center align-items-center flex-column text-center h-100 w-100">
                 <Link to='/'><img src="/static/image/logo.png" width="60%" className="my-3" alt='홈으로'/></Link>
                 <hr/>
                 <h1 className="mt-4">문제가 생겼어요.</h1>

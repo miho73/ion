@@ -26,24 +26,24 @@ public class EtcController {
     }
 
     @GetMapping(
-            value = "/temp/hangang",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/temp/hangang",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getHangang() {
         return RestResponse.restResponse(HttpStatus.OK, tempService.getHanGangTemp());
     }
 
     @GetMapping(
-            value = "/temp/incheon",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/temp/incheon",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getIncheon() {
         return RestResponse.restResponse(HttpStatus.OK, tempService.getIncheonTemp());
     }
 
     @GetMapping(
-            value = "/meal",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/meal",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getMeal() {
         return RestResponse.restResponse(HttpStatus.OK, mealService.get());

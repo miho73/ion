@@ -29,7 +29,7 @@ public class IonCredentialService implements CredentialRepository {
     @Override
     public Set<PublicKeyCredentialDescriptor> getCredentialIdsForUsername(String s) {
         Optional<User> userOptional = userRepository.findById(s);
-        if(userOptional.isEmpty()) return new HashSet<>();
+        if (userOptional.isEmpty()) return new HashSet<>();
 
         User user = userOptional.get();
         List<Passkey> passkeys = passkeyRepository.findAllByUser(user);
@@ -47,7 +47,7 @@ public class IonCredentialService implements CredentialRepository {
     @Override
     public Optional<ByteArray> getUserHandleForUsername(String s) {
         Optional<User> userOptional = userRepository.findById(s);
-        if(userOptional.isEmpty()) return Optional.empty();
+        if (userOptional.isEmpty()) return Optional.empty();
 
         User user = userOptional.get();
         Optional<PasskeyUserHandle> passkeyUserHandleOptional = passkeyUserHandleRepository.findByUser(user);
@@ -64,7 +64,7 @@ public class IonCredentialService implements CredentialRepository {
     @Override
     public Optional<RegisteredCredential> lookup(ByteArray credId, ByteArray userHandle) {
         Optional<Passkey> passkeyOptional = passkeyRepository.findByCredIdAndUserHandle(credId.getBytes(), userHandle.getBytes());
-        if(passkeyOptional.isEmpty()) return Optional.empty();
+        if (passkeyOptional.isEmpty()) return Optional.empty();
         Passkey passkey = passkeyOptional.get();
 
         return Optional.of(RegisteredCredential.builder()

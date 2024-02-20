@@ -78,15 +78,15 @@ public class AuthController {
      * 7: set to change scode mode
      */
     @PostMapping(
-            value = "authenticate",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "authenticate",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String performLogin(
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body,
-            HttpSession session
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body,
+        HttpSession session
     ) {
         if (!Validation.checkKeys(body, "id", "pwd", "ctoken", "checkbox")) {
             response.setStatus(400);
@@ -170,8 +170,8 @@ public class AuthController {
     }
 
     @GetMapping(
-            value = "signout",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "signout",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String Signout(HttpSession session, HttpServletResponse response) {
         if (sessionService.isLoggedIn(session)) {
@@ -185,8 +185,8 @@ public class AuthController {
     }
 
     @GetMapping(
-            value = "/authorize",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/authorize",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String checkAuth(HttpSession session) {
         boolean login = sessionService.isLoggedIn(session);
@@ -194,8 +194,8 @@ public class AuthController {
     }
 
     @GetMapping(
-            value = "/authorize-e",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/authorize-e",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String checkAuthAndPrivilege(HttpSession session, @RequestParam("priv") int priv) {
         boolean login = sessionService.checkPrivilege(session, priv);
@@ -209,12 +209,12 @@ public class AuthController {
      * 3: already requested
      */
     @GetMapping(
-            value = "/reset-passwd/verify",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/reset-passwd/verify",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String queryResetPasswd(
-            HttpSession session,
-            @RequestParam("id") String id
+        HttpSession session,
+        @RequestParam("id") String id
     ) {
         if (sessionService.isLoggedIn(session)) {
             return RestResponse.restResponse(HttpStatus.OK, 1);
@@ -234,14 +234,14 @@ public class AuthController {
      * 7: already requested
      */
     @PostMapping(
-            value = "/reset-passwd/request",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/reset-passwd/request",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String createResetPasswordRequest(
-            HttpSession session,
-            @RequestBody Map<String, String> body,
-            HttpServletResponse response
+        HttpSession session,
+        @RequestBody Map<String, String> body,
+        HttpServletResponse response
     ) {
         if (sessionService.isLoggedIn(session)) {
             response.setStatus(400);
@@ -310,13 +310,13 @@ public class AuthController {
      * 2: request not found
      */
     @GetMapping(
-            value = "/reset-passwd/query",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/reset-passwd/query",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String queryResetPassword(
-            @RequestParam("id") String id,
-            HttpServletResponse response
+        @RequestParam("id") String id,
+        HttpServletResponse response
     ) {
         // 1. check if user exists
         Optional<User> userOptional = userService.getUserById(id);
@@ -341,7 +341,7 @@ public class AuthController {
         JSONObject ret = new JSONObject();
         ret.put("status", req.getStatus());
         if (req.getStatus() == ResetPasswordReq.RESET_PWD_STATUS.REQUESTED && req.getPrivateCode() == null) {
-            log.info("generating private code for req uid " + req.getUid()+". id=" + user.getId());
+            log.info("generating private code for req uid " + req.getUid() + ". id=" + user.getId());
             String code = randomCode.certString();
             rpqOptional.get().setPrivateCode(passwordEncoder.encode(code));
             rpqOptional.get().setStatus(ResetPasswordReq.RESET_PWD_STATUS.WAITING);
@@ -362,15 +362,15 @@ public class AuthController {
      * 7: internal server error
      */
     @PostMapping(
-            value = "/reset-passwd/check-private",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/reset-passwd/check-private",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String checkPrivateCode(
-            @RequestBody Map<String, String> body,
-            HttpSession session,
-            HttpServletResponse response
+        @RequestBody Map<String, String> body,
+        HttpSession session,
+        HttpServletResponse response
     ) {
         if (!Validation.checkKeys(body, "token", "privateCode", "ctoken")) {
             log.error("reset password check private code failed: insufficient parameter(s).");
@@ -420,7 +420,7 @@ public class AuthController {
             session.setAttribute("changingPwd", true);
             session.setAttribute("pwdToken", token);
             reCaptchaAssessment.addAssessmentComment(recaptchaReply.getAssessmentName(), true);
-            log.info("reset password check private code success. reqId=" + rpqOptional.get().getUid()+". uuid=" + rpqOptional.get().getUuid());
+            log.info("reset password check private code success. reqId=" + rpqOptional.get().getUid() + ". uuid=" + rpqOptional.get().getUuid());
             return RestResponse.restResponse(HttpStatus.OK);
         } catch (IOException e) {
             log.error("recaptcha failed(IOException).", e);
@@ -440,15 +440,15 @@ public class AuthController {
      * 7: internal server error
      */
     @PatchMapping(
-            value = "/reset-passwd/reset",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/reset-passwd/reset",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String resetPasswd(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body
     ) {
         if (!Validation.checkKeys(body, "pwd", "token", "ctoken")) {
             log.error("reset password failed: insufficient parameter(s).");
@@ -571,7 +571,7 @@ public class AuthController {
 
         JSONObject bodyJson = new JSONObject(body);
 
-        if(!bodyJson.has("attestation")) {
+        if (!bodyJson.has("attestation")) {
             response.setStatus(400);
             return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
         }
@@ -630,7 +630,7 @@ public class AuthController {
         try {
             int result = passkeyService.completeAuthentication(session, publicKeyCredentialJson);
 
-            if(result == 0 || result == 9) {
+            if (result == 0 || result == 9) {
                 return RestResponse.restResponse(HttpStatus.OK, result);
             } else {
                 return switch (result) {

@@ -115,10 +115,11 @@ function LoggedInIndex() {
                             }
                         </>
                     }
-                    <div className={'border-0 px-2 py-2 rounded-4 d-flex flex-column justify-content-center gap-0 profile-href'}>
+                    <div
+                        className={'border-0 px-2 py-2 rounded-4 d-flex flex-column justify-content-center gap-0 profile-href'}>
                         <Link className={'px-5 py-3 text-center'} to={'/ns'}>면불</Link>
                         <hr/>
-                        { user.priv > 1 &&
+                        {user.priv > 1 &&
                             <>
                                 <Link className={'px-4 py-3 text-center'} to={'/manage'}>관리</Link>
                                 <hr/>

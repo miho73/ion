@@ -74,15 +74,15 @@ public class ManageController {
      * 5: no self modify
      */
     @PatchMapping(
-            value = "/ionid/active/patch",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ionid/active/patch",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String activePath(
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body,
-            HttpSession session
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body,
+        HttpSession session
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.FACULTY_PRIVILEGE)) {
             response.setStatus(401);
@@ -128,13 +128,13 @@ public class ManageController {
      * 2: no user with such id
      */
     @GetMapping(
-            value = "/ionid/get",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ionid/get",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getUser(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestParam("id") String id
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestParam("id") String id
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.FACULTY_PRIVILEGE)) {
             response.setStatus(401);
@@ -171,14 +171,14 @@ public class ManageController {
      * 3: user not found
      */
     @PatchMapping(
-            value = "/ionid/eliminate",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ionid/eliminate",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String removeGrade(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.ROOT_PRIVILEGE)) {
             response.setStatus(401);
@@ -206,13 +206,13 @@ public class ManageController {
      * 2: no user with such id
      */
     @GetMapping(
-            value = "/privilege/get",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/privilege/get",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getPrivilege(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestParam("id") String id
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestParam("id") String id
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.ROOT_PRIVILEGE)) {
             response.setStatus(401);
@@ -234,15 +234,15 @@ public class ManageController {
      * 3: no self modify
      */
     @PatchMapping(
-            value = "/privilege/patch",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/privilege/patch",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String setPrivilege(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.ROOT_PRIVILEGE)) {
             response.setStatus(401);
@@ -280,12 +280,12 @@ public class ManageController {
      * 1: invalid session
      */
     @GetMapping(
-            value = "/ns/get",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ns/get",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getNs(
-            HttpSession session,
-            HttpServletResponse response
+        HttpSession session,
+        HttpServletResponse response
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.FACULTY_PRIVILEGE)) {
             response.setStatus(401);
@@ -307,15 +307,15 @@ public class ManageController {
      * 3: no ns with such id
      */
     @PatchMapping(
-            value = "/ns/accept",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ns/accept",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String changeAccept(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.FACULTY_PRIVILEGE)) {
             response.setStatus(401);
@@ -345,13 +345,13 @@ public class ManageController {
      * 2: ionid not found
      */
     @GetMapping(
-            value = "/ns/get-user",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ns/get-user",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getUserNs(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestParam("code") int scode
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestParam("code") int scode
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.FACULTY_PRIVILEGE)) {
             response.setStatus(401);
@@ -380,14 +380,14 @@ public class ManageController {
      * 5: invalid time for current preset
      */
     @PostMapping(
-            value = "/ns/create",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ns/create",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String createNs(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.FACULTY_PRIVILEGE)) {
             response.setStatus(401);
@@ -414,19 +414,19 @@ public class ManageController {
             return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 4);
         }
 
-        if(nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS3) {
-            if(
-                    nsTime != NsRecord.NS_TIME.N8 &&
-                            nsTime != NsRecord.NS_TIME.N1 &&
-                            nsTime != NsRecord.NS_TIME.N2
+        if (nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS3) {
+            if (
+                nsTime != NsRecord.NS_TIME.N8 &&
+                    nsTime != NsRecord.NS_TIME.N1 &&
+                    nsTime != NsRecord.NS_TIME.N2
             ) {
                 response.setStatus(400);
                 return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 5);
             }
         }
-        if(nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS4) {
-            if(
-                    nsTime != NsRecord.NS_TIME.ND1 &&
+        if (nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS4) {
+            if (
+                nsTime != NsRecord.NS_TIME.ND1 &&
                     nsTime != NsRecord.NS_TIME.ND2 &&
                     nsTime != NsRecord.NS_TIME.NN1 &&
                     nsTime != NsRecord.NS_TIME.NN2
@@ -451,15 +451,15 @@ public class ManageController {
      * 4: no ns found
      */
     @DeleteMapping(
-            value = "/ns/delete",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ns/delete",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String deleteNs(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestParam("code") int scode,
-            @RequestParam("time") NsRecord.NS_TIME nsTime
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestParam("code") int scode,
+        @RequestParam("time") NsRecord.NS_TIME nsTime
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.FACULTY_PRIVILEGE)) {
             response.setStatus(401);
@@ -487,13 +487,13 @@ public class ManageController {
      * 1: invalid session
      */
     @GetMapping(
-            value = "/ns/print",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ns/print",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getPrintData(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestParam("grade") int grade
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestParam("grade") int grade
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.FACULTY_PRIVILEGE)) {
             response.setStatus(401);
@@ -501,13 +501,11 @@ public class ManageController {
         }
 
         JSONArray ret;
-        if(nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS3) {
+        if (nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS3) {
             ret = nsManageService.printNsListNS3(grade);
-        }
-        else if (nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS4) {
+        } else if (nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS4) {
             ret = nsManageService.printNsListNS4(grade);
-        }
-        else {
+        } else {
             ret = new JSONArray();
         }
 
@@ -522,12 +520,12 @@ public class ManageController {
      * 1: invalid session
      */
     @GetMapping(
-            value = "/ns/mode/get",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ns/mode/get",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getNsMode(
-            HttpSession session,
-            HttpServletResponse response
+        HttpSession session,
+        HttpServletResponse response
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.FACULTY_PRIVILEGE)) {
             response.setStatus(401);
@@ -543,28 +541,28 @@ public class ManageController {
      * 3: invalid mode
      */
     @PatchMapping(
-            value = "/ns/mode/set",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/ns/mode/set",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String updateNsTimePreset(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body
     ) {
-        if(!sessionService.checkPrivilege(session, SessionService.ROOT_PRIVILEGE)) {
+        if (!sessionService.checkPrivilege(session, SessionService.ROOT_PRIVILEGE)) {
             response.setStatus(401);
             return RestResponse.restResponse(HttpStatus.UNAUTHORIZED, 1);
         }
 
-        if(!Validation.checkKeys(body, "mode")) {
+        if (!Validation.checkKeys(body, "mode")) {
             response.setStatus(400);
             return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
         }
 
         int mode = Integer.parseInt(body.get("mode"));
 
-        if(mode != 0 && mode != 1) {
+        if (mode != 0 && mode != 1) {
             response.setStatus(400);
             return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 3);
         }
@@ -579,7 +577,7 @@ public class ManageController {
      * 2: internal server error
      */
     @PatchMapping(
-            value = "/bulk/promote"
+        value = "/bulk/promote"
     )
     @Transactional
     public String promote(HttpSession session, HttpServletResponse response) {
@@ -599,14 +597,14 @@ public class ManageController {
      * 3: invalud parameter
      */
     @PatchMapping(
-            value = "/bulk/default-ionid-state/set",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/bulk/default-ionid-state/set",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String setDefaultIonIDState(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.ROOT_PRIVILEGE)) {
             response.setStatus(401);
@@ -631,11 +629,11 @@ public class ManageController {
      * 1: invalid session
      */
     @GetMapping(
-            value = "/bulk/default-ionid-state/get"
+        value = "/bulk/default-ionid-state/get"
     )
     public String getDefaultIonIDState(
-            HttpSession session,
-            HttpServletResponse response
+        HttpSession session,
+        HttpServletResponse response
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.ROOT_PRIVILEGE)) {
             response.setStatus(401);
@@ -651,13 +649,13 @@ public class ManageController {
      * 3: user not found
      */
     @GetMapping(
-            value = "/reset-passwd/query",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/reset-passwd/query",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String queryResetPwdReq(
-            @RequestParam("id") String id,
-            HttpServletResponse response,
-            HttpSession session
+        @RequestParam("id") String id,
+        HttpServletResponse response,
+        HttpSession session
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.ROOT_PRIVILEGE)) {
             response.setStatus(401);
@@ -703,15 +701,15 @@ public class ManageController {
      * 4: invalid status
      */
     @PatchMapping(
-            value = "/reset-passwd/accept",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/reset-passwd/accept",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String acceptResetPwd(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.ROOT_PRIVILEGE)) {
             response.setStatus(401);

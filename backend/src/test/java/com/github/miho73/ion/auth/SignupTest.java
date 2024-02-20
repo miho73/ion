@@ -64,34 +64,34 @@ public class SignupTest {
     public void createUser() throws Exception {
         mockMvc.perform(
                 get("/user/api/validation/id-duplication")
-                        .param("id", "testuserid")
-                )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value(0))
-                .andDo(firstDuplCheckResult -> {
-                    mockMvc.perform(
-                            post("/user/api/create")
-                                    .content(userJson.toString())
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .param("id", "testuserid")
+            )
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value(0))
+            .andDo(firstDuplCheckResult -> {
+                mockMvc.perform(
+                        post("/user/api/create")
+                            .content(userJson.toString())
+                            .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    )
+                    .andExpect(status().isCreated())
+                    .andExpectAll(
+                        jsonPath("$.result").isNotEmpty(),
+                        jsonPath("$.result").isString(),
+                        jsonPath("$.result").value(user.getId())
+                    )
+                    .andDo(createResult -> {
+                        mockMvc.perform(
+                                get("/user/api/validation/id-duplication")
+                                    .param("id", user.getId())
                             )
-                            .andExpect(status().isCreated())
-                            .andExpectAll(
-                                    jsonPath("$.result").isNotEmpty(),
-                                    jsonPath("$.result").isString(),
-                                    jsonPath("$.result").value(user.getId())
-                            )
-                            .andDo(createResult -> {
-                                mockMvc.perform(
-                                        get("/user/api/validation/id-duplication")
-                                                .param("id", user.getId())
-                                        )
-                                        .andExpect(status().isOk())
-                                        .andExpect(jsonPath("$.result").value(1))
-                                        .andReturn();
-                            })
+                            .andExpect(status().isOk())
+                            .andExpect(jsonPath("$.result").value(1))
                             .andReturn();
-                })
-                .andReturn();
+                    })
+                    .andReturn();
+            })
+            .andReturn();
     }
 
     @After

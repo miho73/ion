@@ -59,7 +59,7 @@ public class PasskeyService {
 
     public Optional<JSONObject> credentialCreateJson(HttpSession session, int uid) throws JsonProcessingException {
         Optional<User> userOptional = userRepository.findById(uid);
-        if(userOptional.isEmpty()) {
+        if (userOptional.isEmpty()) {
             return Optional.empty();
         }
         User user = userOptional.get();
@@ -76,7 +76,7 @@ public class PasskeyService {
     UserIdentity getUserIdentity(User user) {
         Optional<PasskeyUserHandle> userHandleOptional = passkeyUserHandleRepository.findByUser(user);
 
-        if(userHandleOptional.isEmpty()) {
+        if (userHandleOptional.isEmpty()) {
             byte[] userHandle = new byte[32];
             random.nextBytes(userHandle);
 
@@ -121,7 +121,7 @@ public class PasskeyService {
                 return false;
             }
 
-            if(result.isUserVerified()) {
+            if (result.isUserVerified()) {
                 log.info("Registration success. register passkey: {}", result.getKeyId());
 
                 Passkey passkey = new Passkey()
@@ -156,8 +156,7 @@ public class PasskeyService {
     }
 
     /**
-     * @return
-     * 0: authenticated
+     * @return 0: authenticated
      * 1: request was not found from session
      * 2: signature counter is not valid
      * 3: authentication failed
@@ -172,7 +171,7 @@ public class PasskeyService {
         PublicKeyCredential<AuthenticatorAssertionResponse, ClientAssertionExtensionOutputs> pkc = PublicKeyCredential.parseAssertionResponseJson(publicKeyCredentialJson);
 
         try {
-            if(session.getAttribute("passkeyAuthenticationRequest") == null) {
+            if (session.getAttribute("passkeyAuthenticationRequest") == null) {
                 return 1;
             }
             String requestJson = (String) session.getAttribute("passkeyAuthenticationRequest");
@@ -183,22 +182,21 @@ public class PasskeyService {
                 .response(pkc)
                 .build());
 
-            if(!result.isSuccess()) {
+            if (!result.isSuccess()) {
                 return 3;
             }
 
             Optional<Passkey> passkey = passkeyRepository.findById(result.getCredential().getCredentialId().getBytes());
 
-            if(passkey.isEmpty()) {
+            if (passkey.isEmpty()) {
                 return 4;
-            }
-            else {
+            } else {
                 passkey.get().setCounter(result.getSignatureCount());
                 passkey.get().setLastUse(new Timestamp(System.currentTimeMillis()));
 
                 Optional<User> userOptional = userRepository.findById(passkey.get().getUser().getUid());
 
-                if(userOptional.isEmpty()) {
+                if (userOptional.isEmpty()) {
                     log.warn("User not found. id=" + passkey.get().getUser().getUid());
                     return 5;
                 }
@@ -206,7 +204,7 @@ public class PasskeyService {
                 User user = userOptional.get();
 
                 int active = authService.checkActiveStatus(user);
-                if(active == 0) {
+                if (active == 0) {
                     userOptional.get().setLastLogin(new Timestamp(System.currentTimeMillis()));
                     session.setAttribute("uid", user.getUid());
                     session.setAttribute("grade", user.getGrade());
@@ -225,16 +223,13 @@ public class PasskeyService {
                         log.info("via passkey. session set. id=" + user.getId());
                     }
                     return 0;
-                }
-                else if(active == 1) {
+                } else if (active == 1) {
                     log.info("login blocked(inactive). id=" + user.getId());
                     return 6;
-                }
-                else if(active == 2) {
+                } else if (active == 2) {
                     log.info("login blocked(banned). id=" + user.getId());
                     return 7;
-                }
-                else {
+                } else {
                     log.info("login blocked(unknown status). id=" + user.getId());
                     return 7;
                 }

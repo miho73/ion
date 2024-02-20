@@ -156,7 +156,8 @@ function Deula() {
                             <p className='fw-bold'>개인정보처리시스템 접근 제한</p>
                             <p>Ion은 개인정보가 저장되고 처리되는 서버에 대한 물리적 접근을 제한하여 개인정보의 유출이 발생하지 않도록 하고 있습니다. 또한 관리에 필수적인 최소한의
                                 인원만이 개인정보에 접근할 수 있도록 하고 있습니다.</p>
-                            <p>사용자의 개인정보는 Google이 제공하는 Google Cloud Server를 통하여 저장, 관리됩니다. 이 약관에 동의함에 따라 Google Cloud Server를 통한 개인정보의 저장 및 처리에 동의하게 됩니다.</p>
+                            <p>사용자의 개인정보는 Google이 제공하는 Google Cloud Server를 통하여 저장, 관리됩니다. 이 약관에 동의함에 따라 Google Cloud
+                                Server를 통한 개인정보의 저장 및 처리에 동의하게 됩니다.</p>
                         </li>
                         <li>
                             <p className='fw-bold'>개인 IonID와 비밀번호 관리</p>

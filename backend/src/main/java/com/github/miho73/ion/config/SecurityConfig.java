@@ -16,10 +16,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable();
+            .csrf().disable();
         http
-                .formLogin().disable()
-                .headers().frameOptions().disable();
+            .formLogin().disable()
+            .headers().frameOptions().disable();
         log.info("Security Configured");
         return http.build();
     }

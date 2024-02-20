@@ -24,14 +24,14 @@ public class MainController {
     }
 
     @GetMapping({
-            "/",
-            "/auth/signup", "/auth/iforgot", "/auth/iforgot/reset",
-            "/docs/**",
-            "/ns",
-            "/manage",
-            "/etc/temperature/hangang", "/etc/temperature/incheon",
-            "/etc/meal",
-            "/profile"
+        "/",
+        "/auth/signup", "/auth/iforgot", "/auth/iforgot/reset",
+        "/docs/**",
+        "/ns",
+        "/manage",
+        "/etc/temperature/hangang", "/etc/temperature/incheon",
+        "/etc/meal",
+        "/profile"
     })
     public String index() {
         return "index";
@@ -44,8 +44,8 @@ public class MainController {
     }
 
     @GetMapping(
-            value = "/idx/apod",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/idx/apod",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseBody
     public String getApodNasa() {

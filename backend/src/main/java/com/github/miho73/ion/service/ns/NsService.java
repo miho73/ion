@@ -188,7 +188,7 @@ public class NsService {
             JSONObject e = new JSONObject();
             if (pla.isPresent()) {
                 User u = pla.get();
-                if(u.getStatus() != User.USER_STATUS.ACTIVATED) return;
+                if (u.getStatus() != User.USER_STATUS.ACTIVATED) return;
                 e.put("id", r.getUid());
                 e.put("time", NsRecord.nsTimeToInt(r.getNsTime()));
                 e.put("name", u.getName());
@@ -220,7 +220,7 @@ public class NsService {
     }
 
     public JSONArray getLnsSeatRemaining(int grade) {
-        if(timePreset == TIMETABLE_TEMPLATE.NS3) {
+        if (timePreset == TIMETABLE_TEMPLATE.NS3) {
             return getLnsSeatRemainingNs3(grade);
         } else {
             return getLnsSeatRemainingNs4(grade);

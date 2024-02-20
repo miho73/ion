@@ -12,7 +12,7 @@ function Credit(props: CreditProps) {
             <p className='m-0'>Ion by Changwoon Hyun</p>
             <p className='m-0'>Seungwon Lee and Nakyung Lee</p>
             <p className='m-0'>Look up <Link to='https://github.com/miho73/ion'
-                                                        target='_blank'>GitHub</Link> repository of project Ion</p>
+                                             target='_blank'>GitHub</Link> repository of project Ion</p>
         </Stack>
     )
 }

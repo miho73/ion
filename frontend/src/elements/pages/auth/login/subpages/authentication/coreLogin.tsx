@@ -33,10 +33,10 @@ function CoreLogin(props: LoginSectionProps) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(shouldTryCheckbox) {
+        if (shouldTryCheckbox) {
             // @ts-ignore
             grecaptcha.enterprise.render(document.getElementById('recaptcha-field'), {
-                'sitekey' : RECAPTCHA_CHECKBOX_KEY,
+                'sitekey': RECAPTCHA_CHECKBOX_KEY,
                 'action': 'login',
             });
         }
@@ -47,10 +47,10 @@ function CoreLogin(props: LoginSectionProps) {
         let state = 0;
         if (!inRange(1, 30, id.length)) state = changeBit(state, 0);
         if (!inRange(1, 30, pwd.length)) state = changeBit(state, 1);
-        if(shouldTryCheckbox) {
+        if (shouldTryCheckbox) {
             // @ts-ignore
             let token = grecaptcha.enterprise.getResponse();
-            if(token === '') {
+            if (token === '') {
                 state = changeBit(state, 2);
             }
         }
@@ -61,7 +61,7 @@ function CoreLogin(props: LoginSectionProps) {
         setWorking(true);
         ready('login', token => {
             let tok = token;
-            if(shouldTryCheckbox) {
+            if (shouldTryCheckbox) {
                 // @ts-ignore
                 tok = grecaptcha.enterprise.getResponse();
             }
@@ -75,24 +75,22 @@ function CoreLogin(props: LoginSectionProps) {
                 let re = res.data['result'];
 
                 if (re === 0) {
-                    if(searchParams.has('ret')) {
+                    if (searchParams.has('ret')) {
                         // @ts-ignore
                         navigate(searchParams.get('ret'));
-                    }
-                    else window.location.reload();
+                    } else window.location.reload();
                 } else if (re === 7) {
                     props.setChangeFlag(true);
-                } else if(re === 6) {
-                    if(!shouldTryCheckbox) {
+                } else if (re === 6) {
+                    if (!shouldTryCheckbox) {
                         setShouldTryCheckbox(true);
                         setLoginError(-3);
-                    }
-                    else {
+                    } else {
                         setLoginError(6);
                     }
                 } else setLoginError(re);
 
-                if(shouldTryCheckbox) {
+                if (shouldTryCheckbox) {
                     // @ts-ignore
                     grecaptcha.enterprise.reset();
                 }
@@ -117,31 +115,30 @@ function CoreLogin(props: LoginSectionProps) {
         axios.get('/auth/api/passkey/authentication/options/get')
             .then(res => {
                 let options = res.data.result['publicKey'];
-                if(options === null) {
+                if (options === null) {
                     setLoginError(100);
                     return;
                 }
                 startAuthentication(options).then(passkeySuccess)
                     .catch(e => {
-                       console.error(e);
+                        console.error(e);
                     });
             })
             .catch(() => {
                 setLoginError(100);
             });
     }
+
     function passkeySuccess(res: object) {
         axios.post('/auth/api/passkey/authentication/complete', res)
             .then(res => {
-                if(res.data['result'] === 9) {
+                if (res.data['result'] === 9) {
                     props.setChangeFlag(true);
-                }
-                else if (res.data['result'] === 0) {
-                    if(searchParams.has('ret')) {
+                } else if (res.data['result'] === 0) {
+                    if (searchParams.has('ret')) {
                         // @ts-ignore
                         navigate(searchParams.get('ret'));
-                    }
-                    else window.location.reload();
+                    } else window.location.reload();
                 }
             })
             .catch(res => {
@@ -238,31 +235,31 @@ function CoreLogin(props: LoginSectionProps) {
                     {loginError === 5 &&
                         <p>reCAPTCHA를 확인하지 못했습니다.</p>
                     }
-                    { loginError === -3 &&
+                    {loginError === -3 &&
                         <p>사용자 보호를 위해 추가 인증이 필요합니다.</p>
                     }
-                    { loginError === 6 &&
+                    {loginError === 6 &&
                         <>
                             <p>사용자 보호를 위해 로그인할 수 없습니다.</p>
                             <p>잠시 뒤에 다시 시도해주세요.</p>
                         </>
                     }
-                    { loginError === 100 &&
+                    {loginError === 100 &&
                         <p>Passkey로 로그인할 수 없습니다.</p>
                     }
-                    { loginError === 101 &&
+                    {loginError === 101 &&
                         <p>Passkey로 로그인하지 못했습니다.</p>
                     }
-                    { loginError === 102 &&
+                    {loginError === 102 &&
                         <p>Passkey 인증정보가 없습니다.</p>
                     }
-                    { loginError === 103 &&
+                    {loginError === 103 &&
                         <p>Passkey를 신뢰할 수 없습니다.</p>
                     }
-                    { loginError === 104 &&
+                    {loginError === 104 &&
                         <p>Passkey로 인증하지 못했습니다.</p>
                     }
-                    { loginError === 105 &&
+                    {loginError === 105 &&
                         <p>제시한 Passkey를 찾을 수 없습니다.</p>
                     }
                 </Alert>

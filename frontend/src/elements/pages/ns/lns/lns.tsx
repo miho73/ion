@@ -37,7 +37,7 @@ function LnsRoomSelect(props: LnsRoomSelectProps) {
     const selected = pLst[props.nst];
     const timePreset = props.timePreset;
 
-    if(selected === undefined) {
+    if (selected === undefined) {
         return (
             <Stack>
                 <p className='mb-2'>해당 시간에는 노트북실 자리 예약이 불가능합니다.</p>
@@ -61,9 +61,9 @@ function LnsRoomSelect(props: LnsRoomSelectProps) {
                 if (ok) commonOk.push(code);
             }
         }
-    }
-    else if (findCommon !== 0 && timePreset === 1) {
-        let n3 = getBit(findCommon, 3), n4 = getBit(findCommon, 4), n5 = getBit(findCommon, 5), n6 = getBit(findCommon, 6);
+    } else if (findCommon !== 0 && timePreset === 1) {
+        let n3 = getBit(findCommon, 3), n4 = getBit(findCommon, 4), n5 = getBit(findCommon, 5),
+            n6 = getBit(findCommon, 6);
 
         for (let a = 0; a < 6; a++) {
             for (let s = 1; s <= 6; s++) {
@@ -118,7 +118,8 @@ function LnsRoomSelect(props: LnsRoomSelectProps) {
             map.push(
                 <div className={"elem"}>
                     <div className='btn-group-vertical'>{seat.slice(0, 3)}</div>
-                    <div className='p-5 border border-dark rounded fs-4 h-100 d-flex align-items-center'>{sigMapping[i * 2 + j - 1]}</div>
+                    <div
+                        className='p-5 border border-dark rounded fs-4 h-100 d-flex align-items-center'>{sigMapping[i * 2 + j - 1]}</div>
                     <div className='btn-group-vertical'>{seat.slice(3, 6)}</div>
                 </div>
             )
@@ -129,7 +130,7 @@ function LnsRoomSelect(props: LnsRoomSelectProps) {
             {map}
             <div className='border p-2'>
                 <p className='mb-1 fw-bold'>공통자리 찾기</p>
-                { timePreset === 0 &&
+                {timePreset === 0 &&
                     <Stack direction='horizontal' gap={3}>
                         <Form.Check id='csf0' checked={getBit(findCommon, 0) === 1} onChange={() => changeFCF(0)}
                                     label='8면'/>
@@ -139,7 +140,7 @@ function LnsRoomSelect(props: LnsRoomSelectProps) {
                                     label='2면'/>
                     </Stack>
                 }
-                { timePreset === 1 &&
+                {timePreset === 1 &&
                     <Stack direction='horizontal' gap={3}>
                         <Form.Check id='csf3' checked={getBit(findCommon, 3) === 1} onChange={() => changeFCF(3)}
                                     label='오후 1차'/>

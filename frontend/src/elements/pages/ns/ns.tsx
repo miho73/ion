@@ -49,7 +49,7 @@ function Ns() {
     }, []);
 
     useEffect(() => {
-        if(loginState === 0) {
+        if (loginState === 0) {
             loadNsReqs();
         }
     }, [loginState]);
@@ -68,7 +68,7 @@ function Ns() {
         } else {
             let parsed = JSON.parse(nsaf);
 
-            if(parsed.hasOwnProperty(id)) {
+            if (parsed.hasOwnProperty(id)) {
                 setAutoFill(true);
 
                 let me = parsed[id];
@@ -346,14 +346,14 @@ function Ns() {
                                         onChange={e => setRevTime(Number.parseInt(e.target.value))}>
 
                                         <option value={-1}>면학 시간</option>
-                                        { timePreset === 0 &&
+                                        {timePreset === 0 &&
                                             <>
                                                 <option value={0}>8면</option>
                                                 <option value={1}>1면</option>
                                                 <option value={2}>2면</option>
                                             </>
                                         }
-                                        { timePreset === 1 &&
+                                        {timePreset === 1 &&
                                             <>
                                                 <option value={3}>오후 1차</option>
                                                 <option value={4}>오후 2차</option>

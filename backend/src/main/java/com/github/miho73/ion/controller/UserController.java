@@ -50,8 +50,8 @@ public class UserController {
     }
 
     @GetMapping(
-            value = "/validation/id-duplication",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/validation/id-duplication",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String checkIdDuplication(@RequestParam(name = "id") String id) {
         boolean ok = userService.existsUserById(id);
@@ -67,14 +67,14 @@ public class UserController {
      * 4 : too low captcha score
      */
     @PostMapping(
-            value = "/create",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/create",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String createUser(
-            @RequestBody Map<String, String> body,
-            HttpServletResponse response
+        @RequestBody Map<String, String> body,
+        HttpServletResponse response
     ) {
         if (!Validation.checkKeys(body, "clas", "ctoken", "grade", "id", "name", "pwd", "scode")) {
             response.setStatus(400);
@@ -122,11 +122,11 @@ public class UserController {
     }
 
     @GetMapping(
-            value = "/idx-iden",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/idx-iden",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getIdxIden(
-            HttpSession session
+        HttpSession session
     ) {
         if (!sessionService.isLoggedIn(session)) {
             return RestResponse.restResponse(HttpStatus.UNAUTHORIZED, 1);
@@ -144,8 +144,8 @@ public class UserController {
      * 1: not in change mode
      */
     @GetMapping(
-            value = "/scode-change/query",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/scode-change/query",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String queryScodeChange(HttpSession session, HttpServletResponse response) {
         Object sco = session.getAttribute("schange");
@@ -170,15 +170,15 @@ public class UserController {
      * 6: internal server error
      */
     @PatchMapping(
-            value = "/scode-change/change",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/scode-change/change",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String changeScode(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body) {
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body) {
         if (Validation.checkKeys(body, "clas, scode, ctoken")) {
             response.setStatus(400);
             log.error("change scode failed: insufficient parameter");
@@ -200,14 +200,14 @@ public class UserController {
             }
 
             int ret = userService.updateScode(
-                    session,
-                    Integer.parseInt(body.get("clas")),
-                    Integer.parseInt(body.get("scode")),
-                    recaptchaReply.getAssessmentName()
+                session,
+                Integer.parseInt(body.get("clas")),
+                Integer.parseInt(body.get("scode")),
+                recaptchaReply.getAssessmentName()
             );
             if (ret != 0) {
                 response.setStatus(400);
-                log.error("change scode failed. reason=" + (ret==4? "user not found" : "not in scode change state")+", uid="+sessionService.getUid(session));
+                log.error("change scode failed. reason=" + (ret == 4 ? "user not found" : "not in scode change state") + ", uid=" + sessionService.getUid(session));
                 return RestResponse.restResponse(HttpStatus.BAD_REQUEST, ret);
             } else {
                 log.info("scode changed. uid=" + sessionService.getUid(session));

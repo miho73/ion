@@ -16,7 +16,8 @@ import java.util.List;
 @Service
 public class NsManageService {
     @Autowired
-    UserService userService;;
+    UserService userService;
+    ;
 
     @Autowired
     NsService nsService;

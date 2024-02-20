@@ -54,12 +54,12 @@ public class NsController {
      * 1: invalid session
      */
     @GetMapping(
-            value = "/nsr/get",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/nsr/get",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getNsRecord(
-            HttpSession session,
-            HttpServletResponse response
+        HttpSession session,
+        HttpServletResponse response
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.USER_PRIVILEGE)) {
             response.setStatus(401);
@@ -98,15 +98,15 @@ public class NsController {
      * 9: invalid time for current preset
      */
     @PostMapping(
-            value = "/nsr/create",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/nsr/create",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String createNsRequest(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestBody Map<String, String> body
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestBody Map<String, String> body
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.USER_PRIVILEGE)) {
             response.setStatus(401);
@@ -137,22 +137,22 @@ public class NsController {
             // if user is registered is a faculty
             if (sessionService.getGrade(session) == 0) {
                 response.setStatus(400);
-                log.error("failed to create ns request: faculty. uid="+sessionService.getId(session));
+                log.error("failed to create ns request: faculty. uid=" + sessionService.getId(session));
                 return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 8);
             }
 
             int time = Integer.parseInt(body.get("time"));
 
-            if(nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS3) {
-                if(time != 0 && time != 1 && time != 2) {
+            if (nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS3) {
+                if (time != 0 && time != 1 && time != 2) {
                     response.setStatus(400);
-                    log.error("failed to create ns request: invalid time for current preset. uid="+sessionService.getId(session));
+                    log.error("failed to create ns request: invalid time for current preset. uid=" + sessionService.getId(session));
                     return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 9);
                 }
-            } else if(nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS4) {
-                if(time != 3 && time != 4 && time != 5 && time != 6) {
+            } else if (nsService.timePreset == NsService.TIMETABLE_TEMPLATE.NS4) {
+                if (time != 3 && time != 4 && time != 5 && time != 6) {
                     response.setStatus(400);
-                    log.error("failed to create ns request: invalid time for current preset. uid="+sessionService.getId(session));
+                    log.error("failed to create ns request: invalid time for current preset. uid=" + sessionService.getId(session));
                     return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 9);
                 }
             }
@@ -205,15 +205,15 @@ public class NsController {
      * 4: too low recaptcha score
      */
     @DeleteMapping(
-            value = "/nsr/delete",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/nsr/delete",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     @Transactional
     public String deleteNs(
-            HttpSession session,
-            HttpServletResponse response,
-            @RequestParam("time") int timeInt,
-            @RequestParam("ctoken") String captchaToken
+        HttpSession session,
+        HttpServletResponse response,
+        @RequestParam("time") int timeInt,
+        @RequestParam("ctoken") String captchaToken
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.USER_PRIVILEGE)) {
             response.setStatus(401);
@@ -263,12 +263,12 @@ public class NsController {
      * 1: invalid session
      */
     @GetMapping(
-            value = "/lns/get",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/lns/get",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getLnsSeatState(
-            HttpSession session,
-            HttpServletResponse response
+        HttpSession session,
+        HttpServletResponse response
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.USER_PRIVILEGE)) {
             response.setStatus(401);
@@ -284,12 +284,12 @@ public class NsController {
      * 1: invalid session
      */
     @GetMapping(
-            value = "/lns-idx",
-            produces = MediaType.APPLICATION_JSON_VALUE
+        value = "/lns-idx",
+        produces = MediaType.APPLICATION_JSON_VALUE
     )
     public String getLnsSeatAtIndex(
-            HttpSession session,
-            HttpServletResponse response
+        HttpSession session,
+        HttpServletResponse response
     ) {
         if (!sessionService.checkPrivilege(session, SessionService.USER_PRIVILEGE)) {
             response.setStatus(401);

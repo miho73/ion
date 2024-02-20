@@ -30,7 +30,7 @@ function RecordRow(props: RecordRowProps) {
 
     const data = props.data;
 
-    if(!props.has || (!props.includeDenied && !data.a)) {
+    if (!props.has || (!props.includeDenied && !data.a)) {
         return (
             <td></td>
         )
@@ -38,12 +38,12 @@ function RecordRow(props: RecordRowProps) {
 
     return (
         <>
-            { props.includeDenied &&
+            {props.includeDenied &&
                 <td className={data.a ? 'table-success' : 'table-danger'}>
                     <a onClick={() => copy(data.c)}>{data.c}</a>
                 </td>
             }
-            { (!props.includeDenied && data.a) &&
+            {(!props.includeDenied && data.a) &&
                 <td>
                     <a title={'Copy'} className={'ns-lst-cpy'} onClick={() => copy(data.c)}>{data.c}</a>
                 </td>
@@ -89,8 +89,8 @@ function PrintNs(props: PrintNsProps) {
     let rr: any[] = [];
     if (workState === 0) {
         data.forEach(e => {
-            let clas = (e.code-e.code%100)/100-10*(grade);
-            if(getBit(filterByClass, clas-1) === 0) return;
+            let clas = (e.code - e.code % 100) / 100 - 10 * (grade);
+            if (getBit(filterByClass, clas - 1) === 0) return;
             rr.push(
                 <tr>
                     <td>{e.code}</td>
@@ -117,7 +117,7 @@ function PrintNs(props: PrintNsProps) {
 
     useEffect(() => {
         let c = localStorage.getItem('nlfc');
-        if(c === null) {
+        if (c === null) {
             localStorage.setItem('nlfc', '15');
             setFilterByClass(15);
         } else {
@@ -125,20 +125,21 @@ function PrintNs(props: PrintNsProps) {
         }
 
         let g = localStorage.getItem('nlg');
-        if(g === null) {
+        if (g === null) {
             localStorage.setItem('nlg', '1');
             setGrade(1);
-        }
-        else {
+        } else {
             setGrade(Number.parseInt(g));
         }
     }, []);
+
     function updateFilterByClass(clas: number) {
         let c = 0;
         c = changeBit(filterByClass, clas);
         setFilterByClass(c);
         localStorage.setItem('nlfc', c.toString());
     }
+
     function updateGrade(grade: number) {
         setGrade(grade);
         localStorage.setItem("nlg", grade.toString());
@@ -198,14 +199,14 @@ function PrintNs(props: PrintNsProps) {
                             <tr>
                                 <th>학번</th>
                                 <th>이름</th>
-                                { timePreset === 0 &&
+                                {timePreset === 0 &&
                                     <>
                                         <th>8면학</th>
                                         <th>1면학</th>
                                         <th>2면학</th>
                                     </>
                                 }
-                                { timePreset === 1 &&
+                                {timePreset === 1 &&
                                     <>
                                         <th>오후 1차</th>
                                         <th>오후 2치</th>

@@ -7,16 +7,15 @@ function Header() {
     const [expandFlag, setExpandFlag] = React.useState<Boolean>(false);
 
     function ctrLHamburger() {
-        if(hamburgerOpen) {
+        if (hamburgerOpen) {
             setExpandFlag(false);
-        }
-        else {
+        } else {
             setHamburgerOpen(true);
         }
     }
 
     useEffect(() => {
-        if(hamburgerOpen) {
+        if (hamburgerOpen) {
             setTimeout(() => {
                 setExpandFlag(true);
             }, 100);
@@ -24,7 +23,7 @@ function Header() {
     }, [hamburgerOpen]);
 
     useEffect(() => {
-        if(!expandFlag) {
+        if (!expandFlag) {
             setTimeout(() => {
                 setHamburgerOpen(false);
             }, 200);

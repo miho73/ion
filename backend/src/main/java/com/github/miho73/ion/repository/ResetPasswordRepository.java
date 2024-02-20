@@ -18,21 +18,21 @@ public interface ResetPasswordRepository extends JpaRepository<ResetPasswordReq,
     void truncateTable();
 
     @Query(
-            value = "UPDATE auth.reset_pwd_req SET status = 2 WHERE uid = :uid and (status = 1 OR status = 0)",
-            nativeQuery = true
+        value = "UPDATE auth.reset_pwd_req SET status = 2 WHERE uid = :uid and (status = 1 OR status = 0)",
+        nativeQuery = true
     )
     @Modifying
     void acceptRequest(
-            @Param("uid") int uid
+        @Param("uid") int uid
     );
 
     @Query(
-            value = "UPDATE auth.reset_pwd_req SET status = 3 WHERE uid = :uid and (status = 1 OR status = 0)",
-            nativeQuery = true
+        value = "UPDATE auth.reset_pwd_req SET status = 3 WHERE uid = :uid and (status = 1 OR status = 0)",
+        nativeQuery = true
     )
     @Modifying
     void rejectRequest(
-            @Param("uid") int uid
+        @Param("uid") int uid
     );
 
     Optional<ResetPasswordReq> findByRandUrl(String token);

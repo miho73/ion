@@ -4,14 +4,14 @@
 @import url(//fonts.googleapis.com/css?family=Dancing+Script&display=swap);
 
 $theme-colors: (
-        "primary": #2A55C2,
-        "secondary": #9399A8,
-        "success": $success,
-        "info": $info,
-        "warning": $warning,
-        "danger": $danger,
-        "light": $light,
-        "dark": $dark
+    "primary": #2A55C2,
+    "secondary": #9399A8,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark
 );
 
 * {
@@ -27,6 +27,7 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
 .mct {
     width: -webkit-calc(100% - 200px);
     width: -moz-calc(100% - 200px);
@@ -99,8 +100,10 @@ table {
 
     div {
         gap: 25px;
+
         div > div {
             width: 100%;
+
             p {
                 margin: 0;
             }
@@ -132,6 +135,7 @@ table {
                 &:nth-child(1) {
                     border-radius: 10px 10px 0 0;
                 }
+
                 &:nth-last-child(1) {
                     border-radius: 0 0 10px 10px;
                 }
@@ -150,6 +154,7 @@ table {
             div .number {
                 font-family: 'Dancing Script', 'serif';
             }
+
             div {
                 backdrop-filter: none;
             }
@@ -197,6 +202,7 @@ table {
         grid-column-start: 1;
         grid-column-end: 3;
     }
+
     & > div:nth-last-child(1) {
         grid-column-start: 1;
         grid-column-end: 3;
@@ -228,7 +234,6 @@ table {
         grid-template-columns: 1fr;
         grid-template-rows: 80px 1fr;
     }
-
 
 
     .nst {
@@ -274,6 +279,7 @@ table {
             h1 {
                 margin: 0 0 20px 0;
             }
+
             p {
                 display: none;
             }

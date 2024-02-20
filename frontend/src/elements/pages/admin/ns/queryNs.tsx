@@ -82,7 +82,7 @@ function QueryNs(props: QueryNsProps) {
 
     function deleteNs() {
         setDeleting(true);
-        if(targetNs === undefined) {
+        if (targetNs === undefined) {
             setDeleteResult(1);
             setDeleting(false);
             return;

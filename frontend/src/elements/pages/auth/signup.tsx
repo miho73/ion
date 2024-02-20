@@ -3,7 +3,7 @@ import {inRange} from '../../service/checker';
 import {changeBit, getBit} from '../../service/bitmask';
 import axios from 'axios';
 import {Link, useNavigate} from 'react-router-dom';
-import {Alert, Button, ButtonGroup, FloatingLabel, Form, FormLabel, InputGroup, Stack} from 'react-bootstrap';
+import {Alert, Button, ButtonGroup, FloatingLabel, Form, InputGroup, Stack} from 'react-bootstrap';
 import {ready} from '../../service/recaptcha';
 import CaptchaNotice from '../fragments/captchaNotice';
 import Credit from '../fragments/credit';
@@ -112,7 +112,7 @@ function SignupPage() {
 
     const yrs = new Date().getFullYear();
     let classInfTxt = '';
-    if(grade !== undefined && clas !== undefined && sCode !== undefined) {
+    if (grade !== undefined && clas !== undefined && sCode !== undefined) {
         classInfTxt = `${yrs - 1992 - grade}기의 ${'' + grade + clas + (sCode < 10 ? '0' + sCode : sCode)}입니다.`
     }
 

@@ -7,7 +7,7 @@ type CaptchaNoticeProps = {
 
 function CaptchaNotice(props: CaptchaNoticeProps) {
     return (
-        <span className={'small text-muted '+props.className}>
+        <span className={'small text-muted ' + props.className}>
             <span>This site is protected by reCAPTCHA and the Google </span>
             <Link to='https://policies.google.com/privacy' target='_black'>Privacy Policy</Link>
             <span> and </span>

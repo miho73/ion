@@ -26,17 +26,17 @@ public class TemperatureTest {
     public void getHangangTemp() throws Exception {
         mvc.perform(
                 get("/etc/api/temp/hangang")
-                )
-                .andExpect(status().isOk())
-                .andExpectAll(
-                        jsonPath("$.status").value(200),
-                        jsonPath("$.result.ok").value(true),
-                        jsonPath("$.result.dat").isNotEmpty(),
-                        jsonPath("$.result.loc").isNotEmpty(),
-                        jsonPath("$.result.tem").isNotEmpty(),
-                        jsonPath("$.result.tim").isNotEmpty()
-                )
-                .andReturn();
+            )
+            .andExpect(status().isOk())
+            .andExpectAll(
+                jsonPath("$.status").value(200),
+                jsonPath("$.result.ok").value(true),
+                jsonPath("$.result.dat").isNotEmpty(),
+                jsonPath("$.result.loc").isNotEmpty(),
+                jsonPath("$.result.tem").isNotEmpty(),
+                jsonPath("$.result.tim").isNotEmpty()
+            )
+            .andReturn();
     }
 
     @Test
@@ -44,16 +44,16 @@ public class TemperatureTest {
     public void getIncheonTemperature() throws Exception {
         mvc.perform(
                 get("/etc/api/temp/incheon")
-                )
-                .andExpect(status().isOk())
-                .andExpectAll(
-                        jsonPath("$.status").value(200),
-                        jsonPath("$.result.ok").value(true),
-                        jsonPath("$.result.dat").isNotEmpty(),
-                        jsonPath("$.result.loc").isNotEmpty(),
-                        jsonPath("$.result.tem").isNotEmpty(),
-                        jsonPath("$.result.tim").isNotEmpty()
-                )
-                .andReturn();
+            )
+            .andExpect(status().isOk())
+            .andExpectAll(
+                jsonPath("$.status").value(200),
+                jsonPath("$.result.ok").value(true),
+                jsonPath("$.result.dat").isNotEmpty(),
+                jsonPath("$.result.loc").isNotEmpty(),
+                jsonPath("$.result.tem").isNotEmpty(),
+                jsonPath("$.result.tim").isNotEmpty()
+            )
+            .andReturn();
     }
 }

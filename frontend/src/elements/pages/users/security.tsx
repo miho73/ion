@@ -16,7 +16,7 @@ function SecuritySettings() {
                         attestation: attestation
                     }).then(res => {
                         let code = res.data.result;
-                        if(code === 0)  setWorkState(-1);
+                        if (code === 0) setWorkState(-1);
                         else setWorkState(3);
                     }).catch(() => {
                         setWorkState(2);

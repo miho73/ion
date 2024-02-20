@@ -73,7 +73,7 @@ function IForgot() {
 
     function nxt() {
         let state = 0;
-        if(!inRange(1, 30, id.length)) state = changeBit(state, 0);
+        if (!inRange(1, 30, id.length)) state = changeBit(state, 0);
         setFormState(state);
         if (state !== 0) return;
 

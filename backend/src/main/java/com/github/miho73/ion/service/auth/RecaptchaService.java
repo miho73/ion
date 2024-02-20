@@ -34,7 +34,7 @@ public class RecaptchaService {
 
     public RecaptchaReply performAssessment(String token, String recaptchaAction, boolean isCheckbox) throws IOException {
         log.info("recaptcha assessment requested. action=" + recaptchaAction + " isV2=" + isCheckbox);
-        if(bypassRecaptcha && token.equals("bypass")) {
+        if (bypassRecaptcha && token.equals("bypass")) {
             log.info("recaptcha bypassed!");
             RecaptchaReply rr = new RecaptchaReply();
             rr.setOk(true);
@@ -56,8 +56,8 @@ public class RecaptchaService {
      * @param recaptchaAction  : Action name corresponding to the token.
      */
     public RecaptchaReply createAssessment(
-            String projectID, String recaptchaSiteKey, String token, String recaptchaAction)
-            throws IOException {
+        String projectID, String recaptchaSiteKey, String token, String recaptchaAction)
+        throws IOException {
         RecaptchaReply rr = new RecaptchaReply();
 
         // Set the properties of the event to be tracked.
@@ -65,18 +65,18 @@ public class RecaptchaService {
 
         // Build the assessment request.
         CreateAssessmentRequest createAssessmentRequest =
-                CreateAssessmentRequest.newBuilder()
-                        .setParent(ProjectName.of(projectID).toString())
-                        .setAssessment(Assessment.newBuilder().setEvent(event).build())
-                        .build();
+            CreateAssessmentRequest.newBuilder()
+                .setParent(ProjectName.of(projectID).toString())
+                .setAssessment(Assessment.newBuilder().setEvent(event).build())
+                .build();
 
         Assessment response = client.createAssessment(createAssessmentRequest);
 
         // Check if the token is valid.
         if (!response.getTokenProperties().getValid()) {
             log.error(
-                    "The CreateAssessment call failed because the token was: "
-                            + response.getTokenProperties().getInvalidReason().name());
+                "The CreateAssessment call failed because the token was: "
+                    + response.getTokenProperties().getInvalidReason().name());
             rr.setOk(false);
             return rr;
         }
@@ -85,11 +85,11 @@ public class RecaptchaService {
         // (If the key is checkbox type and 'action' attribute wasn't set, skip this check.)
         if (!response.getTokenProperties().getAction().equals(recaptchaAction)) {
             log.error(
-                    "captcha failed: "
-                            + response.getTokenProperties().getAction());
+                "captcha failed: "
+                    + response.getTokenProperties().getAction());
             log.error(
-                    "recaptcha action mismatch: "
-                            + recaptchaAction);
+                "recaptcha action mismatch: "
+                    + recaptchaAction);
             rr.setOk(false);
             return rr;
         }
@@ -122,7 +122,7 @@ public class RecaptchaService {
      * @return true when success otherwise, false
      */
     public boolean addAssessmentComment(String assessmentId, boolean type) throws IOException {
-        if(bypassRecaptcha && assessmentId.equals("bypass")) {
+        if (bypassRecaptcha && assessmentId.equals("bypass")) {
             log.info("recaptcha annotation bypassed!");
             return true;
         }
@@ -134,10 +134,10 @@ public class RecaptchaService {
     private boolean addSuspiciousAnnotation(String assessmentId) throws IOException {
         try (RecaptchaEnterpriseServiceClient client = RecaptchaEnterpriseServiceClient.create()) {
             AnnotateAssessmentRequest annotateAssessmentRequest =
-                    AnnotateAssessmentRequest.newBuilder()
-                            .setName(AssessmentName.of(projectId, assessmentId).toString())
-                            .setAnnotation(AnnotateAssessmentRequest.Annotation.FRAUDULENT)
-                            .build();
+                AnnotateAssessmentRequest.newBuilder()
+                    .setName(AssessmentName.of(projectId, assessmentId).toString())
+                    .setAnnotation(AnnotateAssessmentRequest.Annotation.FRAUDULENT)
+                    .build();
 
             AnnotateAssessmentResponse response = client.annotateAssessment(annotateAssessmentRequest);
             log.info("recaptcha fraudulent annotation success. assessmentId=" + assessmentId);
@@ -148,10 +148,10 @@ public class RecaptchaService {
     private boolean addLegitimateAnnotation(String assessmentId) throws IOException {
         try (RecaptchaEnterpriseServiceClient client = RecaptchaEnterpriseServiceClient.create()) {
             AnnotateAssessmentRequest annotateAssessmentRequest =
-                    AnnotateAssessmentRequest.newBuilder()
-                            .setName(AssessmentName.of(projectId, assessmentId).toString())
-                            .setAnnotation(AnnotateAssessmentRequest.Annotation.LEGITIMATE)
-                            .build();
+                AnnotateAssessmentRequest.newBuilder()
+                    .setName(AssessmentName.of(projectId, assessmentId).toString())
+                    .setAnnotation(AnnotateAssessmentRequest.Annotation.LEGITIMATE)
+                    .build();
 
             AnnotateAssessmentResponse response = client.annotateAssessment(annotateAssessmentRequest);
             log.info("recaptcha Legitimate comment success. assessmentId=" + assessmentId);

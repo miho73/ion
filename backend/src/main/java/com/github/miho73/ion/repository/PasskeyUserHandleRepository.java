@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PasskeyUserHandleRepository extends JpaRepository<PasskeyUserHandle, byte[]>{
+public interface PasskeyUserHandleRepository extends JpaRepository<PasskeyUserHandle, byte[]> {
     Optional<PasskeyUserHandle> findByUser_Uid(int uuid);
+
     Optional<PasskeyUserHandle> findByUser(User user);
 }
