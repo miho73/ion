@@ -1,0 +1,42 @@
+@import "bootstrap/scss/bootstrap";
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+@import url(//fonts.googleapis.com/css?family=Playfair+Display&display=swap);
+@import url(//fonts.googleapis.com/css?family=Dancing+Script&display=swap);
+
+$theme-colors: (
+    "primary": #2A55C2,
+    "secondary": #9399A8,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark
+);
+
+* {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+p {
+    margin: 0;
+}
+
+form {
+    width: 100%;
+    max-width: 350px;
+}
+
+.alert {
+    margin: 0;
+}

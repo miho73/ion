@@ -1,14 +1,14 @@
-import React, {useEffect, useState, KeyboardEvent} from 'react'
+import React, {KeyboardEvent, useEffect, useState} from 'react'
 import {Link, useNavigate, useSearchParams} from 'react-router-dom'
-import CaptchaNotice from '../../fragments/captchaNotice'
-import Credit from '../../fragments/credit'
-import {inRange} from '../../../service/checker';
-import {changeBit, getBit} from '../../../service/bitmask';
-import {ready} from '../../../service/recaptcha';
+import CaptchaNotice from '../../../../fragments/captchaNotice'
+import Credit from '../../../../fragments/credit'
+import {inRange} from '../../../../../service/checker';
+import {changeBit, getBit} from '../../../../../service/bitmask';
+import {ready} from '../../../../../service/recaptcha';
 import axios from 'axios';
-import {Stack} from "react-bootstrap";
+import {Alert, Button, FloatingLabel, Form, Stack} from "react-bootstrap";
 
-import {ReactComponent as FidoIcon} from '../../../../assets/icons/FIDO_Passkey_mark_A_white.svg';
+import {ReactComponent as FidoIcon} from '../../../../../../assets/icons/FIDO_Passkey_mark_A_white.svg';
 import {startAuthentication} from "@simplewebauthn/browser";
 
 
@@ -18,14 +18,17 @@ type LoginSectionProps = {
     setChangeFlag: (flag: boolean) => void;
 }
 
-function LoginSection(props: LoginSectionProps) {
+function CoreLogin(props: LoginSectionProps) {
     const [id, setId] = useState<string>('');
     const [pwd, setPwd] = useState<string>('');
-    const [block, setBlock] = useState<boolean>(false);
+
+    const [working, setWorking] = useState<boolean>(false);
+
     const [formState, setFormState] = useState<number>(0);
     const [loginError, setLoginError] = useState<number>(0);
-    const [searchParams, setSearchParams] = useSearchParams();
     const [shouldTryCheckbox, setShouldTryCheckbox] = useState<boolean>(false);
+
+    const [searchParams] = useSearchParams();
 
     const navigate = useNavigate();
 
@@ -40,6 +43,7 @@ function LoginSection(props: LoginSectionProps) {
     }, [shouldTryCheckbox]);
 
     function submit() {
+        // verify form
         let state = 0;
         if (!inRange(1, 30, id.length)) state = changeBit(state, 0);
         if (!inRange(1, 30, pwd.length)) state = changeBit(state, 1);
@@ -51,10 +55,10 @@ function LoginSection(props: LoginSectionProps) {
             }
         }
         setFormState(state);
-
         if (state !== 0) return;
 
-        setBlock(true);
+        // login logic
+        setWorking(true);
         ready('login', token => {
             let tok = token;
             if(shouldTryCheckbox) {
@@ -69,6 +73,7 @@ function LoginSection(props: LoginSectionProps) {
                 checkbox: shouldTryCheckbox
             }).then(res => {
                 let re = res.data['result'];
+
                 if (re === 0) {
                     if(searchParams.has('ret')) {
                         // @ts-ignore
@@ -94,7 +99,9 @@ function LoginSection(props: LoginSectionProps) {
             }).catch(err => {
                 setLoginError(-1);
             }).finally(() => {
-                setBlock(false);
+                setId('');
+                setPwd('');
+                setWorking(false);
             });
         });
     }
@@ -167,87 +174,107 @@ function LoginSection(props: LoginSectionProps) {
     }
 
     return (
-        <form className='vstack gap-3 d-flex justify-content-center align-items-center text-center form-signin'>
-            <h1 className='h3 my-3 fw-normal'>IonID</h1>
-            <div className='form-floating'>
-                <input type='text'
-                       className={'pe-5 form-control fs-6 form-control-lg' + (getBit(formState, 0) ? ' is-invalid' : '')}
-                       disabled={block} id='ionid' placeholder='IonID' autoComplete='username' aria-label='IonID'
-                       value={id} onChange={e => setId(e.target.value)} onKeyDown={enterDown}/>
-                <label htmlFor='ionid'>IonID</label>
-            </div>
-            <div className='form-floating'>
-                <input type='password'
-                       className={'pe-5 form-control fs-6 form-control-lg' + (getBit(formState, 1) ? ' is-invalid' : '')}
-                       disabled={block} id='pwd' placeholder='암호' autoComplete='current-password' aria-label='암호'
-                       value={pwd} onChange={e => setPwd(e.target.value)} onKeyDown={enterDown}/>
-                <label htmlFor='pwd'>Password</label>
-            </div>
+        <Form className={'mx-auto d-flex flex-column align-items-center gap-2'}>
+            <p className={'display-6 my-2'}>IonID</p>
+            <Form.Group>
+                <FloatingLabel label={'IonID'}>
+                    <Form.Control type={'text'}
+                                  disabled={working}
+                                  value={id} onChange={e => setId(e.target.value)}
+                                  onKeyDown={enterDown}
+                                  placeholder={'IonID'} aria-label={'IonID'}
+                                  autoComplete={'username'}
+                                  isInvalid={getBit(formState, 0) === 1}
+                                  className={'pe-5 fs-6'}
+                                  size={'lg'}
+                    />
+                </FloatingLabel>
+            </Form.Group>
+            <Form.Group>
+                <FloatingLabel label={'Password'}>
+                    <Form.Control type='password'
+                                  disabled={working}
+                                  value={pwd} onChange={e => setPwd(e.target.value)}
+                                  onKeyDown={enterDown}
+                                  placeholder={'Password'} aria-label={'Password'}
+                                  autoComplete={'currend-password'}
+                                  isInvalid={getBit(formState, 1) === 1}
+                                  className={'pe-5 fs-6'}
+                                  size={'lg'}
+                    />
+                </FloatingLabel>
+            </Form.Group>
+
             {shouldTryCheckbox &&
-                <div className={'form-floating my-2'}>
+                <Form.Group className={'my-2'}>
                     <div id={'recaptcha-field'} className="g-recaptcha"></div>
-                </div>
+                </Form.Group>
             }
-            <button className='btn btn-lg btn-primary fs-6' type='button' onClick={submit} disabled={block}>Sign in</button>
-            <button className='btn btn-lg btn-secondary fs-6' type='button' onClick={passkeyLogin} disabled={block}>
-                <FidoIcon className={'icon'}/>
-                <span>Passkey로 로그인</span>
-            </button>
+
+            <Stack className={'my-2 align-items-center'} gap={2}>
+                <Button variant={'primary'} onClick={submit} disabled={working}>
+                    {working ? 'Signing in...' : 'Sign in'}
+                </Button>
+                <Button variant={'secondary'} onClick={passkeyLogin} disabled={working}>
+                    <FidoIcon className={'icon'}/>
+                    <span>Passkey로 로그인</span>
+                </Button>
+            </Stack>
+
             {loginError !== 0 &&
-                <div className='alert alert-danger mt-2'>
+                <Alert variant={'danger'}>
                     {loginError === -1 &&
-                        <p className='mb-0'>로그인하지 못했습니다.</p>
+                        <p>로그인하지 못했습니다.</p>
                     }
                     {(loginError === 1 || loginError === 4) &&
-                        <p className='mb-0'>IonID 또는 암호가 잘못되었습니다.</p>
+                        <p>IonID 또는 암호가 잘못되었습니다.</p>
                     }
                     {loginError === 2 &&
-                        <p className='mb-0'>IonID가 비활성화 상태입니다.</p>
+                        <p>IonID가 비활성화 상태입니다.</p>
                     }
                     {loginError === 3 &&
-                        <p className='mb-0'>이 IonID로 로그인 할 수 없습니다.</p>
+                        <p>이 IonID로 로그인 할 수 없습니다.</p>
                     }
                     {loginError === 5 &&
-                        <p className='mb-0'>reCAPTCHA를 확인하지 못했습니다.</p>
+                        <p>reCAPTCHA를 확인하지 못했습니다.</p>
                     }
                     { loginError === -3 &&
-                        <p className='mb-0'>사용자 보호를 위해 추가 인증이 필요합니다.</p>
+                        <p>사용자 보호를 위해 추가 인증이 필요합니다.</p>
                     }
                     { loginError === 6 &&
                         <>
-                            <p className='mb-2'>사용자 보호를 위해 로그인할 수 없습니다.</p>
-                            <p className='mb-0'>잠시 뒤에 다시 시도해주세요.</p>
+                            <p>사용자 보호를 위해 로그인할 수 없습니다.</p>
+                            <p>잠시 뒤에 다시 시도해주세요.</p>
                         </>
                     }
                     { loginError === 100 &&
-                        <p className='mb-0'>Passkey로 로그인할 수 없습니다.</p>
+                        <p>Passkey로 로그인할 수 없습니다.</p>
                     }
                     { loginError === 101 &&
-                        <p className='mb-0'>Passkey로 로그인하지 못했습니다.</p>
+                        <p>Passkey로 로그인하지 못했습니다.</p>
                     }
                     { loginError === 102 &&
-                        <p className='mb-0'>Passkey 인증정보가 없습니다.</p>
+                        <p>Passkey 인증정보가 없습니다.</p>
                     }
                     { loginError === 103 &&
-                        <p className='mb-0'>Passkey를 신뢰할 수 없습니다.</p>
+                        <p>Passkey를 신뢰할 수 없습니다.</p>
                     }
                     { loginError === 104 &&
-                        <p className='mb-0'>Passkey로 인증하지 못했습니다.</p>
+                        <p>Passkey로 인증하지 못했습니다.</p>
                     }
                     { loginError === 105 &&
-                        <p className='mb-0'>제시한 Passkey를 찾을 수 없습니다.</p>
+                        <p>제시한 Passkey를 찾을 수 없습니다.</p>
                     }
-
-                </div>
+                </Alert>
             }
-            <Stack direction='horizontal' className='gap-3 justify-content-center mt-2 mb-4'>
+            <Stack direction='horizontal' className='gap-3 justify-content-center my-2'>
                 <Link to={'/auth/signup'} className='text-muted text-decoration-none fs-6'>IonID 만들기</Link>
                 <Link to={'/auth/iforgot'} className='text-muted text-decoration-none fs-6'>암호 찾기</Link>
             </Stack>
-            <CaptchaNotice/>
-            <Credit/>
-        </form>
+            <CaptchaNotice className={'my-1 text-center'}/>
+            <Credit className={'my-1 text-center'}/>
+        </Form>
     )
 }
 
-export default LoginSection;
+export default CoreLogin;

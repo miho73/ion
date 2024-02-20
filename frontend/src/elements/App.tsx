@@ -6,7 +6,8 @@ import ErrorPage from './pages/etc/error';
 import Ns from './pages/ns/ns';
 
 import '../css/univ.scss';
-import {SignoutPage} from './pages/auth/login/login';
+import '../css/hcsy.scss';
+import SignOutPage from "./pages/auth/login/subpages/signout";
 import SignupPage from './pages/auth/signup';
 import Docs from './pages/docs/docs';
 import Header from './pages/fragments/header';
@@ -19,6 +20,7 @@ import ResetPassword from "./pages/auth/iforgot/resetPassword";
 
 import axios from "axios";
 import ProfilePage from "./pages/users/profile";
+import {Container} from "react-bootstrap";
 
 const PREFIX = process.env.REACT_APP_API_PREFIX;
 
@@ -29,12 +31,12 @@ function App() {
     return (
         <Router>
             <Header/>
-            <div className='px-4 py-3 overflow-x-hidden'>
+            <Container as={'main'} className={'mt-2'}>
                 <Routes>
                     <Route index path='/' element={<Index/>}/>
 
                     <Route path='/auth/signup' element={<SignupPage/>}/>
-                    <Route path='/auth/signout' element={<SignoutPage/>}/>
+                    <Route path='/auth/signout' element={<SignOutPage/>}/>
                     <Route path='/auth/iforgot' element={<IForgot/>}/>
                     <Route path='/auth/iforgot/reset' element={<ResetPassword/>}/>
 
@@ -51,10 +53,9 @@ function App() {
 
                     <Route path={'/profile'} element={<ProfilePage/>}/>
 
-                    <Route path='*'
-                           element={<ErrorPage exp='입력하신 주소가 정확한지 다시 한 번 확인해주세요.'/>}/>
+                    <Route path='*' element={<ErrorPage exp='입력하신 주소가 정확한지 다시 한 번 확인해주세요.'/>}/>
                 </Routes>
-            </div>
+            </Container>
         </Router>
     );
 }

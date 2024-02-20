@@ -9,11 +9,15 @@ import {useNavigate} from "react-router-dom";
 
 function ResetPassword() {
     const [privateCode, setPrivateCode] = useState<string>('');
+
     const [stage, setStage] = useState<number>(0);
+
     const [working, setWorking] = useState<boolean>(false);
     const [workState, setWorkState] = useState<number>(-1);
+
     const [newPassword, setNewPassword] = useState<string>('');
     const [checkPassword, setCheckPassword] = useState<string>('');
+
     const [formState, setFormState] = useState<number>(0);
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -100,16 +104,16 @@ function ResetPassword() {
     }
 
     return (
-        <form className='vstack gap-3 d-flex justify-content-center align-items-center text-center form-signin'>
-            <h1 className='h3 mt-3 mb-0 fw-normal'>IonID 찾기</h1>
-            <p className={'h5 fw-normal'}>암호 재설정</p>
+        <Form className={'mx-auto d-flex flex-column align-items-center gap-2'}>
+            <p className={'display-6 my-2'}>IonID</p>
+            <p className='mb-3 fs-5'>암호 재설정</p>
             {stage === 0 &&
-                <>
+                <Stack className={'align-items-center'} gap={3}>
                     <FloatingLabel label='개인 확인 코드'>
                         <Form.Control type={'text'}
-                                      placeholder={'개인 확인 코드'}
-                                      value={privateCode}
-                                      onChange={e => setPrivateCode(e.target.value)}
+                                      className={'pe-5 fs-6'}
+                                      placeholder={'개인 확인 코드'} aria-label={'개인 확인 코드'}
+                                      value={privateCode} onChange={e => setPrivateCode(e.target.value)}
                                       onKeyDown={e => {
                                           if (e.key === 'Enter') nxt();
                                       }}
@@ -123,28 +127,28 @@ function ResetPassword() {
                     {workState === 4 && <Alert variant={'danger'}>잠시 후에 다시 시도해주세요.</Alert>}
                     {workState === 5 && <Alert variant={'danger'}>reCAPTCHA 확인에 실패했습니다.</Alert>}
                     {workState === 6 && <Alert variant={'danger'}>사용자 보호를 위해 지금은 암호를 재설정할 수 없습니다.</Alert>}
-                </>
+                </Stack>
             }
             {stage === 1 &&
-                <Stack className="gap-3 justify-content-center align-items-center">
+                <Stack className={'align-items-center'} gap={2}>
                     <FloatingLabel label='New Password'>
                         <Form.Control type={'password'}
                                       placeholder={'New Password'}
-                                      className={'pe-5 fs-6' + (getBit(formState, 0) ? ' is-invalid' : '')}
-                                      value={newPassword}
-                                      onChange={e => setNewPassword(e.target.value)}
+                                      className={'pe-5 fs-6'}
+                                      value={newPassword} onChange={e => setNewPassword(e.target.value)}
                                       onKeyDown={e => {
                                           if (e.key === 'Enter') submit();
                                       }}
                                       autoComplete={'new-password'}
+                                      isInvalid={getBit(formState, 0) === 1}
                                       disabled={working}
                         />
-                        <p className='invalid-feedback mb-0'>암호는 6자 이상이어야 합니다.</p>
+                        <Form.Control.Feedback type={'invalid'}>암호는 6자 이상이어야 합니다.</Form.Control.Feedback>
                     </FloatingLabel>
                     <FloatingLabel label='Password Confirm'>
                         <Form.Control type={'password'}
                                       placeholder={'Confirm Password'}
-                                      className={'pe-5 fs-6' + (getBit(formState, 1) ? ' is-invalid' : '')}
+                                      className={'pe-5 fs-6'}
                                       value={checkPassword}
                                       onChange={e => setCheckPassword(e.target.value)}
                                       onKeyDown={e => {
@@ -152,8 +156,9 @@ function ResetPassword() {
                                       }}
                                       autoComplete={'new-password'}
                                       disabled={working}
+                                      isInvalid={getBit(formState, 1) === 1}
                         />
-                        <p className='invalid-feedback mb-0'>암호를 확인해주세요.</p>
+                        <Form.Control.Feedback type={'invalid'}>암호를 확인해주세요.</Form.Control.Feedback>
                     </FloatingLabel>
                     <Button onClick={submit}>확인</Button>
                     {workState === 4 && <Alert variant={'danger'}>잠시 후에 다시 시도해주세요.</Alert>}
@@ -163,7 +168,7 @@ function ResetPassword() {
                     {workState === 6 && <Alert variant={'danger'}>사용자 보호를 위해 지금은 암호를 재설정할 수 없습니다.</Alert>}
                 </Stack>
             }
-        </form>
+        </Form>
     )
 }
 

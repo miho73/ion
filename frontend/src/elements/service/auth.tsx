@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const MODE = process.env.REACT_APP_MODE
-
 /**
  * check user login status
  * @returns 0: logged in. 1: not logged in. 2: error

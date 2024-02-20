@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {Link} from "react-router-dom";
-import {Button, Col, Image} from "react-bootstrap";
+import {Container, Nav, Navbar} from "react-bootstrap";
 
 function Header() {
     const [hamburgerOpen, setHamburgerOpen] = React.useState<Boolean>(false);
@@ -33,39 +33,25 @@ function Header() {
 
     return (
         <header>
-            <nav className="d-flex flex-shrink-0 bg-light nav header">
-                <Link to="/">
-                    <img src="/static/image/logo.png" alt="home"/>
-                </Link>
-                <hr/>
-                <ul className="nav nav-pills gap-1">
-                    <li className="only-desktop">
-                        <Link to="/" className="nav-link">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/ns" className="nav-link">면불신청</Link>
-                    </li>
-                    <li>
-                        <Link to="/etc/meal" className="nav-link">급식</Link>
-                    </li>
-                    <li>
-                        <Link to="/docs" className="nav-link">문서</Link>
-                    </li>
-                </ul>
-                <Button variant={'outline-light'}
-                        className={'btn'}
-                        onClick={ctrLHamburger}>
-                    <Image src={'/static/image/assets/hamburger.svg'} roundedCircle/>
-                </Button>
-            </nav>
-            <nav id={'sidenav'} className={'sidenav overflow-hidden ' + (hamburgerOpen ? 'open' : 'd-none') + (expandFlag ? ' expand' : '')}>
-                <Col className={'d-flex flex-column border border-bottom border-0'}>
-                    <Link className={'py-2 px-3 w-100 text-dark text-decoration-none fw-normal fs-6 border border-1 border-start-0 border-end-0'} to={'/'}>Home</Link>
-                    <Link className={'py-2 px-3 w-100 text-dark text-decoration-none fw-normal fs-6 border border-1 border-start-0 border-end-0'} to={'/ns'}>면불신청</Link>
-                    <Link className={'py-2 px-3 w-100 text-dark text-decoration-none fw-normal fs-6 border border-1 border-start-0 border-end-0'} to={'/etc/meal'}>급식</Link>
-                    <Link className={'py-2 px-3 w-100 text-dark text-decoration-none fw-normal fs-6 border border-1 border-start-0 border-end-0'} to={'/docs'}>문서</Link>
-                </Col>
-            </nav>
+            <Navbar expand={'md'}>
+                <Container fluid={true}>
+                    <Navbar.Brand as={Link} to={'/'}>
+                        <img src="/static/image/logo.png"
+                             alt="home"
+                             height={40}
+                        />
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls={'navbar-links'}/>
+                    <Navbar.Collapse id={'navbar-links'} className={'justify-content-end'}>
+                        <Nav className={'gap-2'}>
+                            <Nav.Link as={Link} to={'/'}>Home</Nav.Link>
+                            <Nav.Link as={Link} to={'/ns'}>면불신청</Nav.Link>
+                            <Nav.Link as={Link} to={'/etc/meal'}>급식</Nav.Link>
+                            <Nav.Link as={Link} to={'/docs'}>문서</Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
         </header>
     );
 }

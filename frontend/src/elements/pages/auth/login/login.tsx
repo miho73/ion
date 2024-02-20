@@ -1,50 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
-import {useNavigate} from 'react-router-dom';
-import UpdateScode from './updateScode';
-import LoginSection from './loginSection';
-
-import {Container} from "react-bootstrap";
+import React, {useState} from 'react';
+import UpdateScode from './subpages/updateScode';
+import CoreLogin from './subpages/authentication/coreLogin';
 
 function LoginPage() {
-    const [changeFlag, setChangeFlag] = useState(false);
+    const [changeFlag, setChangeFlag] = useState<boolean>(false);
 
     return (
-        <Container className='mt-4'>
-            {changeFlag &&
-                <UpdateScode/>
-            }
-            {!changeFlag &&
-                <LoginSection setChangeFlag={setChangeFlag}/>
-            }
-        </Container>
+        <>
+            {changeFlag && <UpdateScode/>}
+            {!changeFlag && <CoreLogin setChangeFlag={setChangeFlag}/>}
+        </>
     )
 }
 
-function SignoutPage() {
-    const navigate = useNavigate();
-
-    const [error, setError] = useState(0);
-
-    useEffect(() => {
-        axios.get('/auth/api/signout')
-            .then(() => {
-                navigate('/');
-            })
-            .catch(() => {
-                setError(1);
-            });
-    }, [])
-
-    if (error) {
-        return (
-            <div className="alert alert-danger" role="alert">로그아웃하지 못했습니다.</div>
-        )
-    } else {
-        return (
-            <p>로그아웃중</p>
-        );
-    }
-}
-
-export {LoginPage, SignoutPage};
+export default LoginPage;

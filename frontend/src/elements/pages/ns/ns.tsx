@@ -5,7 +5,7 @@ import {changeBit, getBit} from '../../service/bitmask';
 import {inRange} from '../../service/checker';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
-import CannotAuthorize from '../auth/cannotAuth';
+import AuthError from '../auth/AuthError';
 
 import {Alert, Button, Col, Container, Form, Modal, Row, Stack, Table} from 'react-bootstrap';
 import NsState from './nsState';
@@ -87,7 +87,7 @@ function Ns() {
         return <></>;
     }
     if (loginState === 2) {
-        return <CannotAuthorize/>
+        return <AuthError/>
     }
 
     function loadNsReqs() {

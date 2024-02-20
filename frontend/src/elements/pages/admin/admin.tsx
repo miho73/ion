@@ -4,7 +4,7 @@ import IonIdManage from "./ionid/ionid";
 import NsManage from "./ns/ns";
 import {checkPrivilege} from "../../service/auth";
 import {useNavigate} from "react-router-dom";
-import CannotAuthorize from '../auth/cannotAuth';
+import AuthError from '../auth/AuthError';
 import BulkActions from "./bulk/bulkActions";
 
 function ManagementPage() {
@@ -23,7 +23,7 @@ function ManagementPage() {
         return <></>;
     }
     if (loginState === 2) {
-        return <CannotAuthorize/>
+        return <AuthError/>
     }
 
     return (

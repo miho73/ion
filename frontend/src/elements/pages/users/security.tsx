@@ -1,4 +1,4 @@
-import {Col, Row} from "react-bootstrap";
+import {Row} from "react-bootstrap";
 import React, {useState} from "react";
 
 import {ReactComponent as FidoIcon} from '../../../assets/icons/FIDO_Passkey_mark_A_white.svg';

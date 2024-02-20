@@ -3,7 +3,6 @@ package com.github.miho73.ion.controller;
 import com.github.miho73.ion.service.etc.MainPageService;
 import com.github.miho73.ion.utils.RestResponse;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
