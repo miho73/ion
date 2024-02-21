@@ -4,39 +4,138 @@
 @import url(//fonts.googleapis.com/css?family=Dancing+Script&display=swap);
 
 $theme-colors: (
-    "primary": #2A55C2,
-    "secondary": #9399A8,
-    "success": $success,
-    "info": $info,
-    "warning": $warning,
-    "danger": $danger,
-    "light": $light,
-    "dark": $dark
+  "primary": #2A55C2,
+  "secondary": #9399A8,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark
 );
 
 * {
-    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input[type="number"] {
-    -moz-appearance: textfield;
+  -moz-appearance: textfield;
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }
 
-form {
-    width: 100%;
-    max-width: 350px;
+form.auth {
+  width: 100%;
+  max-width: 350px;
 }
 
 .alert {
-    margin: 0;
+  margin: 0;
+}
+
+.index {
+  max-height: 90vh;
+}
+
+.index-ui {
+  max-height: 70vh;
+
+  @include media-breakpoint-down(sm) {
+    .reservation-status {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .reservation-status, .gateway {
+      flex-direction: column;
+    }
+
+    .gateway a {
+      width: 100%;
+    }
+  }
+}
+
+@include media-breakpoint-down(lg) {
+  .ns-form {
+    width: 40%;
+  }
+}
+
+$lns-seat-size: 60px;
+$lns-seat-size-sm: 45px;
+.lns {
+  .lns-table {
+    max-width: calc($lns-seat-size * 1.8541409147);
+    height: calc($lns-seat-size * 3);
+  }
+
+  .lns-seats {
+    width: $lns-seat-size;
+    height: calc($lns-seat-size * 3);
+  }
+
+  .lns-seat {
+    width: $lns-seat-size !important;
+    height: $lns-seat-size !important;
+    padding: 1px;
+
+    span.reservee {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .lns {
+    .lns-table {
+      max-width: calc($lns-seat-size-sm * 1.8541409147);
+      height: calc($lns-seat-size-sm * 3);
+    }
+
+    .lns-seats {
+      width: $lns-seat-size-sm;
+      height: calc($lns-seat-size-sm * 3);
+    }
+
+    .lns-seat {
+      width: $lns-seat-size-sm !important;
+      height: $lns-seat-size-sm !important;
+
+      span.reservee {
+        font-size: 0.6rem;
+      }
+    }
+  }
+}
+
+.line-break {
+  height: 0;
+  flex-basis: 100%;
+  @include media-breakpoint-up(lg) {
+    display: none;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .table-cover {
+    overflow-x: auto;
+
+    .table {
+      margin: 0 !important;
+      width: 200% !important;
+    }
+
+    .table-narrow {
+      width: 100% !important;
+    }
+  }
 }

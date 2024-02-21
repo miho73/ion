@@ -6,8 +6,8 @@ import java.util.List;
 
 @Data
 public class RecaptchaReply {
-    float score;
-    List<String> reasons;
-    String assessmentName;
-    boolean ok;
+  float score;
+  List<String> reasons;
+  String assessmentName;
+  boolean ok;
 }

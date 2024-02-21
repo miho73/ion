@@ -5,7 +5,6 @@ import Index from './pages/main';
 import ErrorPage from './pages/etc/error';
 import Ns from './pages/ns/ns';
 
-import '../css/univ.scss';
 import '../css/hcsy.scss';
 import SignOutPage from "./pages/auth/login/subpages/signout";
 import SignupPage from './pages/auth/signup';
@@ -28,36 +27,36 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = PREFIX;
 
 function App() {
-    return (
-        <Router>
-            <Header/>
-            <Container as={'main'} className={'mt-2'}>
-                <Routes>
-                    <Route index path='/' element={<Index/>}/>
+  return (
+    <Router>
+      <Header/>
+      <Container as={'main'} className={'mt-2'}>
+        <Routes>
+          <Route index path='/' element={<Index/>}/>
 
-                    <Route path='/auth/signup' element={<SignupPage/>}/>
-                    <Route path='/auth/signout' element={<SignOutPage/>}/>
-                    <Route path='/auth/iforgot' element={<IForgot/>}/>
-                    <Route path='/auth/iforgot/reset' element={<ResetPassword/>}/>
+          <Route path='/auth/signup' element={<SignupPage/>}/>
+          <Route path='/auth/signout' element={<SignOutPage/>}/>
+          <Route path='/auth/iforgot' element={<IForgot/>}/>
+          <Route path='/auth/iforgot/reset' element={<ResetPassword/>}/>
 
-                    <Route path='/docs/*' element={<Docs/>}/>
+          <Route path='/docs/*' element={<Docs/>}/>
 
-                    <Route path='/ns' element={<Ns/>}/>
+          <Route path='/ns' element={<Ns/>}/>
 
-                    <Route path='/manage' element={<ManagementPage/>}/>
+          <Route path='/manage' element={<ManagementPage/>}/>
 
-                    <Route path='/etc/temperature/hangang' element={<Hangang/>}/>
-                    <Route path='/etc/temperature/incheon' element={<Incheon/>}/>
+          <Route path='/etc/temperature/hangang' element={<Hangang/>}/>
+          <Route path='/etc/temperature/incheon' element={<Incheon/>}/>
 
-                    <Route path='/etc/meal' element={<MealNoti/>}/>
+          <Route path='/etc/meal' element={<MealNoti/>}/>
 
-                    <Route path={'/profile'} element={<ProfilePage/>}/>
+          <Route path={'/profile'} element={<ProfilePage/>}/>
 
-                    <Route path='*' element={<ErrorPage exp='입력하신 주소가 정확한지 다시 한 번 확인해주세요.'/>}/>
-                </Routes>
-            </Container>
-        </Router>
-    );
+          <Route path='*' element={<ErrorPage exp='입력하신 주소가 정확한지 다시 한 번 확인해주세요.'/>}/>
+        </Routes>
+      </Container>
+    </Router>
+  );
 }
 
 export default App;

@@ -9,18 +9,18 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class ResetPwdChangeDb {
-    final
-    ResetPasswordRepository resetPasswordRepository;
+  final
+  ResetPasswordRepository resetPasswordRepository;
 
-    public ResetPwdChangeDb(ResetPasswordRepository resetPasswordRepository) {
-        log.info("Password reset cron scheduled");
-        this.resetPasswordRepository = resetPasswordRepository;
-    }
+  public ResetPwdChangeDb(ResetPasswordRepository resetPasswordRepository) {
+    log.info("Password reset cron scheduled");
+    this.resetPasswordRepository = resetPasswordRepository;
+  }
 
-    @Transactional
-    @Scheduled(cron = "0 0 0 * * *")
-    public void resetDb() {
-        resetPasswordRepository.truncateTable();
-        log.info("Password reset table truncated");
-    }
+  @Transactional
+  @Scheduled(cron = "0 0 0 * * *")
+  public void resetDb() {
+    resetPasswordRepository.truncateTable();
+    log.info("Password reset table truncated");
+  }
 }

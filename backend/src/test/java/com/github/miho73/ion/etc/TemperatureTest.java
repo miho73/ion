@@ -18,42 +18,42 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 public class TemperatureTest {
-    @Autowired
-    MockMvc mvc;
+  @Autowired
+  MockMvc mvc;
 
-    @Test
-    @DisplayName("Get Hangang Temperature")
-    public void getHangangTemp() throws Exception {
-        mvc.perform(
-                get("/etc/api/temp/hangang")
-            )
-            .andExpect(status().isOk())
-            .andExpectAll(
-                jsonPath("$.status").value(200),
-                jsonPath("$.result.ok").value(true),
-                jsonPath("$.result.dat").isNotEmpty(),
-                jsonPath("$.result.loc").isNotEmpty(),
-                jsonPath("$.result.tem").isNotEmpty(),
-                jsonPath("$.result.tim").isNotEmpty()
-            )
-            .andReturn();
-    }
+  @Test
+  @DisplayName("Get Hangang Temperature")
+  public void getHangangTemp() throws Exception {
+    mvc.perform(
+        get("/etc/api/temp/hangang")
+      )
+      .andExpect(status().isOk())
+      .andExpectAll(
+        jsonPath("$.status").value(200),
+        jsonPath("$.result.ok").value(true),
+        jsonPath("$.result.dat").isNotEmpty(),
+        jsonPath("$.result.loc").isNotEmpty(),
+        jsonPath("$.result.tem").isNotEmpty(),
+        jsonPath("$.result.tim").isNotEmpty()
+      )
+      .andReturn();
+  }
 
-    @Test
-    @DisplayName("Get Incheon Temperature")
-    public void getIncheonTemperature() throws Exception {
-        mvc.perform(
-                get("/etc/api/temp/incheon")
-            )
-            .andExpect(status().isOk())
-            .andExpectAll(
-                jsonPath("$.status").value(200),
-                jsonPath("$.result.ok").value(true),
-                jsonPath("$.result.dat").isNotEmpty(),
-                jsonPath("$.result.loc").isNotEmpty(),
-                jsonPath("$.result.tem").isNotEmpty(),
-                jsonPath("$.result.tim").isNotEmpty()
-            )
-            .andReturn();
-    }
+  @Test
+  @DisplayName("Get Incheon Temperature")
+  public void getIncheonTemperature() throws Exception {
+    mvc.perform(
+        get("/etc/api/temp/incheon")
+      )
+      .andExpect(status().isOk())
+      .andExpectAll(
+        jsonPath("$.status").value(200),
+        jsonPath("$.result.ok").value(true),
+        jsonPath("$.result.dat").isNotEmpty(),
+        jsonPath("$.result.loc").isNotEmpty(),
+        jsonPath("$.result.tem").isNotEmpty(),
+        jsonPath("$.result.tim").isNotEmpty()
+      )
+      .andReturn();
+  }
 }

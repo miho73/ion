@@ -13,8 +13,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @EnableScheduling
 @Slf4j
 public class IonApplication {
-    public static void main(String[] args) {
-        log.info("Starting Ion...");
-        SpringApplication.run(IonApplication.class, args);
-    }
+  public static void main(String[] args) {
+    log.info("Starting Ion...");
+    SpringApplication.run(IonApplication.class, args);
+  }
 }

@@ -16,39 +16,39 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @Controller
 @Slf4j
 public class MainController {
-    final
-    MainPageService mainPageService;
+  final
+  MainPageService mainPageService;
 
-    public MainController(MainPageService mainPageService) {
-        this.mainPageService = mainPageService;
-    }
+  public MainController(MainPageService mainPageService) {
+    this.mainPageService = mainPageService;
+  }
 
-    @GetMapping({
-        "/",
-        "/auth/signup", "/auth/iforgot", "/auth/iforgot/reset",
-        "/docs/**",
-        "/ns",
-        "/manage",
-        "/etc/temperature/hangang", "/etc/temperature/incheon",
-        "/etc/meal",
-        "/profile"
-    })
-    public String index() {
-        return "index";
-    }
+  @GetMapping({
+    "/",
+    "/auth/signup", "/auth/iforgot", "/auth/iforgot/reset",
+    "/docs/**",
+    "/ns",
+    "/manage",
+    "/etc/temperature/hangang", "/etc/temperature/incheon",
+    "/etc/meal",
+    "/profile"
+  })
+  public String index() {
+    return "index";
+  }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleResourceNotFoundException(HttpServletRequest request) {
-        return "index";
-    }
+  @ExceptionHandler(NoHandlerFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  public String handleResourceNotFoundException(HttpServletRequest request) {
+    return "index";
+  }
 
-    @GetMapping(
-        value = "/idx/apod",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseBody
-    public String getApodNasa() {
-        return RestResponse.restResponse(HttpStatus.OK, mainPageService.getImage());
-    }
+  @GetMapping(
+    value = "/idx/apod",
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  @ResponseBody
+  public String getApodNasa() {
+    return RestResponse.restResponse(HttpStatus.OK, mainPageService.getImage());
+  }
 }

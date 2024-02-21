@@ -1,136 +1,153 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import ErrorPage from "../etc/error";
-import {Container} from "react-bootstrap";
+import {Stack} from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 type LnsStatusFrameProps = {
-    cnt: number,
-    nth: string
+  cnt: number,
+  nth: string
 }
 
 function LnsStatusFrame(props: LnsStatusFrameProps) {
-    return (
-        <div className={'border-0 p-2 rounded-4 d-flex justify-content-center align-items-center flex-column gap-0'}>
-            <div className={'d-flex justify-content-center align-items-end gap-2'}>
-                <p className={'display-4 mr-2 number'}>{props.cnt}</p>
-                <p className={'number mb-2'}>/ 36</p>
-            </div>
-            <p className={'my-2'}>{props.nth} 예약</p>
-        </div>
-    );
+  return (
+    <div className={'border-0 p-2 rounded-4 d-flex justify-content-center align-items-center flex-column gap-0'}>
+      <div className={'d-flex justify-content-center align-items-end gap-2'}>
+        <p className={'display-4 mr-2 number'}>{props.cnt}</p>
+        <p className={'number mb-2'}>/ 36</p>
+      </div>
+      <p className={'my-2'}>{props.nth} 예약</p>
+    </div>
+  );
 }
 
 function LoggedInIndex() {
-    const [workState, setWorkState] = useState(-1);
+  const [workState, setWorkState] = useState<number>(-1);
 
-    const [user, setUser] = useState({name: '', id: '', priv: 0});
-    const [picture, setPicture] = useState({
-        url: 'https://apod.nasa.gov/apod/image/1708/PerseidsoverPyreneesGraffand1024.jpg',
-        type: 'image',
-        title: 'Perseids over the Pyrénées',
-        exp: `This mountain and night skyscape stretches across the French Pyrenees National Park on August 12, near the peak of the annual Perseid meteor shower. The multi-exposure panoramic view was composed from the Col d'Aubisque, a mountain pass, about an hour before the bright gibbous moon rose. Centered is a misty valley and lights from the region's Gourette ski station toward the south. Taken over the following hour, frames capturing some of the night's long bright perseid meteors were aligned against the backdrop of stars and Milky Way.`,
-        cpy: 'Jean-Francois\nGraffand'
-    });
-    const [apodSet, setApodSet] = useState(false);
+  const [user, setUser] = useState<{
+    name: string,
+    id: string,
+    priv: number
+  }>({name: '', id: '', priv: 0});
 
-    const [lns, setLns] = useState([]);
-    const [lnsSet, setLnsSet] = useState(false);
-    const [timePreset, setTimePreset] = useState(-1);
-
-    useEffect(() => {
-        axios.get('/user/api/idx-iden')
-            .then(res => {
-                setUser(res.data['result']);
-            })
-            .catch(() => {
-                setWorkState(1);
-            });
-
-        axios.get('/idx/apod')
-            .then(res => {
-                if (res.data['result']['type'] === 'image') {
-                    setPicture(res.data['result']);
-                }
-            })
-            .catch(err => {
-                console.error(err);
-            }).finally(() => {
-            setApodSet(true);
-        });
-
-        axios.get('/ns/api/lns-idx')
-            .then(res => {
-                setLns(res.data['result']['seats']);
-                setTimePreset(res.data['result']['preset'])
-            })
-            .catch(err => {
-                console.error(err);
-            }).finally(() => {
-            setLnsSet(true);
-        });
-    }, []);
-
-    if (workState === 1) {
-        return <ErrorPage exp='사용자 정보를 받아오지 못했어요.'/>
+  const [picture, setPicture] = useState<
+    {
+      url: string,
+      type: string,
+      title: string,
+      exp: string,
+      cpy: string
     }
+  >({
+    url: 'https://apod.nasa.gov/apod/image/2104/AS17-152-23420_Ord.jpg',
+    type: 'image',
+    title: 'Apollo 17: The Crescent Earth',
+    exp: `Our fair planet sports a curved, sunlit crescent against the black backdrop of space in this stunning photograph. From the unfamiliar perspective, the Earth is small and, like a telescopic image of a distant planet, the entire horizon is completely within the field of view. Enjoyed by crews on board the International Space Station, only much closer views of the planet are possible from low Earth orbit. Orbiting the planet once every 90 minutes, a spectacle of clouds, oceans, and continents scrolls beneath them with the partial arc of the planet's edge in the distance. But this digitally restored image presents a view so far only achieved by 24 humans, Apollo astronauts who traveled to the Moon and back again between 1968 and 1972. The original photograph, AS17-152-23420, was taken by the homeward bound crew of Apollo 17, on December 17, 1972. For now it's the last picture of Earth from this planetary perspective taken by human hands.   - NASA Remembers Michael Collins -`,
+    cpy: ''
+  });
+  const [apodSet, setApodSet] = useState<boolean>(false);
 
-    return (
-        <div>
-            {picture.type === 'image' && apodSet &&
-                <div className='w-100 pict' style={{backgroundImage: ('url(' + picture.url + ')')}}></div>
+  const [lns, setLns] = useState<number[]>([]);
+  const [lnsSet, setLnsSet] = useState<boolean>(false);
+  const [timePreset, setTimePreset] = useState<number>(-1);
+
+  useEffect(() => {
+    axios.get('/user/api/idx-iden')
+      .then(res => {
+        setUser(res.data['result']);
+      })
+      .catch(() => {
+        setWorkState(1);
+      });
+
+    axios.get('/idx/apod')
+      .then(res => {
+        if (res.data['result']['type'] === 'image') {
+          setPicture(res.data['result']);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+      }).finally(() => {
+      setApodSet(true);
+    });
+
+    axios.get('/ns/api/lns-idx')
+      .then(res => {
+        setLns(res.data['result']['seats']);
+        setTimePreset(res.data['result']['preset'])
+      })
+      .catch(err => {
+        console.error(err);
+      }).finally(() => {
+      setLnsSet(true);
+    });
+  }, []);
+
+  if (workState === 1) {
+    return <ErrorPage exp='사용자 정보를 받아오지 못했어요.'/>
+  }
+
+  return (
+    <>
+      <div className={'text-white mt-4 overflow-y-auto index'}>
+        {apodSet &&
+          <div className={'text-center'}>
+            <h1 className={'display-3'}>{picture.title}</h1>
+            <p className={'fw-light d-none d-md-block'}>{picture.exp}</p>
+          </div>
+        }
+        {!apodSet &&
+          <div className={'text-center'}>
+            <h1 className={'display-3 text-center'}></h1>
+            <p className={'fw-light d-none d-md-block'}></p>
+          </div>
+        }
+
+        <Stack className={'index-ui'} gap={0}>
+          {lnsSet &&
+            <Stack direction={'horizontal'} gap={0}
+                   className={'justify-content-center my-1 my-sm-5 gap-sm-5 reservation-status'}>
+              {timePreset === 0 &&
+                <>
+                  <LnsStatusFrame cnt={lns[0]} nth={'8면'}/>
+                  <LnsStatusFrame cnt={lns[1]} nth={'1면'}/>
+                  <LnsStatusFrame cnt={lns[2]} nth={'2면'}/>
+                </>
+              }
+              {timePreset === 1 &&
+                <>
+                  <LnsStatusFrame cnt={lns[0]} nth={'오후 1차'}/>
+                  <LnsStatusFrame cnt={lns[1]} nth={'오후 2차'}/>
+                  <LnsStatusFrame cnt={lns[2]} nth={'야간 1차'}/>
+                  <LnsStatusFrame cnt={lns[3]} nth={'야간 2차'}/>
+                </>
+              }
+            </Stack>
+          }
+
+          <Stack direction={'horizontal'} className={'justify-content-center gateway'}>
+            <Link className={'py-3 px-sm-5 py-sm-4 text-center text-decoration-none text-white fw-light fs-5'}
+                  to={'/ns'}>면불</Link>
+            {user.priv > 1 &&
+              <Link className={'py-3 px-sm-5 py-sm-4 text-center text-decoration-none text-white fw-light fs-5'}
+                    to={'/manage'}>관리</Link>
             }
-            {!apodSet &&
-                <div className='w-100 pict'/>
-            }
-            <Container className={'index'}>
-                {apodSet &&
-                    <div className={'text'}>
-                        <h1 className={'display-3 text-center'}>{picture.title}</h1>
-                        <p className={'fw-light mb-5'}>{picture.exp}</p>
-                    </div>
-                }
-                {!apodSet &&
-                    <div className={'text'}>
-                        <h1 className={'display-3 text-center'}></h1>
-                    </div>
-                }
-                <div className={'d-flex justify-content-center info'}>
-                    {lnsSet &&
-                        <>
-                            {timePreset === 0 &&
-                                <>
-                                    <LnsStatusFrame cnt={lns[0]} nth={'8면'}/>
-                                    <LnsStatusFrame cnt={lns[1]} nth={'1면'}/>
-                                    <LnsStatusFrame cnt={lns[2]} nth={'2면'}/>
-                                </>
-                            }
-                            {timePreset === 1 &&
-                                <>
-                                    <LnsStatusFrame cnt={lns[0]} nth={'오후 1차'}/>
-                                    <LnsStatusFrame cnt={lns[1]} nth={'오후 2차'}/>
-                                    <LnsStatusFrame cnt={lns[2]} nth={'야간 1차'}/>
-                                    <LnsStatusFrame cnt={lns[3]} nth={'야간 2차'}/>
-                                </>
-                            }
-                        </>
-                    }
-                    <div
-                        className={'border-0 px-2 py-2 rounded-4 d-flex flex-column justify-content-center gap-0 profile-href'}>
-                        <Link className={'px-5 py-3 text-center'} to={'/ns'}>면불</Link>
-                        <hr/>
-                        {user.priv > 1 &&
-                            <>
-                                <Link className={'px-4 py-3 text-center'} to={'/manage'}>관리</Link>
-                                <hr/>
-                            </>
-                        }
-                        <Link className={'px-4 py-3 text-center'} to={'/auth/signout'}>로그아웃</Link>
-                    </div>
-                </div>
-            </Container>
-        </div>
-    );
+            <Link className={'py-3 px-sm-5 py-sm-4 text-center text-decoration-none text-white fw-light fs-5'}
+                  to={'/auth/signout'}>로그아웃</Link>
+          </Stack>
+        </Stack>
+      </div>
+
+      {picture.type === 'image' && apodSet &&
+        <div className='vh-100 vw-100 position-absolute start-0 top-0 z-n1'
+             style={{backgroundImage: ('url(' + picture.url + ')'), backgroundSize: 'cover'}}></div>
+      }
+      {!apodSet &&
+        <div className='vh-100 vw-100 position-absolute start-0 top-0 z-n1'/>
+      }
+    </>
+  );
 }
 
 export default LoggedInIndex;

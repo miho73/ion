@@ -27,75 +27,75 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 public class SignupTest {
-    @Autowired
-    MockMvc mockMvc;
+  @Autowired
+  MockMvc mockMvc;
 
-    @MockBean
-    UserRepository userRepository;
+  @MockBean
+  UserRepository userRepository;
 
-    private User user;
-    private JSONObject userJson;
+  private User user;
+  private JSONObject userJson;
 
-    @Before
-    public void setup() {
-        user = new User();
-        user.setId("testuserid");
-        user.setName("testusername");
-        user.setPwd("testpassword");
-        user.setGrade(1);
-        user.setClas(1);
-        user.setScode(4);
-        user.setStatus(User.USER_STATUS.INACTIVATED);
-        user.setJoinDate(new Timestamp(System.currentTimeMillis()));
-        user.setPrivilege(1);
+  @Before
+  public void setup() {
+    user = new User();
+    user.setId("testuserid");
+    user.setName("testusername");
+    user.setPwd("testpassword");
+    user.setGrade(1);
+    user.setClas(1);
+    user.setScode(4);
+    user.setStatus(User.USER_STATUS.INACTIVATED);
+    user.setJoinDate(new Timestamp(System.currentTimeMillis()));
+    user.setPrivilege(1);
 
-        userJson = new JSONObject();
-        userJson.put("id", user.getId());
-        userJson.put("name", user.getName());
-        userJson.put("pwd", user.getPwd());
-        userJson.put("grade", user.getGrade());
-        userJson.put("clas", user.getClas());
-        userJson.put("scode", user.getScode());
-        userJson.put("ctoken", "bypass");
-    }
+    userJson = new JSONObject();
+    userJson.put("id", user.getId());
+    userJson.put("name", user.getName());
+    userJson.put("pwd", user.getPwd());
+    userJson.put("grade", user.getGrade());
+    userJson.put("clas", user.getClas());
+    userJson.put("scode", user.getScode());
+    userJson.put("ctoken", "bypass");
+  }
 
-    @Test
-    @DisplayName("Create user test")
-    public void createUser() throws Exception {
+  @Test
+  @DisplayName("Create user test")
+  public void createUser() throws Exception {
+    mockMvc.perform(
+        get("/user/api/validation/id-duplication")
+          .param("id", "testuserid")
+      )
+      .andExpect(status().isOk())
+      .andExpect(jsonPath("$.result").value(0))
+      .andDo(firstDuplCheckResult -> {
         mockMvc.perform(
+            post("/user/api/create")
+              .content(userJson.toString())
+              .contentType(MediaType.APPLICATION_JSON_VALUE)
+          )
+          .andExpect(status().isCreated())
+          .andExpectAll(
+            jsonPath("$.result").isNotEmpty(),
+            jsonPath("$.result").isString(),
+            jsonPath("$.result").value(user.getId())
+          )
+          .andDo(createResult -> {
+            mockMvc.perform(
                 get("/user/api/validation/id-duplication")
-                    .param("id", "testuserid")
-            )
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.result").value(0))
-            .andDo(firstDuplCheckResult -> {
-                mockMvc.perform(
-                        post("/user/api/create")
-                            .content(userJson.toString())
-                            .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    )
-                    .andExpect(status().isCreated())
-                    .andExpectAll(
-                        jsonPath("$.result").isNotEmpty(),
-                        jsonPath("$.result").isString(),
-                        jsonPath("$.result").value(user.getId())
-                    )
-                    .andDo(createResult -> {
-                        mockMvc.perform(
-                                get("/user/api/validation/id-duplication")
-                                    .param("id", user.getId())
-                            )
-                            .andExpect(status().isOk())
-                            .andExpect(jsonPath("$.result").value(1))
-                            .andReturn();
-                    })
-                    .andReturn();
-            })
-            .andReturn();
-    }
+                  .param("id", user.getId())
+              )
+              .andExpect(status().isOk())
+              .andExpect(jsonPath("$.result").value(1))
+              .andReturn();
+          })
+          .andReturn();
+      })
+      .andReturn();
+  }
 
-    @After
-    public void cleanup() {
-        userRepository.deleteById(user.getId());
-    }
+  @After
+  public void cleanup() {
+    userRepository.deleteById(user.getId());
+  }
 }

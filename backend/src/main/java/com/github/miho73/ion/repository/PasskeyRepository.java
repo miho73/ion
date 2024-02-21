@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface PasskeyRepository extends JpaRepository<Passkey, byte[]> {
-    List<Passkey> findAllByUser(User user);
+  List<Passkey> findAllByUser(User user);
 
-    Optional<Passkey> findByCredIdAndUserHandle(byte[] credId, byte[] userHandle);
+  Optional<Passkey> findByCredIdAndUserHandle(byte[] credId, byte[] userHandle);
 }

@@ -11,9 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 public class LoginReturnTest {
-    @Test
-    @DisplayName("Redirect to login page with return url test")
-    public void loginReturnTest() {
+  @Test
+  @DisplayName("Redirect to login page with return url test")
+  public void loginReturnTest() {
 
-    }
+  }
 }

@@ -11,29 +11,29 @@ import java.util.Optional;
 
 @Repository
 public interface ResetPasswordRepository extends JpaRepository<ResetPasswordReq, Integer> {
-    Optional<ResetPasswordReq> findByUuid(int uuid);
+  Optional<ResetPasswordReq> findByUuid(int uuid);
 
-    @Modifying
-    @Query(value = "TRUNCATE TABLE auth.reset_pwd_req RESTART IDENTITY", nativeQuery = true)
-    void truncateTable();
+  @Modifying
+  @Query(value = "TRUNCATE TABLE auth.reset_pwd_req RESTART IDENTITY", nativeQuery = true)
+  void truncateTable();
 
-    @Query(
-        value = "UPDATE auth.reset_pwd_req SET status = 2 WHERE uid = :uid and (status = 1 OR status = 0)",
-        nativeQuery = true
-    )
-    @Modifying
-    void acceptRequest(
-        @Param("uid") int uid
-    );
+  @Query(
+    value = "UPDATE auth.reset_pwd_req SET status = 2 WHERE uid = :uid and (status = 1 OR status = 0)",
+    nativeQuery = true
+  )
+  @Modifying
+  void acceptRequest(
+    @Param("uid") int uid
+  );
 
-    @Query(
-        value = "UPDATE auth.reset_pwd_req SET status = 3 WHERE uid = :uid and (status = 1 OR status = 0)",
-        nativeQuery = true
-    )
-    @Modifying
-    void rejectRequest(
-        @Param("uid") int uid
-    );
+  @Query(
+    value = "UPDATE auth.reset_pwd_req SET status = 3 WHERE uid = :uid and (status = 1 OR status = 0)",
+    nativeQuery = true
+  )
+  @Modifying
+  void rejectRequest(
+    @Param("uid") int uid
+  );
 
-    Optional<ResetPasswordReq> findByRandUrl(String token);
+  Optional<ResetPasswordReq> findByRandUrl(String token);
 }

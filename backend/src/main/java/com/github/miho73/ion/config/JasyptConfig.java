@@ -11,16 +11,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Slf4j
 public class JasyptConfig {
-    @Bean("jasyptStringEncryptor")
-    public StringEncryptor jasyptStringEncryptor() {
-        StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-        EnvironmentPBEConfig config = new EnvironmentPBEConfig();
-        config.setPassword(System.getProperty("jasypt.password"));
-        config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
-        config.setKeyObtentionIterations("1234");
-        config.setIvGenerator(new RandomIvGenerator());
-        encryptor.setConfig(config);
-        log.info("Jasypt Encryptor Initialized");
-        return encryptor;
-    }
+  @Bean("jasyptStringEncryptor")
+  public StringEncryptor jasyptStringEncryptor() {
+    StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+    EnvironmentPBEConfig config = new EnvironmentPBEConfig();
+    config.setPassword(System.getProperty("jasypt.password"));
+    config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
+    config.setKeyObtentionIterations("1234");
+    config.setIvGenerator(new RandomIvGenerator());
+    encryptor.setConfig(config);
+    log.info("Jasypt Encryptor Initialized");
+    return encryptor;
+  }
 }

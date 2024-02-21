@@ -14,29 +14,29 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(schema = "ns", name = "lns_reservation")
 public class LnsReservation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int uid;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int uid;
 
-    @Column(name = "at_date", nullable = false)
-    private LocalDate lnsDate;
+  @Column(name = "at_date", nullable = false)
+  private LocalDate lnsDate;
 
-    @Column(name = "at_time", nullable = false)
-    private NsRecord.NS_TIME lnsTime;
+  @Column(name = "at_time", nullable = false)
+  private NsRecord.NS_TIME lnsTime;
 
-    @Length(min = 2, message = "invalid seat")
-    @Length(max = 2, message = "invalid seat")
-    @Column(name = "seat", nullable = false)
-    private String seat;
+  @Length(min = 2, message = "invalid seat")
+  @Length(max = 2, message = "invalid seat")
+  @Column(name = "seat", nullable = false)
+  private String seat;
 
-    @Column(name = "uuid", nullable = false)
-    private int uuid;
+  @Column(name = "uuid", nullable = false)
+  private int uuid;
 
-    @Column(name = "ns_link_uid")
-    private int nsLinkUid;
+  @Column(name = "ns_link_uid")
+  private int nsLinkUid;
 
-    @Min(value = 1, message = "grade not in range")
-    @Max(value = 3, message = "grade not in range")
-    @Column(name = "grade", nullable = false)
-    private int grade;
+  @Min(value = 1, message = "grade not in range")
+  @Max(value = 3, message = "grade not in range")
+  @Column(name = "grade", nullable = false)
+  private int grade;
 }

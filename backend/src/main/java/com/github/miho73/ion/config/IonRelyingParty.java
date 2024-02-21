@@ -13,33 +13,33 @@ import java.util.Set;
 
 @Configuration
 public class IonRelyingParty {
-    @Autowired
-    IonCredentialService credentialService;
+  @Autowired
+  IonCredentialService credentialService;
 
-    @Value("${ion.passkey.relying-party.rpId}")
-    String rpId;
+  @Value("${ion.passkey.relying-party.rpId}")
+  String rpId;
 
-    @Value("${ion.passkey.relying-party.rpName}")
-    String rpName;
+  @Value("${ion.passkey.relying-party.rpName}")
+  String rpName;
 
-    @Value("${ion.passkey.relying-party.origin}")
-    String origin;
+  @Value("${ion.passkey.relying-party.origin}")
+  String origin;
 
-    RelyingPartyIdentity identity;
-    public RelyingParty rp;
+  RelyingPartyIdentity identity;
+  public RelyingParty rp;
 
-    @PostConstruct
-    public void init() {
-        identity = RelyingPartyIdentity.builder()
-            .id(rpId)
-            .name(rpName)
-            .build();
+  @PostConstruct
+  public void init() {
+    identity = RelyingPartyIdentity.builder()
+      .id(rpId)
+      .name(rpName)
+      .build();
 
-        rp = RelyingParty.builder()
-            .identity(identity)
-            .credentialRepository(credentialService)
-            .origins(new HashSet<>(Set.of(origin)))
-            .build();
-    }
+    rp = RelyingParty.builder()
+      .identity(identity)
+      .credentialRepository(credentialService)
+      .origins(new HashSet<>(Set.of(origin)))
+      .build();
+  }
 
 }

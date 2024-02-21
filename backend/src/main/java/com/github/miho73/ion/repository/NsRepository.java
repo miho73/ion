@@ -13,29 +13,29 @@ import java.util.Optional;
 
 @Repository
 public interface NsRepository extends JpaRepository<NsRecord, Integer> {
-    List<NsRecord> findByUuidAndNsDateOrderByNsTimeAsc(int uuid, LocalDate nsDate);
+  List<NsRecord> findByUuidAndNsDateOrderByNsTimeAsc(int uuid, LocalDate nsDate);
 
-    Optional<NsRecord> findByUuidAndNsDateAndNsTime(int uuid, LocalDate nsDate, NsRecord.NS_TIME nsTime);
+  Optional<NsRecord> findByUuidAndNsDateAndNsTime(int uuid, LocalDate nsDate, NsRecord.NS_TIME nsTime);
 
-    void deleteByUuidAndNsTimeAndNsDate(int uuid, NsRecord.NS_TIME time, LocalDate nsDate);
+  void deleteByUuidAndNsTimeAndNsDate(int uuid, NsRecord.NS_TIME time, LocalDate nsDate);
 
-    List<NsRecord> findByNsDateAndNsSupervisorContainsOrderByNsStateAscUuidAscNsTimeAsc(LocalDate date, String nsSupervisor);
+  List<NsRecord> findByNsDateAndNsSupervisorContainsOrderByNsStateAscUuidAscNsTimeAsc(LocalDate date, String nsSupervisor);
 
-    @Query(
-        value = "SELECT COUNT(*) FROM users.users WHERE :query LIKE concat('%', users.name, '%')",
-        nativeQuery = true
-    )
-    List<Object[]> findAllUserContainedInName(
-        @Param("query") String query
-    );
+  @Query(
+    value = "SELECT COUNT(*) FROM users.users WHERE :query LIKE concat('%', users.name, '%')",
+    nativeQuery = true
+  )
+  List<Object[]> findAllUserContainedInName(
+    @Param("query") String query
+  );
 
-    @Modifying
-    @Query(
-        value = "UPDATE ns.ns_request SET status=:status WHERE uid=:uid",
-        nativeQuery = true
-    )
-    void updateAccept(
-        @Param("uid") int uid,
-        @Param("status") int status
-    );
+  @Modifying
+  @Query(
+    value = "UPDATE ns.ns_request SET status=:status WHERE uid=:uid",
+    nativeQuery = true
+  )
+  void updateAccept(
+    @Param("uid") int uid,
+    @Param("status") int status
+  );
 }

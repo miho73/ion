@@ -6,32 +6,32 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
-    final
-    PasswordEncoder passwordEncoder;
+  final
+  PasswordEncoder passwordEncoder;
 
-    public AuthService(PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
+  public AuthService(PasswordEncoder passwordEncoder) {
+    this.passwordEncoder = passwordEncoder;
+  }
 
-    /**
-     * @param pwd  password to match
-     * @param user user to check
-     * @return true: matches, false: not matches.
-     */
-    public boolean authenticate(String pwd, User user) {
-        return passwordEncoder.matches(pwd, user.getPwd());
-    }
+  /**
+   * @param pwd  password to match
+   * @param user user to check
+   * @return true: matches, false: not matches.
+   */
+  public boolean authenticate(String pwd, User user) {
+    return passwordEncoder.matches(pwd, user.getPwd());
+  }
 
-    /**
-     * @param user user to check
-     * @return 0: approved, 1: inactivated, 2: banned
-     */
-    public int checkActiveStatus(User user) {
-        User.USER_STATUS status = user.getStatus();
-        return switch (status) {
-            case ACTIVATED -> 0;
-            case INACTIVATED -> 1;
-            case BANNED -> 2;
-        };
-    }
+  /**
+   * @param user user to check
+   * @return 0: approved, 1: inactivated, 2: banned
+   */
+  public int checkActiveStatus(User user) {
+    User.USER_STATUS status = user.getStatus();
+    return switch (status) {
+      case ACTIVATED -> 0;
+      case INACTIVATED -> 1;
+      case BANNED -> 2;
+    };
+  }
 }

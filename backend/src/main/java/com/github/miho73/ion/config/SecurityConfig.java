@@ -13,19 +13,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @Slf4j
 public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable();
-        http
-            .formLogin().disable()
-            .headers().frameOptions().disable();
-        log.info("Security Configured");
-        return http.build();
-    }
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http
+      .csrf().disable();
+    http
+      .formLogin().disable()
+      .headers().frameOptions().disable();
+    log.info("Security Configured");
+    return http.build();
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 }
