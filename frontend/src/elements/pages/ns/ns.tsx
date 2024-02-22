@@ -428,7 +428,9 @@ function Ns() {
             </div>
           }
 
-          <Button className='w-auto' disabled={working} onClick={submit}>신청</Button>
+          <Button className='w-auto' disabled={working} onClick={submit}>
+            {working ? '신청중...' : '신청'}
+          </Button>
 
           {sErrorState === 0 &&
             <Alert variant='success'>
@@ -504,13 +506,17 @@ function Ns() {
         <Modal.Footer>
           {deleteResult === -1 &&
             <>
-              <Button onClick={deleteNs} disabled={deleting}>예</Button>
+              <Button onClick={deleteNs} disabled={deleting}>
+                {deleting ? '취소중...' : '예'}
+              </Button>
               <Button onClick={closeDeleteConfirm} disabled={deleting}>아니오</Button>
             </>
           }
           {deleteResult !== -1 &&
             <>
-              <Button onClick={deleteNs} disabled={deleting}>다시 시도</Button>
+              <Button onClick={deleteNs} disabled={deleting}>
+                {deleting ? '취소중...' : '다시 시도'}
+              </Button>
               <Button onClick={closeDeleteConfirm} disabled={deleting}>취소</Button>
             </>
           }

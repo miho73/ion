@@ -652,4 +652,135 @@ public class AuthController {
       throw new RuntimeException(e);
     }
   }
+
+  /**
+   * [data]: success
+   * 1: forbidden
+   * 2: user not found
+   * 3: internal server error
+   */
+  @GetMapping(
+    value = "/passkey/get",
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  public String queryPasskeys(HttpSession session, HttpServletResponse response) {
+    if (!sessionService.isLoggedIn(session)) {
+      response.setStatus(400);
+      return RestResponse.restResponse(HttpStatus.FORBIDDEN, 1);
+    }
+
+    try {
+      int uid = sessionService.getUid(session);
+      if (userService.existsUserByUid(uid)) {
+        response.setStatus(400);
+        return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
+      }
+      return RestResponse.restResponse(HttpStatus.OK, passkeyService.queryPasskey(uid));
+    } catch (Exception e) {
+      log.error("passkey query failed", e);
+      response.setStatus(500);
+      return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 2);
+    }
+  }
+
+  /**
+   * 0: success
+   * 1: forbidden
+   * 2: insufficient parameter(s)
+   * 3: passkey not found
+   * 4: not passkey owner
+   * 5: internal server error
+   */
+  @DeleteMapping(
+    value = "/passkey/delete",
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  @Transactional
+  public String deletePasskey(
+    HttpSession session, HttpServletResponse response,
+    @RequestBody Map<String, String> body
+  ) {
+    if (!sessionService.isLoggedIn(session)) {
+      response.setStatus(400);
+      return RestResponse.restResponse(HttpStatus.FORBIDDEN, 1);
+    }
+
+    if (!Validation.checkKeys(body, "credentialId")) {
+      response.setStatus(400);
+      return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
+    }
+
+    try {
+      int uid = sessionService.getUid(session);
+      String id = body.get("credentialId");
+      int result = passkeyService.deletePasskey(uid, id);
+      if (result == 0) {
+        log.info("deleted passkey. uid=" + uid + ", id=" + id);
+        return RestResponse.restResponse(HttpStatus.OK);
+      } else {
+        log.info("passkey delete failed. uid=" + uid + ", id=" + id + ", result=" + result);
+        response.setStatus(400);
+        return RestResponse.restResponse(HttpStatus.BAD_REQUEST, result);
+      }
+    } catch (Exception e) {
+      log.error("passkey delete failed", e);
+      response.setStatus(500);
+      return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 5);
+    }
+  }
+
+  /**
+   * 0: success
+   * 1: forbidden
+   * 2: insufficient parameter(s)
+   * 3: invalid name
+   * 4: passkey not found
+   * 5: not passkey owner
+   * 6: internal server error
+   */
+  @PatchMapping(
+    value = "/passkey/edit/name",
+    consumes = MediaType.APPLICATION_JSON_VALUE,
+    produces = MediaType.APPLICATION_JSON_VALUE
+  )
+  @Transactional
+  public String editPasskeyName(
+    HttpSession session, HttpServletResponse response,
+    @RequestBody Map<String, String> body
+  ) {
+    if (!sessionService.isLoggedIn(session)) {
+      response.setStatus(400);
+      return RestResponse.restResponse(HttpStatus.FORBIDDEN, 1);
+    }
+
+    if (!Validation.checkKeys(body, "credentialId", "name")) {
+      response.setStatus(400);
+      return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
+    }
+
+    try {
+      int uid = sessionService.getUid(session);
+      String id = body.get("credentialId");
+      String name = body.get("name");
+
+      if(name.isEmpty() || name.length() > 30) {
+        response.setStatus(400);
+        return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 3);
+      }
+
+      int result = passkeyService.editPasskeyName(uid, id, name);
+      if (result == 0) {
+        log.info("edited passkey name. uid=" + uid + ", id=" + id + ", name=" + name);
+        return RestResponse.restResponse(HttpStatus.OK);
+      } else {
+        log.info("passkey edit name failed. uid=" + uid + ", id=" + id + ", name=" + name + ", result=" + result);
+        response.setStatus(400);
+        return RestResponse.restResponse(HttpStatus.BAD_REQUEST, result);
+      }
+    } catch (Exception e) {
+      log.error("passkey edit name failed", e);
+      response.setStatus(500);
+      return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 5);
+    }
+  }
 }

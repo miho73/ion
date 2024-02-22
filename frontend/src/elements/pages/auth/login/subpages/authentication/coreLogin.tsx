@@ -112,6 +112,8 @@ function CoreLogin(props: LoginSectionProps) {
   }
 
   function passkeyLogin() {
+    setWorking(true);
+
     axios.get('/auth/api/passkey/authentication/options/get')
       .then(res => {
         let options = res.data.result['publicKey'];
@@ -122,10 +124,12 @@ function CoreLogin(props: LoginSectionProps) {
         startAuthentication(options).then(passkeySuccess)
           .catch(e => {
             console.error(e);
+            setWorking(false);
           });
       })
       .catch(() => {
         setLoginError(100);
+        setWorking(false);
       });
   }
 
@@ -167,7 +171,9 @@ function CoreLogin(props: LoginSectionProps) {
           default:
             setLoginError(101);
         }
-      });
+      }).finally(() => {
+      setWorking(false);
+    });
   }
 
   return (
@@ -213,8 +219,10 @@ function CoreLogin(props: LoginSectionProps) {
           {working ? 'Signing in...' : 'Sign in'}
         </Button>
         <Button variant={'secondary'} onClick={passkeyLogin} disabled={working}>
-          <FidoIcon className={'icon'}/>
-          <span>Passkey로 로그인</span>
+          <Stack direction={'horizontal'} gap={1}>
+            <FidoIcon className={'icon'}/>
+            <span>Passkey로 로그인</span>
+          </Stack>
         </Button>
       </Stack>
 

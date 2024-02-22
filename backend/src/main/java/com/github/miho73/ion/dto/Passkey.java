@@ -36,4 +36,13 @@ public class Passkey {
 
   @Column(name = "last_use")
   private Timestamp lastUse;
+
+  @Column(name = "passkey_name")
+  private String passkeyName;
+
+  @Column(name = "created_at", nullable = false)
+  private Timestamp createdAt;
+
+  @Column(name = "aaguid", nullable = false, length = 36)
+  private String aaguid;
 }

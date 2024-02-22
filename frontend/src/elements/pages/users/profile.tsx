@@ -1,13 +1,13 @@
-import {Container, Tab, Tabs} from "react-bootstrap";
+import {Tab, Tabs} from "react-bootstrap";
 import React from "react";
-import GeneralSettings from "./generals";
-import SecuritySettings from "./security";
+import GeneralSettings from "./general";
+import SecuritySettings from "./security/security";
 
 function ProfilePage() {
   return (
-    <Container className='mt-5 nst'>
+    <>
       <h1>프로필</h1>
-      <Tabs>
+      <Tabs className={'my-2'}>
         <Tab title={'일반'} eventKey={'generals'}>
           <GeneralSettings/>
         </Tab>
@@ -15,7 +15,7 @@ function ProfilePage() {
           <SecuritySettings/>
         </Tab>
       </Tabs>
-    </Container>
+    </>
   );
 }
 

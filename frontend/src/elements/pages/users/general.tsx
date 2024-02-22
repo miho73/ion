@@ -1,4 +1,4 @@
-import {Row, Table} from "react-bootstrap";
+import {Stack, Table} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
@@ -16,8 +16,8 @@ function GeneralSettings() {
   }, []);
 
   return (
-    <Row className={'m-3'}>
-      <h4>정보</h4>
+    <Stack>
+      <h2>정보</h2>
       <Table>
         <tbody>
         <tr>
@@ -50,7 +50,7 @@ function GeneralSettings() {
         </tr>
         </tbody>
       </Table>
-    </Row>
+    </Stack>
   );
 }
 

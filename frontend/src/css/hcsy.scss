@@ -45,6 +45,11 @@ form.auth {
   max-height: 90vh;
 }
 
+.icon {
+  width: 25px;
+  height: 25px;
+}
+
 .index-ui {
   max-height: 70vh;
 
@@ -125,10 +130,12 @@ $lns-seat-size-sm: 45px;
   }
 }
 
+.table-cover {
+  overflow-x: auto;
+}
+
 @include media-breakpoint-down(sm) {
   .table-cover {
-    overflow-x: auto;
-
     .table {
       margin: 0 !important;
       width: 200% !important;
@@ -138,4 +145,31 @@ $lns-seat-size-sm: 45px;
       width: 100% !important;
     }
   }
+}
+
+table {
+  th, td {
+    vertical-align: middle;
+  }
+}
+
+.input-mx-lg {
+  max-width: 400px;
+}
+
+.input-mx-md {
+  max-width: 350px;
+}
+
+.input-mx-sm {
+  max-width: 300px;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+
+.passkey-icon {
+  width: 40px;
+  aspect-ratio: 1;
 }

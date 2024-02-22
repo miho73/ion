@@ -13,4 +13,6 @@ public interface PasskeyRepository extends JpaRepository<Passkey, byte[]> {
   List<Passkey> findAllByUser(User user);
 
   Optional<Passkey> findByCredIdAndUserHandle(byte[] credId, byte[] userHandle);
+
+  List<Passkey> findAllByUser_Uid(int uid);
 }

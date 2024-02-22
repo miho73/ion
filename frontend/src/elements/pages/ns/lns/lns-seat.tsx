@@ -33,7 +33,7 @@ function LnsSeatSelect(props: LnsSeatSelectProps) {
         </Button>
       }
       {props.rev &&
-        <Button variant={'outline-dark'} className={'lns-seat px-0 py-0'} disabled={true}>
+        <Button variant={'outline-dark'} className={'lns-seat px-0 py-0 pe-none'}>
           <Stack>
             <span className={'reservee'}>{props.revScd}</span>
             <span className={'reservee'}>{props.revName}</span>

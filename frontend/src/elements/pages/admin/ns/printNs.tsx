@@ -1,17 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  Button,
-  Container,
-  Form,
-  FormCheck,
-  FormGroup,
-  FormSelect,
-  InputGroup,
-  Row,
-  Stack,
-  Table
-} from 'react-bootstrap';
+import {Alert, Button, Form, FormCheck, FormGroup, FormSelect, InputGroup, Stack, Table} from 'react-bootstrap';
 import axios from 'axios';
 import {changeBit, getBit} from "../../../service/bitmask";
 
@@ -45,7 +33,7 @@ function RecordRow(props: RecordRowProps) {
       }
       {(!props.includeDenied && data.a) &&
         <td>
-          <a title={'Copy'} className={'ns-lst-cpy'} onClick={() => copy(data.c)}>{data.c}</a>
+          <a title={'Copy'} className={'pointer-cursor'} onClick={() => copy(data.c)}>{data.c}</a>
         </td>
       }
     </>
@@ -146,10 +134,10 @@ function PrintNs(props: PrintNsProps) {
   }
 
   return (
-    <Row className='my-3'>
+    <Stack gap={1}>
       <h2>면학 불참 목록</h2>
-      <FormGroup>
-        <InputGroup className='w-25 mgw'>
+      <FormGroup as={Stack}>
+        <InputGroup className={'input-mx-sm'}>
           <FormSelect value={grade} onChange={e => updateGrade(Number.parseInt(e.target.value))}>
             <option value={1}>1학년</option>
             <option value={2}>2학년</option>
@@ -177,24 +165,28 @@ function PrintNs(props: PrintNsProps) {
             checked={getBit(filterByClass, 1) === 1}
             onChange={() => updateFilterByClass(1)}
           />
-          <FormCheck
-            label={'3반'}
-            id={'clas-3'}
-            checked={getBit(filterByClass, 2) === 1}
-            onChange={() => updateFilterByClass(2)}
-          />
-          <FormCheck
-            label={'4반'}
-            id={'clas-4'}
-            checked={getBit(filterByClass, 3) === 1}
-            onChange={() => updateFilterByClass(3)}
-          />
+          {grade !== 3 &&
+            <>
+              <FormCheck
+                label={'3반'}
+                id={'clas-3'}
+                checked={getBit(filterByClass, 2) === 1}
+                onChange={() => updateFilterByClass(2)}
+              />
+              <FormCheck
+                label={'4반'}
+                id={'clas-4'}
+                checked={getBit(filterByClass, 3) === 1}
+                onChange={() => updateFilterByClass(3)}
+              />
+            </>
+          }
         </Stack>
       </FormGroup>
-      <Container className='my-3'>
+      <div className={'my-2'}>
         {workState === 0 &&
           <div className='table-cover'>
-            <Table id='prt'>
+            <Table>
               <thead>
               <tr>
                 <th>학번</th>
@@ -230,8 +222,8 @@ function PrintNs(props: PrintNsProps) {
         {workState === 3 &&
           <Alert variant='danger'>PDF를 만들지 못했습니다.</Alert>
         }
-      </Container>
-    </Row>
+      </div>
+    </Stack>
   );
 }
 

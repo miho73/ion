@@ -1,7 +1,9 @@
 import React, {useState} from "react";
-import {Alert, Button, Col, Form, InputGroup, Modal, Row, Table} from "react-bootstrap";
+import {Alert, Button, Form, InputGroup, Modal, Stack, Table} from "react-bootstrap";
 import NsState from "../../ns/nsState";
 import axios from "axios";
+import {inRange} from "../../../service/checker";
+import {changeBit, getBit} from "../../../service/bitmask";
 
 
 type QueryNsProps = {
@@ -13,6 +15,7 @@ type QueryNsProps = {
 function QueryNs(props: QueryNsProps) {
   const [workError, setWorkError] = useState(-1);
   const [nsLst, setNsLst] = useState<any[]>([]);
+  const [formState, setFormState] = useState<number>(0);
 
   const [targetNs, setTargetNs] = useState<[number, string]>();
   const [deleteModalShow, setDeleteModalShow] = useState(false);
@@ -23,6 +26,11 @@ function QueryNs(props: QueryNsProps) {
   const setScode = props.setScode;
 
   function exe() {
+    let state = 0;
+    if (!inRange(1101, 3424, scode)) state = changeBit(state, 0);
+    setFormState(state);
+    if (state !== 0) return;
+
     axios.get('/manage/api/ns/get-user', {
       params: {code: scode}
     })
@@ -113,15 +121,16 @@ function QueryNs(props: QueryNsProps) {
 
   return (
     <>
-      <Row className='my-3'>
-        <h2 className="mb-3">면학 불참 확인</h2>
-        <Form.Group as={Col}>
-          <InputGroup className='w-25 mb-3 mgw'>
+      <Stack gap={1}>
+        <h2>면학 불참 확인</h2>
+        <Form.Group>
+          <InputGroup className={'input-mx-sm'}>
             <InputGroup.Text>학번</InputGroup.Text>
             <Form.Control
               type='number'
-              placeholder='학번'
+              placeholder='학번' aria-label={'학번'}
               value={scode}
+              isInvalid={getBit(formState, 0) === 1}
               onChange={e => setScode(Number.parseInt(e.target.value))}
             />
             <Button onClick={exe}>확인</Button>
@@ -154,7 +163,8 @@ function QueryNs(props: QueryNsProps) {
             </div>
           }
         </Form.Group>
-      </Row>
+      </Stack>
+
       <Modal show={deleteModalShow} onHide={closeDeleteConfirm} dialogClassName='modal-dialog-centered'>
         <Modal.Header closeButton>
           <Modal.Title>면학 불참 신청 삭제</Modal.Title>

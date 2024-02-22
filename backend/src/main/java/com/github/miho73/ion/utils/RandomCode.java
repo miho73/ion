@@ -21,9 +21,9 @@ public class RandomCode {
   @PostConstruct
   public void init() throws IOException {
     InputStream resource = new ClassPathResource("wordlist.csv").getInputStream();
-    String employees = new String(resource.readAllBytes(), StandardCharsets.UTF_8);
-    String[] words = employees.split(",");
-    Collections.addAll(WORD_SET, words);
+    String words = new String(resource.readAllBytes(), StandardCharsets.UTF_8);
+    String[] wordArr = words.split(",");
+    Collections.addAll(WORD_SET, wordArr);
     WORD_SET_SIZE = WORD_SET.size();
   }
 

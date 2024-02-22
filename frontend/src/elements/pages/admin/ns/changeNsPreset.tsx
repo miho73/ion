@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Alert, Button, ButtonGroup, Row} from "react-bootstrap";
+import {Alert, Button, ButtonGroup, Stack} from "react-bootstrap";
 import axios from "axios";
 
 
@@ -42,14 +42,15 @@ function ChangeNsPreset(props: ChangeNsPresetProps) {
   }
 
   return (
-    <Row className="my-3">
-      <h2 className="mb-3">면학 불참 시간 구성</h2>
-      <ButtonGroup className='w-fit mb-2'>
+    <Stack className={'align-items-start'} gap={1}>
+      <h2>면학 불참 시간 구성</h2>
+      <ButtonGroup>
         <Button disabled={working} onClick={() => exec(0)}
                 className='w-fit'>3 면학</Button>
         <Button disabled={working} onClick={() => exec(1)}
                 className='w-fit'>4 면학</Button>
       </ButtonGroup>
+
       <div>
         <p className={'my-2'}>현재 면학 불참 시간 구성: {props.timePreset === 0 ? "3면학" : "4면학"}</p>
         {props.timePreset === 0 &&
@@ -69,18 +70,18 @@ function ChangeNsPreset(props: ChangeNsPresetProps) {
         }
       </div>
       {workState === 1 &&
-        <Alert variant='danger w-fit'>권한이 부족합니다.</Alert>
+        <Alert variant='danger w-100'>권한이 부족합니다.</Alert>
       }
       {workState === 2 &&
-        <Alert variant='danger w-fit'>잘못된 요청입니다.</Alert>
+        <Alert variant='danger w-100'>잘못된 요청입니다.</Alert>
       }
       {workState === 3 &&
-        <Alert variant='danger w-fit'>해당 면학 불참 시간으로 구성할 수 없습니다.</Alert>
+        <Alert variant='danger w-100'>해당 면학 불참 시간으로 구성할 수 없습니다.</Alert>
       }
       {workState === -1 &&
-        <Alert variant='danger w-fit'>면학 불참 시간을 구성하지 못했습니다.</Alert>
+        <Alert variant='danger w-100'>면학 불참 시간을 구성하지 못했습니다.</Alert>
       }
-    </Row>
+    </Stack>
   );
 }
 

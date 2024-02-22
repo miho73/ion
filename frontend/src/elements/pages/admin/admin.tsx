@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container, Tab, Tabs} from "react-bootstrap";
+import {Tab, Tabs} from "react-bootstrap";
 import IonIdManage from "./ionid/ionid";
 import NsManage from "./ns/ns";
 import {checkPrivilege} from "../../service/auth";
@@ -27,20 +27,20 @@ function ManagementPage() {
   }
 
   return (
-    <Container className='mt-4'>
+    <>
       <h1>Ion Management</h1>
-      <Tabs defaultActiveKey='ns'>
+      <Tabs defaultActiveKey='ns' className={'my-3'}>
         <Tab eventKey='ns' title='면학 불참'>
           <NsManage/>
         </Tab>
         <Tab eventKey='ionid' title='IonID'>
           <IonIdManage/>
         </Tab>
-        <Tab eventKey='' title='학년 변경'>
+        <Tab eventKey='' title='DANGER ZONE'>
           <BulkActions/>
         </Tab>
       </Tabs>
-    </Container>
+    </>
   )
 }
 

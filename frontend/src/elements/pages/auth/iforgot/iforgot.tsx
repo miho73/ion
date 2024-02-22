@@ -43,7 +43,7 @@ function IForgotDashboard(props: IForgotDashboardProps) {
       <p>사용자 보호를 위해 암호를 재설정하기 전에 개인 확인 코드를 입력해야 합니다. 코드를 잘 기억해두세요.</p>
 
       {workState === -1 &&
-        <p className={'fs-5 fw-bold'}>확인중</p>
+        <p className={'fs-5 fw-bold'}>확인중...</p>
       }
       {workState === 0 &&
         <>
@@ -205,13 +205,13 @@ function IForgot() {
             </FloatingLabel>
           </Form.Group>
           <Button className={'w-fit'} onClick={submit} disabled={working}>
-            {working ? '확인중' : '제출'}
+            {working ? '확인중...' : '제출'}
           </Button>
         </>
       }
       {stage === 0 &&
         <Button className={'w-fit'} onClick={nxt} disabled={working}>
-          {working ? '확인중' : '다음'}
+          {working ? '확인중...' : '다음'}
         </Button>
       }
       {workState === 0 &&

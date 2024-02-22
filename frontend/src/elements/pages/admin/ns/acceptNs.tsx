@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import {Alert, Button, ButtonGroup, Row, Table} from "react-bootstrap";
+import {Alert, Button, ButtonGroup, Stack, Table} from "react-bootstrap";
 
 type NsReqProps = {
   id: number,
@@ -84,9 +84,9 @@ function NsReq(props: NsReqProps) {
 }
 
 function AcceptNs() {
-  const [ws, setWs] = useState(0);
-  const [nsLst, setNsLst] = useState([]);
-  const [date, setDate] = useState('');
+  const [ws, setWs] = useState<number>(0);
+  const [nsLst, setNsLst] = useState<any[]>([]);
+  const [date, setDate] = useState<string>('');
 
   useEffect(() => {
     loadNs();
@@ -184,8 +184,8 @@ function AcceptNs() {
   }
 
   return (
-    <Row className="my-3">
-      <h2 className="mb-3">면학 불참 승인</h2>
+    <Stack gap={1}>
+      <h2>면학 불참 승인</h2>
       <p>나에게 요청된 신청만 승인할 수 있습니다.</p>
       <div className='table-cover'>
         <Table>
@@ -204,15 +204,17 @@ function AcceptNs() {
           <tbody>{rLst}</tbody>
         </Table>
       </div>
-      <Button variant='outline-primary w-fit' onClick={loadNs}>새로고침</Button>
-      <p className='my-2'>{date}</p>
+      <Stack direction={'horizontal'} gap={2}>
+        <Button variant='outline-primary' onClick={loadNs}>새로고침</Button>
+        <p className='my-2'>{date}</p>
+      </Stack>
       {ws === 2 &&
-        <Alert variant='danger w-fit'>문제가 발생했습니다.</Alert>
+        <Alert variant='danger'>문제가 발생했습니다.</Alert>
       }
       {ws === 3 &&
         <Alert variant='danger w-fit'>해당 신청이 존재하지 않습니다.</Alert>
       }
-    </Row>
+    </Stack>
   )
 }
 

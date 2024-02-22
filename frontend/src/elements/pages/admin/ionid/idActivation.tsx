@@ -1,12 +1,20 @@
 import axios from "axios";
 import React, {useState} from "react";
-import {Alert, Button, Form, InputGroup} from "react-bootstrap";
+import {Alert, Button, Form, InputGroup, Stack} from "react-bootstrap";
+import {inRange} from "../../../service/checker";
+import {changeBit, getBit} from "../../../service/bitmask";
 
 function IonIdActivation() {
   const [id, setId] = useState('');
   const [result, setResult] = useState<any[]>([]);
+  const [formState, setFormState] = useState(0);
 
   function setActiveState(mode: number) {
+    let state = 0;
+    if (!inRange(4, 30, id.length)) state = changeBit(state, 0);
+    setFormState(state);
+    if (state !== 0) return;
+
     axios.patch('/manage/api/ionid/active/patch', {
       id: id,
       ac: mode
@@ -39,25 +47,27 @@ function IonIdActivation() {
   }
 
   return (
-    <div className="w-50 mgw">
-      <InputGroup className="mb-3">
+    <Stack gap={1}>
+      <h2>IonID 활성화</h2>
+      <InputGroup className="input-mx-lg">
         <Form.Control
           type="text"
-          placeholder="IonID"
+          placeholder="IonID" aria-label={"IonID"}
           value={id}
           onChange={e => setId(e.target.value)}
+          isInvalid={getBit(formState, 0) !== 0}
         />
         <Button variant="warning" onClick={() => setActiveState(0)}>Inactivate</Button>
         <Button variant="success" onClick={() => setActiveState(1)}>Activate</Button>
         <Button variant="danger" onClick={() => setActiveState(2)}>Ban</Button>
       </InputGroup>
       {result[0] === 0 &&
-        <Alert variant="success">{result[1]}</Alert>
+        <Alert variant="success" className={'my-1'}>{result[1]}</Alert>
       }
       {result[0] === 1 &&
-        <Alert variant="danger">{result[1]}</Alert>
+        <Alert variant="danger" className={'my-1'}>{result[1]}</Alert>
       }
-    </div>
+    </Stack>
   );
 }
 

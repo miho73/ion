@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Container} from "react-bootstrap";
+import {Stack} from "react-bootstrap";
 import QueryNs from './queryNs';
 import AddNs from './addNS';
 import AcceptNs from './acceptNs';
@@ -10,7 +10,7 @@ import ChangeNsPreset from "./changeNsPreset";
 
 function NsManage() {
   const [wScode, setWScode] = useState<number>();
-  const [timePreset, setTimePreset] = useState(-1);
+  const [timePreset, setTimePreset] = useState<number>(-1);
 
   useEffect(() => {
     axios.get('/manage/api/ns/mode/get')
@@ -23,17 +23,13 @@ function NsManage() {
   }, []);
 
   return (
-    <Container className="p-3">
+    <Stack gap={4}>
       <AcceptNs/>
-      <hr/>
       <PrintNs timePreset={timePreset}/>
-      <hr/>
       <AddNs timePreset={timePreset} scode={wScode} setScode={setWScode}/>
-      <hr/>
       <QueryNs scode={wScode} setScode={(scode: number) => setWScode(scode)}/>
-      <hr/>
       <ChangeNsPreset timePreset={timePreset} updatePreset={setTimePreset}/>
-    </Container>
+    </Stack>
   );
 }
 

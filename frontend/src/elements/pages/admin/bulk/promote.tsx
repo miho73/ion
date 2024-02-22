@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {useState} from 'react'
-import {Button, Form, Modal, Spinner, Stack} from 'react-bootstrap';
+import {Alert, Button, Form, Modal, Spinner, Stack} from 'react-bootstrap';
 
 function Promote() {
   const [confirmModalShow, setConfirmModalShow] = useState(false);
@@ -40,15 +40,17 @@ function Promote() {
 
   return (
     <>
-      <Stack>
-        <p className='m-1'>이 작업의 결과</p>
-        <ul className='m-1'>
+      <Stack gap={1}>
+        <h2>진급</h2>
+        <p>이 작업의 결과</p>
+        <ul>
           <li>기존 1, 2학년 학생들의 학년이 1씩 증가합니다.</li>
           <li>기존 1, 2학년 학생들의 학번이 초기화되며 재설정하도록 요구합니다.</li>
           <li>기존 3학년 학생들의 IonID가 삭제됩니다.</li>
         </ul>
-        <Button variant='outline-primary w-fit my-2' onClick={startPromote}>진급 시작</Button>
+        <Button variant='outline-primary' className={'align-self-baseline'} onClick={startPromote}>진급 시작</Button>
       </Stack>
+
       <Modal show={confirmModalShow} dialogClassName='modal-dialog-centered'>
         <Modal.Header>
           <Modal.Title>진급</Modal.Title>
@@ -57,14 +59,14 @@ function Promote() {
           {!working &&
             <>
               {(workState === -1 || workState === 1) &&
-                <>
-                  <p className='m-1'>진급 작업을 시작합니다. 그 결과</p>
-                  <ul className='m-1'>
+                <Stack gap={1}>
+                  <p>진급 작업을 시작합니다. 그 결과</p>
+                  <ul>
                     <li>기존 1, 2학년 학생들의 학년이 1씩 증가합니다.</li>
                     <li>기존 1, 2학년 학생들의 학번이 초기화되며 재설정하도록 요구합니다.</li>
                     <li>기존 3학년 학생들의 IonID가 삭제됩니다.</li>
                   </ul>
-                  <p className='m-1'>진급을 시작하려면 아래에 1 ≤ N ≤ {challengeN} 인 자연수 N의 총합을 입력하세요.</p>
+                  <p>진급을 시작하려면 아래에 1 ≤ N ≤ {challengeN} 인 자연수 N의 총합을 입력하세요.</p>
                   <Form.Control
                     type='number'
                     value={userChallenge}
@@ -74,26 +76,24 @@ function Promote() {
                   {workState === 1 &&
                     <p className='m-1 text-danger'>정답이 아닙니다.</p>
                   }
-                </>
+                </Stack>
               }
               {workState === 2 &&
-                <div className='d-flex flex-column align-items-center'>
-                  <p className='my-1'>진급 처리가 완료되었습니다.</p>
-                </div>
+                <Alert variant={'success'}>진급 처리가 완료되었습니다.</Alert>
               }
               {workState === 3 &&
-                <div className='d-flex flex-column align-items-center'>
-                  <p className='my-1'>진급 처리중 문제가 생겼습니다.</p>
-                  <p className='my-1'>모든 작업이 취소되었습니다.</p>
-                </div>
+                <Alert variant={'danger'}>
+                  <p>진급 처리중 문제가 생겼습니다.</p>
+                  <p>모든 작업이 취소되었습니다.</p>
+                </Alert>
               }
             </>
           }
           {working &&
-            <div className='d-flex flex-column align-items-center'>
+            <Stack className={'align-items-center'}>
               <Spinner animation='grow'/>
               <p className='my-3'>작업중입니다.</p>
-            </div>
+            </Stack>
           }
         </Modal.Body>
         {!working &&

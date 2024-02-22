@@ -16,14 +16,16 @@ import com.yubico.webauthn.exception.InvalidSignatureCountException;
 import com.yubico.webauthn.exception.RegistrationFailedException;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -48,13 +50,21 @@ public class PasskeyService {
 
   Random random = new Random();
 
-  public PasskeyService(IonRelyingParty rp, UserRepository userRepository, SessionService sessionService, PasskeyUserHandleRepository passkeyUserHandleRepository, PasskeyRepository passkeyRepository, AuthService authService) {
+  private JSONObject aaguids;
+
+  public PasskeyService(IonRelyingParty rp, UserRepository userRepository, SessionService sessionService, PasskeyUserHandleRepository passkeyUserHandleRepository, PasskeyRepository passkeyRepository, AuthService authService) throws IOException {
     this.rp = rp;
     this.userRepository = userRepository;
     this.sessionService = sessionService;
     this.passkeyUserHandleRepository = passkeyUserHandleRepository;
     this.passkeyRepository = passkeyRepository;
     this.authService = authService;
+
+    log.info("Loading aaguids.json");
+    InputStream resource = new ClassPathResource("aaguids.json").getInputStream();
+    String aaguidsJson = new String(resource.readAllBytes(), StandardCharsets.UTF_8);
+    aaguids = new JSONObject(aaguidsJson);
+    log.info("aaguids.json loaded");
   }
 
   public Optional<JSONObject> credentialCreateJson(HttpSession session, int uid) throws JsonProcessingException {
@@ -124,12 +134,22 @@ public class PasskeyService {
       if (result.isUserVerified()) {
         log.info("Registration success. register passkey: {}", result.getKeyId());
 
+        String aaguid = processAaguid(result.getAaguid().getHex());
+        String name = "Passkey-[%s]".formatted(aaguid);
+        if (aaguids.has(aaguid)) {
+          JSONObject aa = aaguids.getJSONObject(aaguid);
+          name = aa.getString("name");
+        }
+
         Passkey passkey = new Passkey()
           .setUserHandle(requestedUserHandle)
           .setPublicKey(result.getPublicKeyCose().getBytes())
           .setCounter(result.getSignatureCount())
           .setCredId(result.getKeyId().getId().getBytes())
-          .setUser(actualUserHandle.get().getUser());
+          .setUser(actualUserHandle.get().getUser())
+          .setCreatedAt(new Timestamp(System.currentTimeMillis()))
+          .setAaguid(aaguid)
+          .setPasskeyName(name);
 
         passkeyRepository.save(passkey);
         return true;
@@ -237,8 +257,84 @@ public class PasskeyService {
     } catch (InvalidSignatureCountException e) {
       return 2;
     } catch (AssertionFailedException e) {
-      log.warn("Assertion failed", e);
       return 3;
     }
+  }
+
+  private String processAaguid(String aaguid) {
+    return "%s-%s-%s-%s-%s".formatted(
+      aaguid.substring(0, 8),
+      aaguid.substring(8, 12),
+      aaguid.substring(12, 16),
+      aaguid.substring(16, 20),
+      aaguid.substring(20)
+    );
+  }
+
+  public JSONArray queryPasskey(int uid) {
+    List<Passkey> passkeys = passkeyRepository.findAllByUser_Uid(uid);
+
+    JSONArray ret = new JSONArray();
+    passkeys.forEach(passkey -> {
+      JSONObject authenticator = new JSONObject();
+      authenticator.put("aaguid", passkey.getAaguid());
+
+      if (aaguids.has(passkey.getAaguid())) {
+        JSONObject aa = aaguids.getJSONObject(passkey.getAaguid());
+        authenticator.put("name", aa.getString("name"));
+        authenticator.put("icon", aa.getString("icon_light"));
+      } else {
+        authenticator.put("name", JSONObject.NULL);
+        authenticator.put("icon", JSONObject.NULL);
+      }
+
+      JSONObject obj = new JSONObject();
+      obj.put("credentialId", Base64.getEncoder().encodeToString(passkey.getCredId()));
+      obj.put("passkeyName", passkey.getPasskeyName());
+      obj.put("createdAt", passkey.getCreatedAt());
+      obj.put("lastUse", passkey.getLastUse() == null ? JSONObject.NULL : passkey.getLastUse());
+      obj.put("authenticator", authenticator);
+      ret.put(obj);
+    });
+
+    return ret;
+  }
+
+  public int deletePasskey(int uid, String id) {
+    //check ownership
+    byte[] credId = Base64.getDecoder().decode(id);
+    Optional<Passkey> passkeyOptional = passkeyRepository.findById(credId);
+
+    if (passkeyOptional.isEmpty()) {
+      log.warn("Passkey could not be deleted: passkey not found. id=" + id);
+      return 3;
+    }
+    Passkey passkey = passkeyOptional.get();
+    if (passkey.getUser().getUid() != uid) {
+      log.warn("Passkey could not be deleted: not owned by user. id=" + id);
+      return 4;
+    }
+
+    passkeyRepository.delete(passkey);
+    return 0;
+  }
+
+  public int editPasskeyName(int uid, String id, String name) {
+    //check ownership
+    byte[] credId = Base64.getDecoder().decode(id);
+    Optional<Passkey> passkeyOptional = passkeyRepository.findById(credId);
+
+    if (passkeyOptional.isEmpty()) {
+      log.warn("Passkey could not be edited: passkey not found. id=" + id);
+      return 4;
+    }
+    Passkey passkey = passkeyOptional.get();
+    if (passkey.getUser().getUid() != uid) {
+      log.warn("Passkey could not be edited: not owned by user. id=" + id);
+      return 5;
+    }
+
+    passkeyOptional.get().setPasskeyName(name);
+    return 0;
   }
 }

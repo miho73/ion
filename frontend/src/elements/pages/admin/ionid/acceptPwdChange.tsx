@@ -1,17 +1,30 @@
 import axios from "axios";
 import React, {useState} from "react";
-import {Alert, Button, Form, InputGroup, Table} from "react-bootstrap";
+import {Alert, Button, Form, InputGroup, Stack, Table} from "react-bootstrap";
+import {inRange} from "../../../service/checker";
+import {changeBit, getBit} from "../../../service/bitmask";
 
 function AcceptPwdChange() {
-  const [usrLoaded, setUsrLoaded] = useState(false);
-  const [id, setId] = useState('');
-  const [workState, setWorkState] = useState(-1);
-  const [workStaea, setWorkStaea] = useState(-1);
-  const [reqData, setReqData] = useState({ionid: '', name: '', scode: 0, status: ''});
-  const [reqUid, setReqUid] = useState(0);
-  const [urlToken, setUrlToken] = useState('');
+  const [usrLoaded, setUsrLoaded] = useState<boolean>(false);
+  const [id, setId] = useState<string>('');
+  const [workState, setWorkState] = useState<number>(-1);
+  const [workStaea, setWorkStaea] = useState<number>(-1);
+  const [reqData, setReqData] = useState<{
+    ionid: string,
+    name: string,
+    scode: number,
+    status: string
+  }>({ionid: '', name: '', scode: 0, status: ''});
+  const [reqUid, setReqUid] = useState<number>(0);
+  const [urlToken, setUrlToken] = useState<string>('');
+  const [formState, setFormState] = useState<number>(0);
 
   function load() {
+    let state = 0;
+    if (!inRange(4, 30, id.length)) state = changeBit(state, 0);
+    setFormState(state);
+    if (state !== 0) return;
+
     axios.get('/manage/api/reset-passwd/query', {
       params: {id: id}
     })
@@ -44,6 +57,11 @@ function AcceptPwdChange() {
   }
 
   function ctrl(state: boolean) {
+    let fstate = 0;
+    if (!inRange(4, 30, id.length)) fstate = changeBit(fstate, 0);
+    setFormState(fstate);
+    if (fstate !== 0) return;
+
     axios.patch('/manage/api/reset-passwd/accept', {
       accept: state,
       reqUid: reqUid
@@ -92,42 +110,46 @@ function AcceptPwdChange() {
   }
 
   return (
-    <>
-      <InputGroup className="w-50 mgw mb-3">
+    <Stack>
+      <h2>암호 재설정 확인</h2>
+      <InputGroup className={'input-mx-lg'}>
         <Form.Control type={'text'}
-                      placeholder={'IonID'}
+                      placeholder={'IonID'} aria-label={'IonID'}
                       value={id}
+                      isInvalid={getBit(formState, 0) === 1}
                       onChange={e => setId(e.target.value)}
         />
         <Button onClick={load}>확인</Button>
         <Button onClick={() => ctrl(true)} disabled={!usrLoaded}>승인</Button>
         <Button onClick={() => ctrl(false)} disabled={!usrLoaded}>거절</Button>
       </InputGroup>
-      <Table>
-        <thead>
-        <tr>
-          <th>IonID</th>
-          <th>이름</th>
-          <th>학번</th>
-          <th>상태</th>
-        </tr>
-        </thead>
-        <tbody>
-        {workState !== 0 &&
+      <div className={'table-cover'}>
+        <Table>
+          <thead>
           <tr>
-            <td colSpan={4}>No data</td>
+            <th>IonID</th>
+            <th>이름</th>
+            <th>학번</th>
+            <th>상태</th>
           </tr>
-        }
-        {workState === 0 &&
-          <tr>
-            <td>{reqData.ionid}</td>
-            <td>{reqData.name}</td>
-            <td>{reqData.scode}</td>
-            <td>{status}</td>
-          </tr>
-        }
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+          {workState !== 0 &&
+            <tr>
+              <td colSpan={4}>No data</td>
+            </tr>
+          }
+          {workState === 0 &&
+            <tr>
+              <td>{reqData.ionid}</td>
+              <td>{reqData.name}</td>
+              <td>{reqData.scode}</td>
+              <td>{status}</td>
+            </tr>
+          }
+          </tbody>
+        </Table>
+      </div>
       {workState === 1 && <Alert variant={'danger'}>이 IonID는 암호 재설정을 신청하지 않았습니다.</Alert>}
       {workState === 2 && <Alert variant={'danger'}>존재하지 않는 IonID입니다.</Alert>}
       {workState === 4 && <Alert variant={'danger'}>권한이 부족합니다.</Alert>}
@@ -145,7 +167,7 @@ function AcceptPwdChange() {
       {workStaea === 2 && <Alert variant={'danger'}>신청을 찾을 수 없습니다.</Alert>}
       {workStaea === 3 && <Alert variant={'danger'}>신청을 승인하려면 REQUESTED 상태여야 합니다.</Alert>}
       {workStaea === 4 && <Alert variant={'danger'}>작업을 처리하지 못했습니다.</Alert>}
-    </>
+    </Stack>
   );
 }
 

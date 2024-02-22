@@ -46,6 +46,10 @@ public class UserService {
     return userRepository.findById(id).isEmpty();
   }
 
+  public boolean existsUserByUid(int uid) {
+    return userRepository.findById(uid).isEmpty();
+  }
+
   public User.USER_STATUS DEFAULT_USER_STATE;
 
   @PostConstruct
