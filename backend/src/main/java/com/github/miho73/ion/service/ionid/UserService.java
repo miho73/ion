@@ -7,6 +7,7 @@ import com.github.miho73.ion.service.auth.RecaptchaService;
 import com.github.miho73.ion.service.auth.SessionService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -149,5 +150,24 @@ public class UserService {
     if (user.isEmpty()) return 6;
     user.get().setPwd(passwordEncoder.encode(pwd));
     return 0;
+  }
+
+  public JSONObject getUserInfo(int uid) {
+    Optional<User> userOptional = userRepository.findById(uid);
+
+    if(userOptional.isEmpty()) {
+      return null;
+    }
+
+    JSONObject ret = new JSONObject();
+    User user = userOptional.get();
+    ret.put("name", user.getName());
+    ret.put("id", user.getId());
+    ret.put("grade", user.getGrade());
+    ret.put("clas", user.getClas());
+    ret.put("scode", user.getScode());
+    ret.put("joinDate", user.getJoinDate());
+    ret.put("lastLogin", user.getLastLogin());
+    return ret;
   }
 }
