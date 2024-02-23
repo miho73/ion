@@ -89,16 +89,15 @@ function CoreLogin(props: LoginSectionProps) {
             setLoginError(6);
           }
         } else setLoginError(re);
-
-        if (shouldTryCheckbox) {
-          // @ts-ignore
-          grecaptcha.enterprise.reset();
-        }
       }).catch(err => {
         setLoginError(-1);
       }).finally(() => {
         setId('');
         setPwd('');
+        if (shouldTryCheckbox) {
+          // @ts-ignore
+          grecaptcha.enterprise.reset();
+        }
         setWorking(false);
       });
     });
@@ -112,8 +111,15 @@ function CoreLogin(props: LoginSectionProps) {
   }
 
   function passkeyLogin() {
-    setWorking(true);
+    if (shouldTryCheckbox) {
+      // @ts-ignore
+      let token = grecaptcha.enterprise.getResponse();
+      if (token === '') {
+        return;
+      }
+    }
 
+    setWorking(true);
     axios.get('/auth/api/passkey/authentication/options/get')
       .then(res => {
         let options = res.data.result['publicKey'];
@@ -135,9 +141,16 @@ function CoreLogin(props: LoginSectionProps) {
 
   function passkeySuccess(res: object) {
     ready('login', token => {
+      let tok = token;
+      if (shouldTryCheckbox) {
+        // @ts-ignore
+        tok = grecaptcha.enterprise.getResponse();
+      }
+
       axios.post('/auth/api/passkey/authentication/complete', {
-        ctoken: token,
-        attestation: res
+        ctoken: tok,
+        attestation: res,
+        checkbox: shouldTryCheckbox
       })
         .then(res => {
           if (res.data['result'] === 9) {
@@ -179,14 +192,23 @@ function CoreLogin(props: LoginSectionProps) {
               setLoginError(5);
               break;
             case 13:
-              setLoginError(6);
+              if (!shouldTryCheckbox) {
+                setShouldTryCheckbox(true);
+                setLoginError(-3);
+              } else {
+                setLoginError(6);
+              }
               break;
             default:
               setLoginError(101);
           }
         }).finally(() => {
-        setWorking(false);
-      });
+          if (shouldTryCheckbox) {
+            // @ts-ignore
+            grecaptcha.enterprise.reset();
+          }
+          setWorking(false);
+        });
     });
   }
 

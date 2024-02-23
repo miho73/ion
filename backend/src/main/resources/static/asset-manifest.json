@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.bd137007.css",
-    "main.js": "/static/js/main.7e91131f.js",
+    "main.js": "/static/js/main.227f763c.js",
     "static/media/FIDO_Passkey_mark_A_black.svg": "/static/media/FIDO_Passkey_mark_A_black.dc59a8f8c48711c442e90af6bb0a51e0.svg",
     "static/media/FIDO_Passkey_mark_A_white.svg": "/static/media/FIDO_Passkey_mark_A_white.52add2f28696eca063c3c9548bfcc2db.svg",
     "index.html": "/index.html",
     "static/media/x.svg": "/static/media/x.5cf416a135cf86f82973f4baff74a387.svg",
     "static/media/pencil.svg": "/static/media/pencil.5df2321bd6a16a6ae0fdfe812bf83088.svg",
     "main.bd137007.css.map": "/static/css/main.bd137007.css.map",
-    "main.7e91131f.js.map": "/static/js/main.7e91131f.js.map"
+    "main.227f763c.js.map": "/static/js/main.227f763c.js.map"
   },
   "entrypoints": [
     "static/css/main.bd137007.css",
-    "static/js/main.7e91131f.js"
+    "static/js/main.227f763c.js"
   ]
 }

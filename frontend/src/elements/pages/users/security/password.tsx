@@ -28,7 +28,6 @@ function ChangePassword(props: changePwdType) {
     if(e.key === 'Enter') change();
   }
 
-  // TODO: ADD RECATPCHA
   function change() {
     let state = 0;
     if (!inRange(6, 100, currentPwd.length)) state = changeBit(state, 0);

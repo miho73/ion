@@ -30,7 +30,7 @@ function App() {
   return (
     <Router>
       <Header/>
-      <Container as={'main'} className={'mt-2 mb-5'}>
+      <Container as={'main'} className={'mt-2'}>
         <Routes>
           <Route index path='/' element={<Index/>}/>
 

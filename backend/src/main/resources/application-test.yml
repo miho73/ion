@@ -61,7 +61,7 @@ ion:
     project-id: elemention
     site-key: 6LdsNjInAAAAAJByk1stdHinRzoNZqcN4wl_CFXR
     checkbox-site-key: 6Ldl6yApAAAAAAEPPP9RmR792dT2V6h5FkimRHP_
-    block-threshold: 0.1
+    block-threshold: 0.5
     bypass: false
   config:
     allow-cors-localhost: true

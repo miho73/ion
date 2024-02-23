@@ -756,14 +756,15 @@ public class AuthController {
     try {
       JSONObject bodyJson = new JSONObject(body);
 
-      if(!bodyJson.has("ctoken") || !bodyJson.has("attestation")) {
+      if(!bodyJson.has("ctoken") || !bodyJson.has("attestation") || !bodyJson.has("checkbox")) {
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 11);
       }
 
       String ctoken = bodyJson.getString("ctoken");
+      boolean checkbox = bodyJson.getBoolean("checkbox");
 
-      RecaptchaReply recaptchaReply = reCaptchaAssessment.performAssessment(ctoken, "login", false);
+      RecaptchaReply recaptchaReply = reCaptchaAssessment.performAssessment(ctoken, "login", checkbox);
       if (!recaptchaReply.isOk()) {
         log.warn("passkey authentication failed: recaptcha failed.");
         response.setStatus(400);
