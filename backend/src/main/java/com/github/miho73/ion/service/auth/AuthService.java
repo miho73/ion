@@ -4,6 +4,8 @@ import com.github.miho73.ion.dto.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthService {
   final

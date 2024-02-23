@@ -132,7 +132,7 @@ public class PasskeyService {
       }
 
       if (result.isUserVerified()) {
-        log.info("Registration success. register passkey: {}", result.getKeyId());
+        log.info("Registration success. register passkey: {}", result.getKeyId().getId().getBase64());
 
         String aaguid = processAaguid(result.getAaguid().getHex());
         String name = "Passkey-[%s]".formatted(aaguid);
@@ -255,8 +255,10 @@ public class PasskeyService {
         }
       }
     } catch (InvalidSignatureCountException e) {
+      log.warn("Signature counter is not valid");
       return 2;
     } catch (AssertionFailedException e) {
+      log.warn("Passkey creation authentication failed");
       return 3;
     }
   }

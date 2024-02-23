@@ -134,45 +134,59 @@ function CoreLogin(props: LoginSectionProps) {
   }
 
   function passkeySuccess(res: object) {
-    axios.post('/auth/api/passkey/authentication/complete', res)
-      .then(res => {
-        if (res.data['result'] === 9) {
-          props.setChangeFlag(true);
-        } else if (res.data['result'] === 0) {
-          if (searchParams.has('ret')) {
-            // @ts-ignore
-            navigate(searchParams.get('ret'));
-          } else window.location.reload();
-        }
+    ready('login', token => {
+      axios.post('/auth/api/passkey/authentication/complete', {
+        ctoken: token,
+        attestation: res
       })
-      .catch(res => {
-        switch (res.response?.data['result']) {
-          case 1:
-            setLoginError(102);
-            break;
-          case 2:
-            setLoginError(103);
-            break;
-          case 3:
-            setLoginError(104);
-            break;
-          case 4:
-            setLoginError(105);
-            break;
-          case 5:
-            setLoginError(1);
-            break;
-          case 6:
-            setLoginError(2);
-            break;
-          case 7:
-            setLoginError(3);
-            break;
-          default:
-            setLoginError(101);
-        }
-      }).finally(() => {
-      setWorking(false);
+        .then(res => {
+          if (res.data['result'] === 9) {
+            props.setChangeFlag(true);
+          } else if (res.data['result'] === 0) {
+            if (searchParams.has('ret')) {
+              // @ts-ignore
+              navigate(searchParams.get('ret'));
+            } else window.location.reload();
+          }
+        })
+        .catch(res => {
+          switch (res.response?.data['result']) {
+            case 1:
+              setLoginError(102);
+              break;
+            case 2:
+              setLoginError(103);
+              break;
+            case 3:
+              setLoginError(104);
+              break;
+            case 4:
+              setLoginError(105);
+              break;
+            case 5:
+              setLoginError(1);
+              break;
+            case 6:
+              setLoginError(2);
+              break;
+            case 7:
+              setLoginError(3);
+              break;
+            case 11:
+              setLoginError(106);
+              break;
+            case 12:
+              setLoginError(5);
+              break;
+            case 13:
+              setLoginError(6);
+              break;
+            default:
+              setLoginError(101);
+          }
+        }).finally(() => {
+        setWorking(false);
+      });
     });
   }
 
@@ -269,6 +283,9 @@ function CoreLogin(props: LoginSectionProps) {
           }
           {loginError === 105 &&
             <p>제시한 Passkey를 찾을 수 없습니다.</p>
+          }
+          {loginError === 106 &&
+            <p>잘못된 요청입니다.</p>
           }
         </Alert>
       }

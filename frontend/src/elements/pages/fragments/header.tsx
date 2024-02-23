@@ -46,6 +46,7 @@ function Header() {
               <Nav.Link as={Link} to={'/'}>Home</Nav.Link>
               <Nav.Link as={Link} to={'/ns'}>면불신청</Nav.Link>
               <Nav.Link as={Link} to={'/etc/meal'}>급식</Nav.Link>
+              <Nav.Link as={Link} to={'/profile'}>프로필</Nav.Link>
               <Nav.Link as={Link} to={'/docs'}>문서</Nav.Link>
             </Nav>
           </Navbar.Collapse>

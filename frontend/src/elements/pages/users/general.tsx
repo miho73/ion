@@ -55,11 +55,11 @@ function GeneralSettings() {
         </tr>
         <tr>
           <td>최종 로그인</td>
-          <td>{userInfo?.lastLogin}</td>
+          <td>{userInfo?.lastLogin} KST</td>
         </tr>
         <tr>
           <td>가입일</td>
-          <td>{userInfo?.joinDate}</td>
+          <td>{userInfo?.joinDate} KST</td>
         </tr>
         </tbody>
       </Table>

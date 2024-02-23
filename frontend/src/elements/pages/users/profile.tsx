@@ -1,9 +1,24 @@
 import {Tab, Tabs} from "react-bootstrap";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import GeneralSettings from "./general";
 import SecuritySettings from "./security/security";
+import {isLogin} from "../../service/auth";
+import {useNavigate} from "react-router-dom";
 
 function ProfilePage() {
+  const [loginState, setLoginState] = useState(-1);
+
+  useEffect(() => {
+    isLogin(setLoginState);
+  }, []);
+
+  const navigate = useNavigate();
+
+  if(loginState === -1) return <></>;
+  if(loginState === 1) {
+    navigate('/');
+  }
+
   return (
     <>
       <h1>프로필</h1>

@@ -151,6 +151,12 @@ public class UserService {
     user.get().setPwd(passwordEncoder.encode(pwd));
     return 0;
   }
+  public int updatePassword(Optional<User> user, String pwd) {
+    if (user.isEmpty()) return 4;
+    log.info("IonID update password. uid=" + user.get().getUid());
+    user.get().setPwd(passwordEncoder.encode(pwd));
+    return 0;
+  }
 
   public JSONObject getUserInfo(int uid) {
     Optional<User> userOptional = userRepository.findById(uid);
@@ -169,5 +175,9 @@ public class UserService {
     ret.put("joinDate", user.getJoinDate());
     ret.put("lastLogin", user.getLastLogin());
     return ret;
+  }
+
+  public Optional<User> getUserByUid(int uid) {
+    return userRepository.findById(uid);
   }
 }

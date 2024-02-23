@@ -199,7 +199,7 @@ function SignupPage() {
                           value={pwd} onChange={e => setPwd(e.target.value)}
                           isInvalid={getBit(formState, 7) === 1}
             />
-            <Form.Control.Feedback type={'invalid'}>암호는 6자 이상이어야 합니다.</Form.Control.Feedback>
+            <Form.Control.Feedback type={'invalid'}>비밀번호는 6자 이상이어야 합니다.</Form.Control.Feedback>
           </FloatingLabel>
           <FloatingLabel label='Confirm Password'>
             <Form.Control type='password'
@@ -210,7 +210,7 @@ function SignupPage() {
                           value={pwdRe} onChange={e => setPWdRe(e.target.value)}
                           isInvalid={getBit(formState, 9) === 1}
             />
-            <Form.Control.Feedback type={'invalid'}>암호를 확인해주세요.</Form.Control.Feedback>
+            <Form.Control.Feedback type={'invalid'}>비밀번호를 확인해주세요.</Form.Control.Feedback>
           </FloatingLabel>
         </Stack>
       }

@@ -29,7 +29,7 @@ function ManagementPage() {
   return (
     <>
       <h1>Ion Management</h1>
-      <Tabs defaultActiveKey='ns' className={'my-3'}>
+      <Tabs defaultActiveKey='ns' className={'my-2'}>
         <Tab eventKey='ns' title='면학 불참'>
           <NsManage/>
         </Tab>
