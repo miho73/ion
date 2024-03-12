@@ -17,6 +17,7 @@ function isLogin(setLogin: (a: number) => void) {
     });
 }
 
+
 function checkPrivilege(setLogin: (a: number) => void) {
   axios.get("/auth/api/authorize-e", {
     params: {"priv": 3}
