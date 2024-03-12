@@ -1,4 +1,4 @@
-import {Alert, Button, Form, InputGroup, Stack} from "react-bootstrap";
+import {Alert, Button, Form, Stack} from "react-bootstrap";
 import React, {useState} from "react";
 import {changeBit, getBit} from "../../../service/bitmask";
 import {inRange} from "../../../service/checker";
@@ -25,7 +25,7 @@ function ChangePassword(props: changePwdType) {
   }
 
   function detectEnter(e: React.KeyboardEvent) {
-    if(e.key === 'Enter') change();
+    if (e.key === 'Enter') change();
   }
 
   function change() {
@@ -35,7 +35,7 @@ function ChangePassword(props: changePwdType) {
     if (!inRange(6, 100, newPwdConfirm.length)) state = changeBit(state, 2);
     if (newPwd !== newPwdConfirm) state = changeBit(state, 3);
     setFormState(state);
-    if(state !== 0) return;
+    if (state !== 0) return;
 
     ready('change_password', token => {
       axios.patch('/auth/api/password/patch', {
@@ -120,15 +120,15 @@ function Password() {
       {changePwdOpen && <ChangePassword setPwdChangeOpen={setChangePwdOpen} setPwdChangeState={setChangePwdState}/>}
       {!changePwdOpen &&
         <>
-          { changePwdState === 1 && <Alert variant={'danger'}>권한이 부족합니다.</Alert>}
-          { changePwdState === 2 && <Alert variant={'danger'}>잘못된 요청입니다.</Alert>}
-          { changePwdState === 3 && <Alert variant={'danger'}>요청인자가 잘못됬습니다.</Alert>}
-          { changePwdState === 4 && <Alert variant={'danger'}>IonID를 찾을 수 없습니다.</Alert>}
-          { changePwdState === 5 && <Alert variant={'danger'}>잘못된 암호입니다.</Alert>}
-          { changePwdState === 6 && <Alert variant={'danger'}>암호 변경에 실패했습니다.</Alert>}
-          { changePwdState === 7 && <Alert variant={'danger'}>reCAPTCHA를 확인하지 못했습니다.</Alert>}
-          { changePwdState === 8 && <Alert variant={'danger'}>사용자 보호를 위해 지금은 암호를 변경할 수 없습니다.</Alert>}
-          { changePwdState === -1 && <Alert variant={'success'}>암호가 변경되었습니다.</Alert>}
+          {changePwdState === 1 && <Alert variant={'danger'}>권한이 부족합니다.</Alert>}
+          {changePwdState === 2 && <Alert variant={'danger'}>잘못된 요청입니다.</Alert>}
+          {changePwdState === 3 && <Alert variant={'danger'}>요청인자가 잘못됬습니다.</Alert>}
+          {changePwdState === 4 && <Alert variant={'danger'}>IonID를 찾을 수 없습니다.</Alert>}
+          {changePwdState === 5 && <Alert variant={'danger'}>잘못된 암호입니다.</Alert>}
+          {changePwdState === 6 && <Alert variant={'danger'}>암호 변경에 실패했습니다.</Alert>}
+          {changePwdState === 7 && <Alert variant={'danger'}>reCAPTCHA를 확인하지 못했습니다.</Alert>}
+          {changePwdState === 8 && <Alert variant={'danger'}>사용자 보호를 위해 지금은 암호를 변경할 수 없습니다.</Alert>}
+          {changePwdState === -1 && <Alert variant={'success'}>암호가 변경되었습니다.</Alert>}
           <Button variant={'outline-primary'}
                   onClick={() => setChangePwdOpen(!changePwdOpen)}
           >비밀번호 변경</Button>

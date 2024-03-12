@@ -151,6 +151,7 @@ public class UserService {
     user.get().setPwd(passwordEncoder.encode(pwd));
     return 0;
   }
+
   public int updatePassword(Optional<User> user, String pwd) {
     if (user.isEmpty()) return 4;
     log.info("IonID update password. uid=" + user.get().getUid());
@@ -161,7 +162,7 @@ public class UserService {
   public JSONObject getUserInfo(int uid) {
     Optional<User> userOptional = userRepository.findById(uid);
 
-    if(userOptional.isEmpty()) {
+    if (userOptional.isEmpty()) {
       return null;
     }
 

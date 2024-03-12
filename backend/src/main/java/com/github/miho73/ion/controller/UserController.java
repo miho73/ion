@@ -235,20 +235,20 @@ public class UserController {
     produces = MediaType.APPLICATION_JSON_VALUE
   )
   public String getUserInfo(HttpSession session, HttpServletResponse response) {
-    if(!sessionService.isLoggedIn(session)) {
+    if (!sessionService.isLoggedIn(session)) {
       return RestResponse.restResponse(HttpStatus.UNAUTHORIZED, 1);
     }
 
-      try {
-          JSONObject ret = userService.getUserInfo(sessionService.getUid(session));
-          if(ret == null) {
-              response.setStatus(400);
-              return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
-          }
-          return RestResponse.restResponse(HttpStatus.OK, ret);
-      } catch (IonException e) {
-        response.setStatus(500);
-        return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 1);
+    try {
+      JSONObject ret = userService.getUserInfo(sessionService.getUid(session));
+      if (ret == null) {
+        response.setStatus(400);
+        return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
       }
+      return RestResponse.restResponse(HttpStatus.OK, ret);
+    } catch (IonException e) {
+      response.setStatus(500);
+      return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 1);
+    }
   }
 }

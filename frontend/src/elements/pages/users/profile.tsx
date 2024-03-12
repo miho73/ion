@@ -14,8 +14,8 @@ function ProfilePage() {
 
   const navigate = useNavigate();
 
-  if(loginState === -1) return <></>;
-  if(loginState === 1) {
+  if (loginState === -1) return <></>;
+  if (loginState === 1) {
     navigate('/');
   }
 

@@ -28,14 +28,16 @@ function SinglePasskey(props: passkeyPropsType) {
       {(props.passkey.authenticator.icon !== null && props.passkey.authenticator.name !== null) &&
         <img src={props.passkey.authenticator.icon} alt={props.passkey.authenticator.name} className={'passkey-icon'}/>
       }
-      {props.passkey.authenticator.icon === null  &&
+      {props.passkey.authenticator.icon === null &&
         <FidoIconDark className={'passkey-icon'}/>
       }
       <Stack gap={1}>
         <p>{props.passkey.passkeyName}</p>
-        {props.passkey.lastUse === null && <p>마지막 사용: 없음 / 생성: <span title={props.passkey.createdAt + ' KST'}>{props.passkey.createdAt.substring(0, 10)}</span></p>}
+        {props.passkey.lastUse === null && <p>마지막 사용: 없음 / 생성: <span
+          title={props.passkey.createdAt + ' KST'}>{props.passkey.createdAt.substring(0, 10)}</span></p>}
         {props.passkey.lastUse !== null &&
-          <p>마지막 사용: <span title={props.passkey.lastUse+' KST'}>{props.passkey.lastUse.substring(0, 10)}</span> / 생성: <span title={props.passkey.createdAt+' KST'}>{props.passkey.createdAt.substring(0, 10)}</span></p>}
+          <p>마지막 사용: <span title={props.passkey.lastUse + ' KST'}>{props.passkey.lastUse.substring(0, 10)}</span> /
+            생성: <span title={props.passkey.createdAt + ' KST'}>{props.passkey.createdAt.substring(0, 10)}</span></p>}
         <p className={'text-muted small fw-light'}>{props.passkey.authenticator.name}</p>
       </Stack>
       <Button variant={''} className={'align-self-center'} onClick={() => editKey()}
@@ -196,9 +198,9 @@ function Passkey() {
 
   function editPasskey() {
     let state = 0;
-    if(!inRange(1, 50, passkeyName.length)) state = changeBit(state, 0);
+    if (!inRange(1, 50, passkeyName.length)) state = changeBit(state, 0);
     setPasskeyNameValid(state);
-    if(state !== 0) return;
+    if (state !== 0) return;
 
     setWorking(true);
     if (editTargetPasskey === undefined) return;
@@ -347,7 +349,7 @@ function Passkey() {
                               value={passkeyName} onChange={e => setPasskeyName(e.target.value)}
                               isInvalid={getBit(passkeyNameValid, 0) === 1}
                               onKeyDown={e => {
-                                if(e.key === 'Enter') {
+                                if (e.key === 'Enter') {
                                   e.preventDefault();
                                   editPasskey()
                                 }

@@ -4,7 +4,6 @@
 @import url(//fonts.googleapis.com/css?family=Dancing+Script&display=swap);
 
 
-
 $theme-colors: (
   "primary": #2A55C2,
   "secondary": #9399A8,
@@ -179,4 +178,8 @@ table {
 
 .grecaptcha-badge {
   display: none !important;
+}
+
+.limited-width {
+  max-width: 600px;
 }

@@ -203,12 +203,12 @@ function CoreLogin(props: LoginSectionProps) {
               setLoginError(101);
           }
         }).finally(() => {
-          if (shouldTryCheckbox) {
-            // @ts-ignore
-            grecaptcha.enterprise.reset();
-          }
-          setWorking(false);
-        });
+        if (shouldTryCheckbox) {
+          // @ts-ignore
+          grecaptcha.enterprise.reset();
+        }
+        setWorking(false);
+      });
     });
   }
 

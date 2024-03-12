@@ -546,13 +546,12 @@ public class AuthController {
       return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
     }
 
-    if(
+    if (
       body.get("newPwd").length() < 6 ||
-      body.get("newPwd").length() > 100 ||
-      body.get("currentPwd").length() < 6 ||
-      body.get("currentPwd").length() > 100
-    )
-      {
+        body.get("newPwd").length() > 100 ||
+        body.get("currentPwd").length() < 6 ||
+        body.get("currentPwd").length() > 100
+    ) {
       response.setStatus(400);
       return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 3);
     }
@@ -565,7 +564,7 @@ public class AuthController {
     try {
       RecaptchaReply recaptchaReply = reCaptchaAssessment.performAssessment(ctoken, "change_password", false);
 
-      if(!recaptchaReply.isOk()) {
+      if (!recaptchaReply.isOk()) {
         log.info("password change failed. recaptcha failed. id=" + id);
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 7);
@@ -578,13 +577,13 @@ public class AuthController {
 
       int uid = sessionService.getUid(session);
       Optional<User> userOptional = userService.getUserByUid(uid);
-      if(userOptional.isEmpty()) {
+      if (userOptional.isEmpty()) {
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 4);
       }
 
       boolean auth = authService.authenticate(oldPwd, userOptional.get());
-      if(!auth) {
+      if (!auth) {
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 5);
       }
@@ -602,9 +601,9 @@ public class AuthController {
       response.setStatus(500);
       return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 6);
     } catch (IOException e) {
-        log.error("password change failed. recaptcha failed.", e);
-        response.setStatus(400);
-        return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 6);
+      log.error("password change failed. recaptcha failed.", e);
+      response.setStatus(400);
+      return RestResponse.restResponse(HttpStatus.INTERNAL_SERVER_ERROR, 6);
     }
   }
 
@@ -668,7 +667,7 @@ public class AuthController {
 
     JSONObject bodyJson = new JSONObject(body);
 
-    if(!bodyJson.has("attestation") || !bodyJson.has("ctoken")) {
+    if (!bodyJson.has("attestation") || !bodyJson.has("ctoken")) {
       response.setStatus(400);
       return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 2);
     }
@@ -681,7 +680,7 @@ public class AuthController {
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 3);
       }
-      if(recaptchaReply.getScore() <= CAPTCHA_THRESHOLD) {
+      if (recaptchaReply.getScore() <= CAPTCHA_THRESHOLD) {
         log.warn("passkey registration failed: client recaptcha failed (low score).");
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 4);
@@ -756,7 +755,7 @@ public class AuthController {
     try {
       JSONObject bodyJson = new JSONObject(body);
 
-      if(!bodyJson.has("ctoken") || !bodyJson.has("attestation") || !bodyJson.has("checkbox")) {
+      if (!bodyJson.has("ctoken") || !bodyJson.has("attestation") || !bodyJson.has("checkbox")) {
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 11);
       }
@@ -770,7 +769,7 @@ public class AuthController {
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 12);
       }
-      if(recaptchaReply.getScore() <= CAPTCHA_THRESHOLD) {
+      if (recaptchaReply.getScore() <= CAPTCHA_THRESHOLD) {
         log.warn("passkey authentication failed: client recaptcha failed (low score).");
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 13);
@@ -871,7 +870,7 @@ public class AuthController {
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 6);
       }
-      if(recaptchaReply.getScore() <= CAPTCHA_THRESHOLD) {
+      if (recaptchaReply.getScore() <= CAPTCHA_THRESHOLD) {
         log.warn("passkey delete failed: client recaptcha failed (low score).");
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 7);
@@ -934,7 +933,7 @@ public class AuthController {
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 7);
       }
-      if(recaptchaReply.getScore() <= CAPTCHA_THRESHOLD) {
+      if (recaptchaReply.getScore() <= CAPTCHA_THRESHOLD) {
         log.warn("passkey edit name failed: client recaptcha failed (low score).");
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 8);
@@ -944,7 +943,7 @@ public class AuthController {
       String id = body.get("credentialId");
       String name = body.get("name");
 
-      if(name.isEmpty() || name.length() > 30) {
+      if (name.isEmpty() || name.length() > 30) {
         response.setStatus(400);
         return RestResponse.restResponse(HttpStatus.BAD_REQUEST, 3);
       }
