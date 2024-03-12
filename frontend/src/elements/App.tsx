@@ -53,7 +53,7 @@ function App() {
 
           <Route path={'/profile'} element={<ProfilePage/>}/>
 
-          <Route path={'english-exam'} element={<WordTest/>}/>
+          <Route path={'/english-exam'} element={<WordTest/>}/>
 
           <Route path='*' element={<ErrorPage exp='입력하신 주소가 정확한지 다시 한 번 확인해주세요.'/>}/>
         </Routes>

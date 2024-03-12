@@ -6,6 +6,8 @@ interface Word {
   meanings: string[];
 }
 
+const DeveloperName = "김채원";
+
 const words: { [key: string]: Word[] } = {
   day1: [
     { word: 'psychologist', meanings: ['심리학자'] },
@@ -235,7 +237,9 @@ const words: { [key: string]: Word[] } = {
     { word: 'emphasize', meanings: ['강조하다'] },
     { word: 'be aware of', meanings: ['~을 알다'] },
     
-  ]/*,
+  ]
+  /*추후 day 20까지 늘어날거를 대비해 미리 만들어둠*/
+  /*,
   day11: [
     { word: '', meanings: [''] },
     { word: '', meanings: [''] },
@@ -534,10 +538,13 @@ const WordTest: React.FC = () => {
   };
 
   return (
+    
     <Container className="mt-5">
       <Row className="justify-content-center">
         <Col xs={6}>
           <h1 className="text-center mb-4">영단어 시험 프로그램 for Ion</h1>
+          <h6 className="text-right">Developed by.김채원</h6>
+          <br></br>
           <div className="mb-3">
             <Form>
               <Row>
@@ -545,6 +552,7 @@ const WordTest: React.FC = () => {
                   <Col key={index} xs={6} sm={4} md={3} lg={2} className="mb-2">
                     <Form.Check
                       type="checkbox"
+                      id={`day-${index}`}
                       label={listKey}
                       value={listKey}
                       checked={selectedLists.includes(listKey)}
