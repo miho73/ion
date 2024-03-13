@@ -31,7 +31,8 @@ public class MainController {
     "/manage",
     "/etc/temperature/hangang", "/etc/temperature/incheon",
     "/etc/meal",
-    "/profile"
+    "/profile",
+    "/english-exam",
   })
   public String index() {
     return "index";
