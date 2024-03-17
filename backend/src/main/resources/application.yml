@@ -29,7 +29,7 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:8734/iondb
-    username: ENC(ONGRKhokanG9GLPXTx+s/xPqb8+HappsAh8ZtPg+7inY8ZmxRuGkpz5lXQljeBXa)
+    username: ENC(8qOroxTns9YIPQCx81mtbhPmYRV7dm9J2gHEZMFtHgTx3bKkWCLja8/RAdu5fW0l)
     password: ENC(af64baMK8Pcp1vasX49XYo9U7ajX/MpPCyhqyz8CdlkTnqrW4zPUOCZ05aFBlB444ijhKL43J/thhcDvlFtcNiWbvXSWm9T+Y2sadO4t/6I=)
     driver-class-name: org.postgresql.Driver
 
