@@ -82,7 +82,7 @@ const words: { [key: string]: Word[] } = {
     {word: 'confront', meanings: ['맞서다']},
     {word: 'represent', meanings: ['대표하다', '나타내다', '상징하다']},
     {word: 'aspect', meanings: ['측면']},
-    {word: 'civilisation', meanings: ['문명']},
+    {word: 'civilization', meanings: ['문명']},
     {word: 'contemporary', meanings: ['동시대의', '그 당시의']},
     {word: 'identify with', meanings: ['~와 동일시하다']},
     {word: 'literal', meanings: ['문자 그대로의', '원문에 충실한']},
