@@ -82,7 +82,7 @@ const words: { [key: string]: Word[] } = {
     {word: 'confront', meanings: ['맞서다']},
     {word: 'represent', meanings: ['대표하다', '나타내다', '상징하다']},
     {word: 'aspect', meanings: ['측면']},
-    {word: 'civilization', meanings: ['문명']},
+    {word: 'civiliation', meanings: ['문명']},
     {word: 'contemporary', meanings: ['동시대의', '그 당시의']},
     {word: 'identify with', meanings: ['~와 동일시하다']},
     {word: 'literal', meanings: ['문자 그대로의', '원문에 충실한']},
@@ -480,6 +480,7 @@ const WordTest: React.FC = () => {
     correctAnswer: string;
     isCorrect: boolean
   }[]>([]);
+  const [rate, setRate] = useState(0);
 
   // 문제 리스트 선택 핸들러
   const handleListSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -535,12 +536,30 @@ const WordTest: React.FC = () => {
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       checkAnswer();
+      setRate(checkRate());
+      setRate(checkRate());
     }
   };
 
   // 답안 이력 초기화
   const resetHistory = () => {
     setHistory([]);
+    setRate(0)
+  };
+
+  // 정답률 계산
+  const checkRate = () => {
+    let correctCount: number = 0;
+    let totalCount: number = history.length;
+    history.map((item) => {
+      if(item.isCorrect) {
+        correctCount++;
+      }
+    });
+    if(totalCount == 0) {
+      return 0;
+    }
+    return Math.round((correctCount / totalCount) * 100 * 100) / 100;
   };
 
   return (
@@ -567,7 +586,7 @@ const WordTest: React.FC = () => {
             ))}
           </Row>
         </Form>
-
+        <p>정답률 : {rate}%</p>
         <ButtonGroup className={'align-self-center'}>
             {!isStarted && (
               <Button onClick={chooseRandomWord}>시작</Button>
