@@ -511,6 +511,10 @@ const WordTest: React.FC = () => {
     setTimeout(() => setAccepting(true), 100);
   };
 
+  setTimeout(() => {
+    setRate(checkRate());
+  }, 10);
+
   // 답 입력 시 정답 확인
   const checkAnswer = () => {
     if(!accepting) return;
@@ -536,8 +540,6 @@ const WordTest: React.FC = () => {
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       checkAnswer();
-      setRate(checkRate());
-      setRate(checkRate());
     }
   };
 
