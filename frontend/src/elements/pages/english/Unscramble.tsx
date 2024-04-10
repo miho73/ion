@@ -54,12 +54,12 @@ function Unscramble() {
 
     if(queue.length === 0) {
       shuffle(phrases);
-      setQueue(phrases.slice(1, -1));
+      setQueue(phrases.slice(1));
       phrase = phrases[0];
     }
     else {
       phrase = queue[0];
-      setQueue(queue.slice(1, -1));
+      setQueue(queue.slice(1));
     }
 
     let dword = phrase.split(' ');
@@ -87,8 +87,8 @@ function Unscramble() {
     if(e.key !== 'Enter') {
       return;
     }
-
     e.preventDefault();
+
     if(answer.toLowerCase() === userInput.toLowerCase()) {
       setLastResult(true);
     }
@@ -118,7 +118,7 @@ function Unscramble() {
           onChange={(e) => setUserInput(e.target.value)}
           placeholder={'Type the correct sentence'}
           className={'fs-5 w-75'}
-          onKeyDown={nextIteration}
+          onKeyUp={nextIteration}
         />
 
         <Stack className={'align-items-center fs-5'} gap={1}>
