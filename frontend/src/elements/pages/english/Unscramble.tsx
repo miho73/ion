@@ -21,7 +21,7 @@ function Unscramble() {
     'For animals that interact on larger scales',
     'reflects the varies ecologies of each species',
     'where few legal restrictions prevail',
-    'there is not guarantee tha they will be treated well',
+    'there is no guarantee that they will be treated well',
     'that is missing from such debates',
     'call attention to differences in what is right',
     'not if done by someone who lacks',
