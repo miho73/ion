@@ -3,33 +3,6 @@ import {Link} from "react-router-dom";
 import {Container, Nav, Navbar} from "react-bootstrap";
 
 function Header() {
-  const [hamburgerOpen, setHamburgerOpen] = React.useState<Boolean>(false);
-  const [expandFlag, setExpandFlag] = React.useState<Boolean>(false);
-
-  function ctrLHamburger() {
-    if (hamburgerOpen) {
-      setExpandFlag(false);
-    } else {
-      setHamburgerOpen(true);
-    }
-  }
-
-  useEffect(() => {
-    if (hamburgerOpen) {
-      setTimeout(() => {
-        setExpandFlag(true);
-      }, 100);
-    }
-  }, [hamburgerOpen]);
-
-  useEffect(() => {
-    if (!expandFlag) {
-      setTimeout(() => {
-        setHamburgerOpen(false);
-      }, 200);
-    }
-  }, [expandFlag]);
-
   return (
     <header className={'bg-white'}>
       <Navbar expand={'md'}>
@@ -46,7 +19,7 @@ function Header() {
               <Nav.Link as={Link} to={'/'}>Home</Nav.Link>
               <Nav.Link as={Link} to={'/ns'}>면불신청</Nav.Link>
               <Nav.Link as={Link} to={'/etc/meal'}>급식</Nav.Link>
-              <Nav.Link as={Link} to={'/english-exam'}>영단어</Nav.Link>
+              <Nav.Link as={Link} to={'/english'}>영어</Nav.Link>
               <Nav.Link as={Link} to={'/profile'}>프로필</Nav.Link>
               <Nav.Link as={Link} to={'/docs'}>문서</Nav.Link>
             </Nav>
