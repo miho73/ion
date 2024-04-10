@@ -32,7 +32,7 @@ public class MainController {
     "/etc/temperature/hangang", "/etc/temperature/incheon",
     "/etc/meal",
     "/profile",
-    "/english-exam",
+    "/english",
   })
   public String index() {
     return "index";
