@@ -70,9 +70,12 @@ function Unscramble() {
   }
 
   let wordScrambled: ReactNode[] = [];
-  let userUsed = userInput.split(' ');
+  let userUsed = userInput.toLowerCase().split(' ');
   dwordList.forEach((dword) => {
-    let used = userUsed.includes(dword);
+    let used = userUsed.includes(dword.toLowerCase());
+    if(used) {
+      userUsed.splice(userUsed.indexOf(dword.toLowerCase()), 1);
+    }
     wordScrambled.push(
       <span className={'fs-2' + (used ? ' text-success' : '')}>
         {used ? <s>{dword}</s> : dword}
