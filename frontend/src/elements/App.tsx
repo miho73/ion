@@ -20,7 +20,8 @@ import ResetPassword from "./pages/auth/iforgot/resetPassword";
 import axios from "axios";
 import ProfilePage from "./pages/users/profile";
 import {Container} from "react-bootstrap";
-import WordTest from './pages/english-exam/WordTest';
+import WordTest from './pages/english/WordTest';
+import EnglishStuff from "./pages/english/EnglishStuff";
 
 const PREFIX = process.env.REACT_APP_API_PREFIX;
 
@@ -53,7 +54,7 @@ function App() {
 
           <Route path={'/profile'} element={<ProfilePage/>}/>
 
-          <Route path={'/english-exam'} element={<WordTest/>}/>
+          <Route path={'/english'} element={<EnglishStuff/>}/>
 
           <Route path='*' element={<ErrorPage exp='입력하신 주소가 정확한지 다시 한 번 확인해주세요.'/>}/>
         </Routes>
