@@ -14,7 +14,7 @@ public interface ResetPasswordRepository extends JpaRepository<ResetPasswordReq,
   Optional<ResetPasswordReq> findByUuid(int uuid);
 
   @Modifying
-  @Query(value = "TRUNCATE TABLE auth.reset_pwd_req RESTART IDENTITY", nativeQuery = true)
+  @Query(value = "TRUNCATE TABLE auth.reset_pwd_req", nativeQuery = true)
   void truncateTable();
 
   @Query(
