@@ -316,9 +316,6 @@ function CoreLogin(props: LoginSectionProps) {
           <Link to={'/auth/signup'} className='text-muted text-decoration-none fs-6'>IonID 만들기</Link>
           <Link to={'/auth/iforgot'} className='text-muted text-decoration-none fs-6'>암호 찾기</Link>
         </Stack>
-        <Stack direction='horizontal' className='gap-3 justify-content-center my-2'>
-          <Link to={'/nssearch'} className='text-muted text-decoration-none fs-6'>노트북실 자리 검색</Link>
-        </Stack>
       </Stack>
       <CaptchaNotice className={'my-1 text-center'}/>
       <Credit className={'my-1 text-center'}/>
