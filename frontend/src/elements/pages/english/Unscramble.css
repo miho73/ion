@@ -1,0 +1,10 @@
+.wordContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.word {
+  margin-left: 7px;
+  margin-right: 7px;
+}
