@@ -8,11 +8,11 @@ function EnglishStuff() {
   return (
     <>
       <Tabs defaultActiveKey='scramble' className={'my-2'}>
-        <Tab eventKey='scramble' title='문장 배열'>
-          <Unscramble/>
-        </Tab>
         <Tab eventKey='word' title='단어 암기'>
           <WordTest/>
+        </Tab>
+        <Tab eventKey='scramble' title='문장 배열'>
+          <Unscramble/>
         </Tab>
       </Tabs>
     </>

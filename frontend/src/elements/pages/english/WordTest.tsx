@@ -572,9 +572,9 @@ const WordTest: React.FC = () => {
         </Form>
         <p>정답률 : {rate}%</p>
         <ButtonGroup className={'align-self-center'}>
-            {!isStarted && (
-              <Button onClick={chooseRandomWord}>시작</Button>
-            )}
+          {!isStarted && (
+            <Button onClick={chooseRandomWord}>시작</Button>
+          )}
           {isStarted && (
             <Button variant="danger" onClick={resetHistory}>답안 이력 초기화</Button>
           )}
@@ -596,22 +596,22 @@ const WordTest: React.FC = () => {
           <div className={'table-cover'}>
             <Table striped bordered hover>
               <thead>
-                <tr>
-                  <th>영단어</th>
-                  <th>나의 답</th>
-                  <th>정답</th>
-                  <th>정답 여부</th>
-                </tr>
+              <tr>
+                <th>영단어</th>
+                <th>나의 답</th>
+                <th>정답</th>
+                <th>정답 여부</th>
+              </tr>
               </thead>
               <tbody>
-                {history.map((item, index) => (
-                  <tr key={index} className={item.isCorrect ? 'table-success' : 'table-danger'}>
-                    <td>{item.word}</td>
-                    <td>{item.myAnswer}</td>
-                    <td>{item.correctAnswer}</td>
-                    <td>{item.isCorrect ? 'O' : 'X'}</td>
-                  </tr>
-                ))}
+              {history.map((item, index) => (
+                <tr key={index} className={item.isCorrect ? 'table-success' : 'table-danger'}>
+                  <td>{item.word}</td>
+                  <td>{item.myAnswer}</td>
+                  <td>{item.correctAnswer}</td>
+                  <td>{item.isCorrect ? 'O' : 'X'}</td>
+                </tr>
+              ))}
               </tbody>
             </Table>
           </div>
