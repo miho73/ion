@@ -1,5 +1,6 @@
 import {Form, Stack} from "react-bootstrap";
 import {ReactNode, useEffect, useState} from "react";
+import "./Unscramble.css";
 
 function Unscramble() {
   let phrases = [
@@ -130,7 +131,14 @@ function Unscramble() {
     <Stack className={'align-items-center'} gap={3}>
       <h1>Unscramble</h1>
 
-        <Stack direction={'horizontal'} className={'justify-content-center'} gap={3}>{wordScrambled}</Stack>
+      <div className={"wordContainer"}>
+        {
+          wordScrambled.map((word) => {
+            return (<p className={"word"}>{word}</p>)
+          })
+        }
+
+      </div>
 
         <Form.Control
           type={'text'}
