@@ -297,7 +297,7 @@ public class NsController {
     }
 
     JSONObject body = new JSONObject();
-    JSONArray ist = nsService.getLnsSeatRemaining(sessionService.getGrade(session));
+    JSONArray ist = nsService.getLnsSeatRemaining(sessionService.getGrade(session) == 0 ? 0 : sessionService.getGrade(session));
     body.put("seats", ist);
     body.put("preset", nsService.getTimePreset());
     return RestResponse.restResponse(HttpStatus.OK, body);

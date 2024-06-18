@@ -35,6 +35,8 @@ spring:
 
   jpa:
     show-sql: false
+    properties:
+      dialect: org.hibernate.dialect.PostgreSQLDialect
 
   data:
     redis:
