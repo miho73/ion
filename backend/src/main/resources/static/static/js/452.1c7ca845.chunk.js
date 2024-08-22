@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfrontend=self.webpackChunkfrontend||[]).push([[452],{452:(e,n,s)=>{e.exports=s.p+"static/media/IonID.9bf618afec4b03121be9.md"}}]);

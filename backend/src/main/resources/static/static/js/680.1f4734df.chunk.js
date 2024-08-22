@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfrontend=self.webpackChunkfrontend||[]).push([[680],{680:(e,d,a)=>{e.exports=a.p+"static/media/dangerZone.3dadd5a57759da860fd6.md"}}]);
