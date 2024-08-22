@@ -1,0 +1,44 @@
+.reactMarkDown {
+  font-size: 14px;
+  font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+  font-weight: 400;
+  line-height: 1.5;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.reactMarkDown h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.reactMarkDown h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.reactMarkDown p {
+  font-size: 16px;
+  font-weight: 400;
+  white-space: pre-wrap;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.reactMarkDown li {
+  font-size: 16px;
+  font-weight: 400;
+  white-space: pre-wrap;
+}
+
+.reactMarkDown code {
+  font-size: 16px;
+  font-weight: 400;
+  white-space: pre-wrap;
+  background-color: #f5f5f5;
+  padding: 2px 4px;
+  border-radius: 4px;
+}

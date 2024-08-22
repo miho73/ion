@@ -6,6 +6,14 @@ import {Col, Container, Row, Stack} from 'react-bootstrap';
 import {Link, useParams} from 'react-router-dom';
 import Dintro from './archive/d_intro';
 import Dsystem from "./archive/d_system";
+import DstudentIonID from "./archive/student/d_student_IonID";
+import DstudentNoMB from "./archive/student/d_student_noMB";
+import DstudentDigression from "./archive/student/d_student_digression";
+import DstudentChooseHelp from "./archive/student/d_student_chooseHelp";
+import DteacherNoMB from "./archive/teacher/d_teacher_noMB";
+import DteacherIonID from "./archive/teacher/d_teacher_IonID";
+import DteacherChooseHelp from "./archive/teacher/d_teacher_chooseHelp";
+import DteacherDangerZone from "./archive/teacher/d_teacher_dangerZone";
 
 const DOC_REGISTRY: {
   [key: string]: [string, React.JSX.Element]
@@ -14,7 +22,15 @@ const DOC_REGISTRY: {
   'eula': ["이용약관", (<Deula/>)],
   'introduction': ["Ion 사용하기", (<Dintro/>)],
   'credits': ["Project Ion", <Dcredit/>],
-  'system': ["Ion System", <Dsystem/>]
+  'system': ["Ion System", <Dsystem/>],
+  'introduction/student/choose': ['Ion 사용하기 - 학생용', (<DstudentChooseHelp/>)],
+  'introduction/student/IonID': ['Ion 사용하기 - 학생용', (<DstudentIonID/>)],
+  'introduction/student/noMB': ['Ion 사용하기 - 학생용', (<DstudentNoMB/>)],
+  'introduction/student/digression': ['Ion 사용하기 - 학생용', (<DstudentDigression/>)],
+  'introduction/teacher/choose': ['Ion 사용하기 - 교사용', (<DteacherChooseHelp/>)],
+  'introduction/teacher/IonID': ['Ion 사용하기 - 교사용', (<DteacherIonID/>)],
+  'introduction/teacher/noMB': ['Ion 사용하기 - 교사용', (<DteacherNoMB/>)],
+  'introduction/teacher/dangerZone': ['Ion 사용하기 - 교사용', (<DteacherDangerZone/>)],
 };
 
 function DocsMain() {
