@@ -1,0 +1,48 @@
+HELP.md
+keystore.p12
+.gradle
+build/
+logs/
+.run/
+!gradle/wrapper/gradle-wrapper.jar
+elemention-379e349592d1.json
+!**/src/main/**/build/
+!**/src/test/**/build/
+frontend/.env
+frontend/.env*
+frontend/node_modules
+frontend/build
+backend/build
+
+**/*.DS_Store
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
