@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfrontend=self.webpackChunkfrontend||[]).push([[132],{132:(e,s,n)=>{e.exports=n.p+"static/media/digression.301eb1338eeaba07561f.md"}}]);
