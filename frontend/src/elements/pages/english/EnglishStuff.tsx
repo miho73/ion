@@ -7,7 +7,7 @@ import Unscramble from "./Unscramble";
 function EnglishStuff() {
   return (
     <>
-      <Tabs defaultActiveKey='scramble' className={'my-2'}>
+      <Tabs defaultActiveKey='word' className={'my-2'}>
         <Tab eventKey='word' title='단어 암기'>
           <WordTest/>
         </Tab>
