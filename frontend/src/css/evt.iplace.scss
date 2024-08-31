@@ -1,0 +1,69 @@
+.iplace {
+  .index {
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+      font-size: 7rem;
+      font-weight: 400;
+      margin: 100px auto;
+      text-align: center;
+    }
+
+    p {
+      font-size: 3rem;
+      font-weight: 300;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    ul {
+      font-size: 1.5em;
+      font-weight: 400;
+      text-align: center;
+
+      li {
+        margin: 10px 0;
+      }
+      li::marker {
+        content: '';
+      }
+    }
+
+    button {
+      display: inline;
+
+      font-size: 2em;
+      padding: 20px 50px;
+      border: 1px solid #aaa;
+      color: #333;
+      background: transparent;
+      text-decoration: none;
+      border-radius: 20px;
+      margin: 0 auto 20px auto;
+      transition: all ease 0.2s;
+
+      &:hover {
+        background-color: #333;
+        color: #fff;
+      }
+    }
+  }
+
+  .evt {
+    background: white;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 99;
+    left: 0;
+    top: 0;
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+}
