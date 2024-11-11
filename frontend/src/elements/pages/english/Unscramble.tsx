@@ -4,31 +4,27 @@ import "./Unscramble.css";
 
 function Unscramble() {
   let phrases = [
-    'is being run on a computer',
-    'fast enough for the enjoyment of',
-    'not at an adequate pace for',
-    'with high graphics settings turned on',
-    'enough to simulate those life-like graphics',
-    'The result is what gamers call',
-    'that is focused on providing material well-being',
-    'be judged by considering how well it',
-    'depends on much more than how quickly',
-    'more than just how much is produced',
-    'the extent to which all this activity',
-    'the population owns nearly all the material',
-    'make sense from an economic perspective',
-    'by which the advice is demonstrated',
-    'of what is being automated',
-    'the process of delivering advice is',
-    'that arises from these conflicting views',
-    'has been optimised to use data',
-    'imagining idealized versions of aspired states',
-    'the more desirable the object becomes',
-    'a desire to be kept alive',
-    'of desire needs to be maintained',
-    'the desire to desire can even',
-    'the fear of being without desire'
-  ];
+    'showing how expensive ill-health is',
+    'other risks we face are',
+    'relative to the size of its population',
+    'at the expense of other uses',
+    'Unpaid caring labor is real labor',
+    'where we choose to draw the line',
+    'Much of the difficulty in identifying',
+    'what is deemed appropriate to laugh at',
+    'There is a subjectiveness to the acceptability',
+    'it can be used to challenge social norms',
+    'seem to have selected a set of',
+    'the less accurate is our mental representation',
+    'Round numbers are such a device',
+    'they refer to approximate quantities',
+    'an extended region of the number line',
+    'Media manipulation of public opinion demonstrates',
+    'is exercised through its selection',
+    'using emotional rhetoric rather than fact',
+    'an unsubstantiated argument without noting',
+    'altering the actual choices available to',
+];
 
   const [queue, setQueue] = useState<string[]>([]);
 
