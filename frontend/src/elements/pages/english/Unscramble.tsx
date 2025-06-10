@@ -4,7 +4,7 @@ import "./Unscramble.css";
 
 function Unscramble() {
   let phrases = [
-    'what others n their community want',
+    'what others in their community want',
     'someone with whom to live',
     'to want whatever currently signifies',
     'depend on human motivational plasticity',
